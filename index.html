@@ -38,6 +38,69 @@
 				overflow-x: hidden;
 			}
 
+			/* --- New Slideshow Styles --- */
+			.slideshow {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				z-index: -10; /* Ensures slideshow is behind all content */
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+
+			.slideshow li {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-size: cover;
+				background-position: center center;
+				background-repeat: no-repeat;
+				opacity: 0;
+				z-index: -12; /* Behind the overlay */
+				animation: imageAnimation 34s linear infinite;
+			}
+
+			.slideshow li:nth-child(1) {
+				background-image: url("https://images.pexels.com/photos/3184431/pexels-photo-3184431.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+			}
+			.slideshow li:nth-child(2) {
+				background-image: url("https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+				animation-delay: 9s;
+			}
+			.slideshow li:nth-child(3) {
+				background-image: url("https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+				animation-delay: 18s;
+			}
+			.slideshow li:nth-child(4) {
+				background-image: url("https://images.pexels.com/photos/267507/pexels-photo-267507.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+				animation-delay: 26s;
+			}
+
+			@keyframes imageAnimation {
+				0% {
+					opacity: 0;
+					animation-timing-function: ease-in;
+				}
+				10% {
+					opacity: 1;
+				}
+				25% {
+					opacity: 1;
+				}
+				35% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			/* --- End Slideshow Styles --- */
+
 			/* Accessibility: Focus Indicator */
 			:focus-visible {
 				outline: 3px solid var(--focus-ring-color);
@@ -99,12 +162,11 @@
 				font-size: 1.2rem;
 			}
 
-			/* Main Content Styles */
+			/* Main Content Styles - Background is now handled by the slideshow */
 			.course-main {
-				background: url("https://images.pexels.com/photos/3184431/pexels-photo-3184431.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")
-					no-repeat center center;
-				background-size: cover;
-				background-attachment: fixed; /* This creates the parallax effect */
+				/* The background properties have been removed from here */
+				position: relative; /* Needed for z-index stacking context */
+				z-index: 1;
 			}
 
 			.course-header {
@@ -430,6 +492,14 @@
 		></script>
 	</head>
 	<body>
+		<!-- New slideshow element -->
+		<ul class="slideshow">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+
 		<header class="hero-image-navigation" id="header-nav">
 			<a href="#main-content-area" class="skip-link">Skip to main content</a>
 			<div class="left-hero">
@@ -920,22 +990,24 @@
 							.map((opt, oIndex) => {
 								const optionId = `${q.id}-opt-${oIndex}`;
 								return `
-							<label for="${optionId}">
-								<input type="radio" id="${optionId}" name="${q.id}" value="${opt.value}" ${
+                            <label for="${optionId}">
+                                <input type="radio" id="${optionId}" name="${
+									q.id
+								}" value="${opt.value}" ${
 									opt.correct ? 'data-correct="true"' : ""
 								}>
-								<span class="custom-radio"></span>
-								<span>${opt.text}</span>
-							</label>
-						`;
+                                <span class="custom-radio"></span>
+                                <span>${opt.text}</span>
+                            </label>
+                        `;
 							})
 							.join("");
 
 						questionEl.innerHTML = `
-							<legend class="question-text">${q.text}</legend>
-							<div class="options">${optionsHTML}</div>
-							<div class="feedback"></div>
-						`;
+                            <legend class="question-text">${q.text}</legend>
+                            <div class="options">${optionsHTML}</div>
+                            <div class="feedback"></div>
+                        `;
 						quizForm.appendChild(questionEl);
 					});
 				}

@@ -112,6 +112,7 @@
 				text-align: center;
 				background-color: rgba(45, 55, 72, 0.7);
 				color: white;
+				height: 400px;
 			}
 
 			.course-header h1 {
@@ -409,6 +410,19 @@
 				max-width: 150px;
 				margin-bottom: 1rem;
 			}
+			header#header-nav {
+				height: fit-content;
+			}
+			img.header-logo {
+				width: 80px;
+				margin: 10px;
+				margin-right: 20px;
+			}
+			.left-hero > a {
+				text-align: center;
+				display: flex;
+				align-items: center;
+			}
 		</style>
 		<script
 			src="https://kit.fontawesome.com/76452193de.js"
@@ -419,7 +433,14 @@
 		<header class="hero-image-navigation" id="header-nav">
 			<a href="#main-content-area" class="skip-link">Skip to main content</a>
 			<div class="left-hero">
-				<a href="#">Recognizing Microaggressions</a>
+				<a href="#">
+					<img
+						src="./assets/2023 IL visual (cercle) 1.svg"
+						alt="Indigenous Learning Logo"
+						class="header-logo"
+					/>
+					<span>Indigenous Learning</span>
+				</a>
 			</div>
 		</header>
 

@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Recognizing Microaggressions Towards Indigenous Peoples</title>
+		<style>
+			/* CSS is embedded directly in the HTML file */
+			@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700&display=swap");
+			@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap");
+
+			:root {
+				--primary-color: #005a9c; /* Darker blue for WCAG AA compliance */
+				--secondary-color: #4a5568;
+				--background-color: #ffffff; /* White background for the content area */
+				--card-background: #ffffff;
+				--text-color: #2d3748;
+				--light-text-color: #555;
+				--success-color: #2e7d32;
+				--error-color: #c62828;
+				--success-bg: #e8f5e9;
+				--error-bg: #ffebee;
+				--focus-ring-color: #ffbf47; /* Gold/orange for high contrast focus */
+			}
+
+			body {
+				padding: 0;
+				margin: 0;
+				box-sizing: border-box;
+				scroll-behavior: smooth;
+				overflow-x: hidden;
+				font-family: "Noto Sans", sans-serif;
+				background-color: var(--background-color);
+				color: var(--text-color);
+			}
+
+			html {
+				overflow-x: hidden;
+			}
+
+			/* Accessibility: Focus Indicator */
+			:focus-visible {
+				outline: 3px solid var(--focus-ring-color);
+				outline-offset: 2px;
+				border-radius: 4px;
+			}
+
+			/* Accessibility: Skip Link Styling */
+			.skip-link {
+				position: absolute;
+				top: -40px;
+				left: 0;
+				background: var(--primary-color);
+				color: white;
+				padding: 8px;
+				z-index: 1100;
+				transition: top 0.3s;
+			}
+			.skip-link:focus {
+				top: 0;
+			}
+
+			/* Header and Nav */
+			.hero-image-navigation {
+				display: flex;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 1000;
+				color: white;
+				width: 100%;
+				justify-content: space-between;
+				transition: all 0.3s ease;
+				height: 80px;
+				align-items: center;
+				padding: 0 2rem;
+				background-color: transparent;
+			}
+
+			.hero-image-navigation.scrolled {
+				background-color: var(--card-background);
+				color: var(--text-color);
+				box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+			}
+
+			.hero-image-navigation.scrolled a {
+				color: var(--text-color);
+			}
+
+			.left-hero {
+				display: flex;
+				align-items: center;
+				font-family: "Playfair Display", serif;
+			}
+
+			.left-hero a {
+				text-decoration: none;
+				color: white;
+				font-size: 1.2rem;
+			}
+
+			/* Main Content Styles */
+			.course-main {
+				background: url("https://images.pexels.com/photos/3184431/pexels-photo-3184431.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")
+					no-repeat center center;
+				background-size: cover;
+				background-attachment: fixed; /* This creates the parallax effect */
+			}
+
+			.course-header {
+				padding: 10rem 2rem 4rem 2rem;
+				text-align: center;
+				background-color: rgba(45, 55, 72, 0.7);
+				color: white;
+			}
+
+			.course-header h1 {
+				font-family: "Playfair Display", serif;
+				font-size: clamp(2rem, 5vw, 3.5rem);
+				margin-bottom: 0.5rem;
+				text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+			}
+
+			.course-header #welcome-message {
+				font-size: clamp(1.2rem, 3vw, 1.5rem);
+				font-weight: 400;
+				opacity: 0.9;
+				color: white;
+			}
+
+			/* This container holds the main content area */
+			.content-wrapper {
+				background-color: var(--background-color); /* White background */
+				padding: 4rem 1rem 6rem 1rem;
+			}
+
+			.tab-container {
+				max-width: 1100px;
+				margin: 0 auto;
+				background: var(--card-background);
+				border-radius: 12px;
+				box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1),
+					0 5px 10px rgba(0, 0, 0, 0.05);
+				overflow: hidden;
+			}
+
+			.tab-nav {
+				display: flex;
+				flex-wrap: wrap;
+				background-color: #f0f8ff;
+				border-bottom: 1px solid #e2e8f0;
+			}
+
+			.tab-button {
+				padding: 1rem 1.5rem;
+				cursor: pointer;
+				border: none;
+				background: transparent;
+				font-size: 1rem;
+				font-weight: 700;
+				color: var(--secondary-color);
+				transition: color 0.3s, border-bottom 0.3s;
+				border-bottom: 3px solid transparent;
+				flex-grow: 1;
+				text-align: center;
+			}
+
+			/* ACCESSIBILITY FIX: Use inset box-shadow for focus to prevent clipping */
+			.tab-button:focus-visible {
+				outline: none;
+				box-shadow: inset 0 0 0 3px var(--focus-ring-color);
+				border-radius: 0;
+			}
+
+			.tab-button.active {
+				color: var(--primary-color);
+				border-bottom-color: var(--primary-color);
+			}
+
+			.tab-panel {
+				display: none;
+				padding: 2rem;
+				animation: fadeIn 0.5s ease-in-out;
+			}
+
+			.tab-panel.active {
+				display: block;
+			}
+
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: translateY(10px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			p,
+			li {
+				line-height: 1.8;
+				color: var(--light-text-color);
+				font-size: 1.1rem;
+				margin-bottom: 1rem;
+			}
+
+			blockquote {
+				font-style: italic;
+				border-left: 4px solid var(--primary-color);
+				padding-left: 1.5rem;
+				margin: 2rem 0;
+				color: var(--secondary-color);
+			}
+
+			.card-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+				gap: 1.5rem;
+				margin-top: 1.5rem;
+			}
+
+			.microaggression-card,
+			.bias-card {
+				background: #f9f9f9;
+				border: 1px solid #e2e8f0;
+				padding: 1.5rem;
+				border-radius: 8px;
+			}
+
+			.microaggression-card .quote {
+				font-weight: bold;
+				color: var(--text-color);
+				margin-bottom: 0.5rem;
+			}
+
+			.microaggression-card .explanation {
+				font-size: 1rem;
+				color: var(--light-text-color);
+			}
+
+			.bias-card h4 {
+				font-family: "Playfair Display", serif;
+				color: var(--primary-color);
+				margin-top: 0;
+			}
+
+			.resource-list {
+				list-style: none;
+				padding-left: 0;
+			}
+
+			.resource-list li a {
+				color: var(--primary-color);
+				text-decoration: none;
+				font-weight: bold;
+			}
+
+			.resource-list li a:hover {
+				text-decoration: underline;
+			}
+
+			/* Attractive Quiz Styles */
+			#quiz-form fieldset {
+				border: 1px solid #e2e8f0;
+				border-radius: 8px;
+				padding: 1.5rem;
+				margin: 0 0 2rem 0;
+			}
+			#quiz-form legend {
+				font-weight: bold;
+				font-size: 1.2rem;
+				padding: 0 0.5rem;
+				margin-left: 1rem;
+			}
+			#quiz-form .options label {
+				display: flex;
+				align-items: center;
+				padding: 1rem;
+				margin-top: 0.5rem;
+				border-radius: 8px;
+				cursor: pointer;
+				transition: background-color 0.2s ease, box-shadow 0.2s ease;
+				border: 1px solid #e2e8f0;
+			}
+			#quiz-form .options label:hover {
+				background-color: #f0f8ff;
+			}
+			#quiz-form input[type="radio"] {
+				position: absolute;
+				opacity: 0;
+				width: 0;
+				height: 0;
+			}
+
+			/* ACCESSIBILITY FIX: Enhanced focus state for quiz options */
+			#quiz-form .options label:focus-within {
+				outline: 3px solid var(--focus-ring-color);
+				outline-offset: 2px;
+				background-color: #e0efff;
+			}
+
+			#quiz-form .options label .custom-radio {
+				width: 24px;
+				height: 24px;
+				border: 2px solid var(--secondary-color);
+				border-radius: 50%;
+				margin-right: 1rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: border-color 0.3s;
+			}
+			#quiz-form .options label .custom-radio::after {
+				content: "";
+				width: 12px;
+				height: 12px;
+				background: var(--primary-color);
+				border-radius: 50%;
+				transform: scale(0);
+				transition: transform 0.3s;
+			}
+			#quiz-form input[type="radio"]:checked + .custom-radio {
+				border-color: var(--primary-color);
+			}
+			#quiz-form input[type="radio"]:checked + .custom-radio::after {
+				transform: scale(1);
+			}
+			#quiz-form input[type="radio"]:checked + .custom-radio + span {
+				font-weight: 700;
+			}
+
+			.feedback {
+				padding: 1rem;
+				margin-top: 1rem;
+				border-radius: 8px;
+				display: none;
+				font-weight: 700;
+				border-left-width: 5px;
+				border-left-style: solid;
+			}
+			.feedback.correct {
+				background-color: var(--success-bg);
+				color: var(--success-color);
+				border-left-color: var(--success-color);
+			}
+			.feedback.incorrect {
+				background-color: var(--error-bg);
+				color: var(--error-color);
+				border-left-color: var(--error-color);
+			}
+
+			.quiz-controls {
+				text-align: center;
+				margin-top: 2rem;
+			}
+			.submit-button,
+			#try-again-btn {
+				background-color: var(--primary-color);
+				color: white;
+				border: none;
+				padding: 1rem 2rem;
+				font-size: 1.2rem;
+				font-family: "Playfair Display", serif;
+				border-radius: 50px;
+				cursor: pointer;
+				display: inline-block;
+				margin: 0.5rem;
+				transition: background-color 0.3s, transform 0.2s;
+			}
+			.submit-button:hover,
+			#try-again-btn:hover {
+				background-color: #00447a;
+				transform: translateY(-2px);
+			}
+			#try-again-btn {
+				background-color: var(--secondary-color);
+			}
+			#try-again-btn:hover {
+				background-color: #2d3748;
+			}
+
+			#quiz-results {
+				text-align: center;
+				padding: 2rem;
+				border-radius: 8px;
+				margin-top: 2rem;
+				font-size: 1.3rem;
+				font-weight: 700;
+			}
+			#quiz-results.passed {
+				background-color: var(--success-bg);
+				color: var(--success-color);
+			}
+			#quiz-results.failed {
+				background-color: var(--error-bg);
+				color: var(--error-color);
+			}
+
+			/* Footer */
+			.course-footer {
+				text-align: center;
+				padding: 2rem;
+				background-color: #2d3748;
+				color: #a0aec0;
+			}
+			.course-footer img {
+				max-width: 150px;
+				margin-bottom: 1rem;
+			}
+		</style>
+		<script
+			src="https://kit.fontawesome.com/76452193de.js"
+			crossorigin="anonymous"
+		></script>
+	</head>
+	<body>
+		<header class="hero-image-navigation" id="header-nav">
+			<a href="#main-content-area" class="skip-link">Skip to main content</a>
+			<div class="left-hero">
+				<a href="#">Recognizing Microaggressions</a>
+			</div>
+		</header>
+
+		<main class="course-main">
+			<div class="course-header">
+				<h1>Recognizing Microaggressions Towards Indigenous Peoples</h1>
+				<p id="welcome-message">
+					Welcome, <span id="learner-name">learner</span>!
+				</p>
+			</div>
+
+			<div class="content-wrapper" id="main-content-area">
+				<div class="tab-container">
+					<nav class="tab-nav" role="tablist" aria-label="Course Sections">
+						<button
+							class="tab-button active"
+							id="tab-1"
+							role="tab"
+							aria-selected="true"
+							aria-controls="panel-1"
+						>
+							Definition
+						</button>
+						<button
+							class="tab-button"
+							id="tab-2"
+							role="tab"
+							aria-selected="false"
+							aria-controls="panel-2"
+							tabindex="-1"
+						>
+							Examples
+						</button>
+						<button
+							class="tab-button"
+							id="tab-3"
+							role="tab"
+							aria-selected="false"
+							aria-controls="panel-3"
+							tabindex="-1"
+						>
+							Addressing Bias
+						</button>
+						<button
+							class="tab-button"
+							id="tab-4"
+							role="tab"
+							aria-selected="false"
+							aria-controls="panel-4"
+							tabindex="-1"
+						>
+							Knowledge Check
+						</button>
+						<button
+							class="tab-button"
+							id="tab-5"
+							role="tab"
+							aria-selected="false"
+							aria-controls="panel-5"
+							tabindex="-1"
+						>
+							Resources
+						</button>
+					</nav>
+
+					<div class="tab-content">
+						<!-- Panel 1: Definition -->
+						<section
+							id="panel-1"
+							class="tab-panel active"
+							role="tabpanel"
+							aria-labelledby="tab-1"
+						>
+							<blockquote>
+								Microaggressions are the everyday verbal, nonverbal, and
+								environmental slights, snubs, or insults, whether intentional or
+								unintentional, that communicate hostile, derogatory, or negative
+								messages to target persons based solely upon their marginalized
+								group membership. (Sue et al., 2017)
+							</blockquote>
+							<ul>
+								<li>
+									<strong>Verbal:</strong> e.g., “Where are you really from?”
+								</li>
+								<li>
+									<strong>Non-verbal:</strong> e.g., clutching a bag when
+									someone approaches.
+								</li>
+								<li>
+									<strong>Environmental:</strong> e.g., a lack of diverse
+									representation in leadership roles.
+								</li>
+							</ul>
+						</section>
+
+						<!-- Panel 2: Examples -->
+						<section
+							id="panel-2"
+							class="tab-panel"
+							role="tabpanel"
+							aria-labelledby="tab-2"
+						>
+							<div class="card-grid">
+								<div class="microaggression-card">
+									<p class="quote">"You don’t look Indigenous."</p>
+									<p class="explanation">
+										Implying a narrow, stereotypical view of what Indigenous
+										people should look like.
+									</p>
+								</div>
+								<div class="microaggression-card">
+									<p class="quote">
+										"I’m part Indigenous too, my great-great-grandmother was
+										Indigenous."
+									</p>
+									<p class="explanation">
+										Minimizing Indigenous identity and heritage by treating it
+										as a casual or romanticized claim.
+									</p>
+								</div>
+								<div class="microaggression-card">
+									<p class="quote">"Why don’t you just get over it?"</p>
+									<p class="explanation">
+										Dismissing historical and ongoing traumas experienced by
+										Indigenous communities.
+									</p>
+								</div>
+								<div class="microaggression-card">
+									<p class="quote">"But you don’t seem oppressed."</p>
+									<p class="explanation">
+										Invalidating lived experiences and systemic inequalities
+										faced by Indigenous peoples.
+									</p>
+								</div>
+								<div class="microaggression-card">
+									<p class="quote">
+										"You’re so lucky you don’t have to pay taxes."
+									</p>
+									<p class="explanation">
+										Perpetuating a myth that misrepresents Indigenous peoples'
+										relationship with taxation and treaty agreements.
+									</p>
+								</div>
+								<div class="microaggression-card">
+									<p class="quote">
+										"It's not only Indigenous People who have suffered."
+									</p>
+									<p class="explanation">
+										Minimizes Indigenous Peoples' unique experiences of systemic
+										oppression.
+									</p>
+								</div>
+							</div>
+						</section>
+
+						<!-- Panel 3: Addressing Bias -->
+						<section
+							id="panel-3"
+							class="tab-panel"
+							role="tabpanel"
+							aria-labelledby="tab-3"
+						>
+							<p>
+								Here are some approaches to help guide you when you notice a
+								possible bias:
+							</p>
+							<div class="card-grid">
+								<div class="bias-card">
+									<h4>1. Model Curiosity</h4>
+									<p>
+										Ask open-ended questions to understand the comment better.
+										e.g., “Can you tell me more about that?”
+									</p>
+								</div>
+								<div class="bias-card">
+									<h4>2. Acknowledge the Incident</h4>
+									<p>
+										Pause the conversation to directly address the issue and
+										create a safe space for learning.
+									</p>
+								</div>
+								<div class="bias-card">
+									<h4>3. Avoid Shaming</h4>
+									<p>
+										Focus on the comment or behavior, not the person. Keep the
+										tone educational.
+									</p>
+								</div>
+								<div class="bias-card">
+									<h4>4. Reframe the Statement</h4>
+									<p>
+										Reword the comment to promote understanding. e.g., "Perhaps
+										what you meant to express was..."
+									</p>
+								</div>
+								<div class="bias-card">
+									<h4>5. Provide Context</h4>
+									<p>
+										Briefly explain how the comment may unintentionally
+										perpetuate biases and why that's problematic.
+									</p>
+								</div>
+							</div>
+						</section>
+
+						<!-- Panel 4: Knowledge Check -->
+						<section
+							id="panel-4"
+							class="tab-panel"
+							role="tabpanel"
+							aria-labelledby="tab-4"
+						>
+							<form id="quiz-form">
+								<!-- Questions will be dynamically inserted here by JavaScript -->
+							</form>
+							<div
+								id="quiz-results"
+								style="display: none"
+								aria-live="polite"
+								aria-atomic="true"
+							></div>
+							<div class="quiz-controls">
+								<button type="button" id="submit-btn" class="submit-button">
+									Submit Answers
+								</button>
+								<button type="button" id="try-again-btn" style="display: none">
+									Try Again
+								</button>
+							</div>
+						</section>
+
+						<!-- Panel 5: Resources -->
+						<section
+							id="panel-5"
+							class="tab-panel"
+							role="tabpanel"
+							aria-labelledby="tab-5"
+						>
+							<ul class="resource-list">
+								<li>
+									<a href="https://www.themicropedia.org/" target="_blank"
+										>The Micropedia of Microaggressions</a
+									>
+								</li>
+								<li>
+									<a
+										href="https://www.queensu.ca/indigenous/ways-knowing/indigenous-allyship/indigenous-ally-toolkit"
+										target="_blank"
+										>Indigenous Ally Toolkit</a
+									>
+								</li>
+								<li>
+									Video: Addressing Micro-aggressions Towards Indigenous Peoples
+									(coming soon)
+								</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer class="course-footer">
+			<img
+				src="https://www.csps-efpc.gc.ca/Assets/gfx/CSPS_logo_white.svg"
+				alt="Canada School of Public Service Logo"
+			/>
+			<p>
+				Canada School of Public Service / École de la fonction publique du
+				Canada
+			</p>
+		</footer>
+
+		<!-- Embedded JavaScript -->
+		<script>
+			// SCORM API Wrapper (pipwerks) - unchanged
+			var pipwerks = {};
+			pipwerks.SCORM = {};
+			pipwerks.SCORM.API = {
+				handle: null,
+				find: function (win) {
+					if (win.API) return win.API;
+					if (win.parent && win.parent != win) return this.find(win.parent);
+					if (win.opener && typeof win.opener != "undefined")
+						return this.find(win.opener);
+					return null;
+				},
+			};
+			pipwerks.SCORM.init = function () {
+				var api = pipwerks.SCORM.API.find(window);
+				if (api) {
+					pipwerks.SCORM.API.handle = api;
+					return pipwerks.SCORM.API.handle.LMSInitialize("");
+				}
+				return false;
+			};
+			pipwerks.SCORM.get = function (param) {
+				if (pipwerks.SCORM.API.handle) {
+					return pipwerks.SCORM.API.handle.LMSGetValue(param);
+				}
+				return null;
+			};
+			pipwerks.SCORM.set = function (param, value) {
+				if (pipwerks.SCORM.API.handle) {
+					return pipwerks.SCORM.API.handle.LMSSetValue(param, value);
+				}
+				return false;
+			};
+			pipwerks.SCORM.save = function () {
+				if (pipwerks.SCORM.API.handle) {
+					return pipwerks.SCORM.API.handle.LMSCommit("");
+				}
+				return false;
+			};
+			pipwerks.SCORM.quit = function () {
+				if (pipwerks.SCORM.API.handle) {
+					return pipwerks.SCORM.API.handle.LMSFinish("");
+				}
+				return false;
+			};
+		</script>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				// --- Global Variables ---
+				const quizForm = document.getElementById("quiz-form");
+				const resultsDiv = document.getElementById("quiz-results");
+				const submitBtn = document.getElementById("submit-btn");
+				const tryAgainBtn = document.getElementById("try-again-btn");
+				const PASSING_SCORE = 75;
+				let lmsConnected = false;
+				let quizState = {};
+
+				const questions = [
+					{
+						id: "q1",
+						text: "1. According to the definition provided, microaggressions can be which of the following?",
+						options: [
+							{ text: "Only verbal insults.", value: "a" },
+							{
+								text: "Verbal, nonverbal, and environmental slights.",
+								value: "b",
+								correct: true,
+							},
+							{ text: "Only intentional actions.", value: "c" },
+						],
+					},
+					{
+						id: "q2",
+						text: "2. Which statement is an example of a microaggression that dismisses historical trauma?",
+						options: [
+							{ text: '"You don\'t look Indigenous."', value: "a" },
+							{
+								text: '"Why don\'t you just get over it?"',
+								value: "b",
+								correct: true,
+							},
+							{ text: '"Can you tell me more about that?"', value: "c" },
+						],
+					},
+					{
+						id: "q3",
+						text: "3. What is a recommended approach for addressing bias in a group discussion?",
+						options: [
+							{
+								text: "Model curiosity by asking open-ended questions.",
+								value: "a",
+								correct: true,
+							},
+							{ text: "Ignore the comment to avoid conflict.", value: "b" },
+							{
+								text: "Publicly shame the person who made the comment.",
+								value: "c",
+							},
+						],
+					},
+				];
+
+				// --- SCORM Initialization ---
+				function initCourse() {
+					try {
+						lmsConnected = pipwerks.SCORM.init();
+						if (lmsConnected) {
+							const studentName = pipwerks.SCORM.get("cmi.core.student_name");
+							if (studentName)
+								document.getElementById("learner-name").textContent =
+									studentName;
+
+							const lessonStatus = pipwerks.SCORM.get("cmi.core.lesson_status");
+							if (lessonStatus === "completed" || lessonStatus === "passed") {
+								renderQuiz();
+								checkAnswers(false);
+							} else {
+								pipwerks.SCORM.set("cmi.core.lesson_status", "incomplete");
+								pipwerks.SCORM.save();
+								renderQuiz();
+							}
+						} else {
+							renderQuiz();
+						}
+					} catch (e) {
+						console.error("SCORM connection failed.", e);
+						renderQuiz();
+					}
+				}
+
+				// --- Tab Navigation Logic ---
+				const tabNav = document.querySelector(".tab-nav");
+				const tabButtons = document.querySelectorAll(".tab-button");
+				const tabPanels = document.querySelectorAll(".tab-panel");
+
+				tabNav.addEventListener("click", (e) => {
+					if (e.target.matches(".tab-button")) {
+						activateTab(e.target);
+					}
+				});
+
+				tabNav.addEventListener("keydown", (e) => {
+					let newIndex;
+					const currentIndex = Array.from(tabButtons).findIndex(
+						(tab) => tab === document.activeElement
+					);
+
+					if (e.key === "ArrowRight") {
+						newIndex = (currentIndex + 1) % tabButtons.length;
+						e.preventDefault();
+					} else if (e.key === "ArrowLeft") {
+						newIndex =
+							(currentIndex - 1 + tabButtons.length) % tabButtons.length;
+						e.preventDefault();
+					}
+
+					if (newIndex !== undefined) {
+						tabButtons[newIndex].focus();
+						activateTab(tabButtons[newIndex]);
+					}
+				});
+
+				function activateTab(button) {
+					tabButtons.forEach((btn) => {
+						btn.classList.remove("active");
+						btn.setAttribute("aria-selected", "false");
+						btn.setAttribute("tabindex", "-1");
+					});
+					tabPanels.forEach((panel) => {
+						panel.classList.remove("active");
+					});
+
+					button.classList.add("active");
+					button.setAttribute("aria-selected", "true");
+					button.setAttribute("tabindex", "0");
+					const targetPanel = document.getElementById(
+						button.getAttribute("aria-controls")
+					);
+					if (targetPanel) {
+						targetPanel.classList.add("active");
+					}
+				}
+
+				// --- Quiz Logic ---
+				function shuffle(array) {
+					for (let i = array.length - 1; i > 0; i--) {
+						const j = Math.floor(Math.random() * (i + 1));
+						[array[i], array[j]] = [array[j], array[i]];
+					}
+					return array;
+				}
+
+				function renderQuiz() {
+					quizForm.innerHTML = "";
+					questions.forEach((q, qIndex) => {
+						const questionEl = document.createElement("fieldset");
+						questionEl.className = "quiz-question";
+						questionEl.id = q.id;
+
+						const shuffledOptions = shuffle([...q.options]);
+
+						let optionsHTML = shuffledOptions
+							.map((opt, oIndex) => {
+								const optionId = `${q.id}-opt-${oIndex}`;
+								return `
+							<label for="${optionId}">
+								<input type="radio" id="${optionId}" name="${q.id}" value="${opt.value}" ${
+									opt.correct ? 'data-correct="true"' : ""
+								}>
+								<span class="custom-radio"></span>
+								<span>${opt.text}</span>
+							</label>
+						`;
+							})
+							.join("");
+
+						questionEl.innerHTML = `
+							<legend class="question-text">${q.text}</legend>
+							<div class="options">${optionsHTML}</div>
+							<div class="feedback"></div>
+						`;
+						quizForm.appendChild(questionEl);
+					});
+				}
+
+				function checkAnswers(submitToLms = true) {
+					let score = 0;
+					const questionElements = quizForm.querySelectorAll(".quiz-question");
+
+					questionElements.forEach((qEl) => {
+						const selected = qEl.querySelector('input[type="radio"]:checked');
+						const feedbackEl = qEl.querySelector(".feedback");
+						const correctOption = qEl.querySelector(
+							'input[data-correct="true"]'
+						);
+
+						qEl
+							.querySelectorAll('input[type="radio"]')
+							.forEach((rb) => (rb.disabled = true));
+
+						if (selected) {
+							if (selected.dataset.correct) {
+								score++;
+								feedbackEl.textContent = "Correct!";
+								feedbackEl.className = "feedback correct";
+							} else {
+								feedbackEl.innerHTML = `Incorrect. The correct answer is: <strong>"${
+									correctOption.parentElement.querySelector("span:last-child")
+										.textContent
+								}"</strong>`;
+								feedbackEl.className = "feedback incorrect";
+							}
+						} else {
+							feedbackEl.innerHTML = `No answer selected. The correct answer is: <strong>"${
+								correctOption.parentElement.querySelector("span:last-child")
+									.textContent
+							}"</strong>`;
+							feedbackEl.className = "feedback incorrect";
+						}
+						feedbackEl.style.display = "block";
+					});
+
+					const finalScore = (score / questionElements.length) * 100;
+					displayOverallResult(finalScore, score, questionElements.length);
+
+					if (lmsConnected && submitToLms) {
+						pipwerks.SCORM.set("cmi.core.score.min", "0");
+						pipwerks.SCORM.set("cmi.core.score.max", "100");
+						pipwerks.SCORM.set("cmi.core.score.raw", finalScore.toFixed(0));
+						pipwerks.SCORM.set(
+							"cmi.core.lesson_status",
+							finalScore >= PASSING_SCORE ? "passed" : "failed"
+						);
+						pipwerks.SCORM.save();
+					}
+
+					submitBtn.style.display = "none";
+					tryAgainBtn.style.display = "inline-block";
+				}
+
+				function displayOverallResult(finalScore, correct, total) {
+					let message = `You scored ${correct} out of ${total} (${finalScore.toFixed(
+						0
+					)}%). `;
+					resultsDiv.className =
+						finalScore >= PASSING_SCORE ? "passed" : "failed";
+					message +=
+						finalScore >= PASSING_SCORE
+							? "You passed!"
+							: "Please review the material.";
+					resultsDiv.textContent = message;
+					resultsDiv.style.display = "block";
+				}
+
+				function resetQuiz() {
+					resultsDiv.style.display = "none";
+					tryAgainBtn.style.display = "none";
+					submitBtn.style.display = "inline-block";
+					renderQuiz();
+				}
+
+				submitBtn.addEventListener("click", () => checkAnswers());
+				tryAgainBtn.addEventListener("click", resetQuiz);
+
+				// --- UI Enhancements ---
+				window.addEventListener("scroll", () =>
+					document
+						.getElementById("header-nav")
+						.classList.toggle("scrolled", window.scrollY > 50)
+				);
+
+				// --- Course Lifecycle ---
+				window.addEventListener("beforeunload", () => {
+					if (lmsConnected) pipwerks.SCORM.quit();
+				});
+
+				// Start the course
+				initCourse();
+			});
+		</script>
+	</body>
+</html>

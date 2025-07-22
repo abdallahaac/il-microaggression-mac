@@ -14,7 +14,7 @@
 				--secondary-color: #4a5568;
 				--background-color: #ffffff; /* White background for the content area */
 				--card-background: #ffffff;
-				--text-color: #005a9c;
+				--text-color: #2d3748;
 				--light-text-color: #555;
 				--success-color: #2e7d32;
 				--error-color: #c62828;
@@ -38,7 +38,7 @@
 				overflow-x: hidden;
 			}
 
-			/* --- New Slideshow Styles --- */
+			/* --- Slideshow Styles --- */
 			.slideshow {
 				position: fixed;
 				width: 100%;
@@ -62,7 +62,7 @@
 				background-repeat: no-repeat;
 				opacity: 0;
 				z-index: -12; /* Behind the overlay */
-				animation: imageAnimation 34s linear infinite;
+				animation: imageAnimation 24s linear infinite;
 			}
 
 			.slideshow li:nth-child(1) {
@@ -70,15 +70,15 @@
 			}
 			.slideshow li:nth-child(2) {
 				background-image: url("https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
-				animation-delay: 9s;
+				animation-delay: 6s;
 			}
 			.slideshow li:nth-child(3) {
 				background-image: url("https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
-				animation-delay: 18s;
+				animation-delay: 12s;
 			}
 			.slideshow li:nth-child(4) {
 				background-image: url("https://images.pexels.com/photos/267507/pexels-photo-267507.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
-				animation-delay: 26s;
+				animation-delay: 18s;
 			}
 
 			@keyframes imageAnimation {
@@ -280,8 +280,9 @@
 			.card-grid {
 				display: grid;
 				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-				gap: 1.5rem;
+				gap: 2.5rem; /* Increased gap for flip cards */
 				margin-top: 1.5rem;
+				justify-items: center; /* Center cards in the grid */
 			}
 
 			.microaggression-card,
@@ -308,6 +309,74 @@
 				color: var(--primary-color);
 				margin-top: 0;
 			}
+
+			/* --- Flip Card Styles --- */
+			.flip-card {
+				perspective: 1000px;
+				width: 250px;
+				height: 350px;
+				position: relative;
+				cursor: pointer;
+				background-color: transparent; /* Remove default color */
+			}
+			.flip-card:focus-visible {
+				outline: none; /* Remove default outline to use the inner one */
+			}
+			.flip-card:focus-visible .flip-card-inner {
+				outline: 3px solid var(--focus-ring-color);
+				outline-offset: 3px;
+			}
+			.flip-card[aria-pressed="true"] .flip-card-inner {
+				transform: rotateY(180deg);
+			}
+			.flip-card-inner {
+				width: 100%;
+				height: 100%;
+				transform-style: preserve-3d;
+				transition: transform 0.6s;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+				border-radius: 8px;
+			}
+			.flip-card-front,
+			.flip-card-back {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				backface-visibility: hidden;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 1.2rem; /* Consistent font size */
+				font-weight: bold;
+				padding: 1rem;
+				text-align: center;
+				border-radius: 8px;
+				box-sizing: border-box; /* Ensures padding doesn't affect size */
+			}
+			.flip-card-front {
+				background-color: var(--primary-color); /* #005a9c */
+				color: white;
+			}
+			.flip-card-back {
+				background-color: white;
+				border: 2px solid var(--primary-color); /* #2d3748 for better contrast */
+				color: white;
+				transform: rotateY(180deg);
+				font-weight: normal;
+				line-height: 1.6;
+			}
+			.flip-card-back .sub-container {
+				width: 90%;
+			}
+			.sr-only {
+				position: absolute;
+				left: -10000px;
+				width: 1px;
+				height: 1px;
+				top: auto;
+				overflow: hidden;
+			}
+			/* --- End Flip Card Styles --- */
 
 			.resource-list {
 				list-style: none;
@@ -613,56 +682,176 @@
 							role="tabpanel"
 							aria-labelledby="tab-2"
 						>
+							<p>
+								<strong>Instructions:</strong> Click or use the Enter/Spacebar
+								key on a card to flip it over and read the explanation. Each
+								card presents a common microaggression on the front and its
+								impact on the back.
+							</p>
 							<div class="card-grid">
-								<div class="microaggression-card">
-									<p class="quote">"You don’t look Indigenous."</p>
-									<p class="explanation">
-										Implying a narrow, stereotypical view of what Indigenous
-										people should look like.
-									</p>
+								<!-- Flip Card 1 -->
+								<div
+									class="flip-card"
+									role="button"
+									aria-pressed="false"
+									tabindex="0"
+									aria-describedby="flip-desc-1"
+								>
+									<div class="flip-card-inner">
+										<div class="flip-card-front" aria-hidden="false">
+											"You don’t look Indigenous."
+										</div>
+										<div class="flip-card-back" aria-hidden="true">
+											<div class="sub-container">
+												<p>
+													Implying a narrow, stereotypical view of what
+													Indigenous people should look like.
+												</p>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div class="microaggression-card">
-									<p class="quote">
-										"I’m part Indigenous too, my great-great-grandmother was
-										Indigenous."
-									</p>
-									<p class="explanation">
-										Minimizing Indigenous identity and heritage by treating it
-										as a casual or romanticized claim.
-									</p>
+								<span class="sr-only" id="flip-desc-1"
+									>This is a flip card. Activated by pressing enter or
+									spacebar.</span
+								>
+
+								<!-- Flip Card 2 -->
+								<div
+									class="flip-card"
+									role="button"
+									aria-pressed="false"
+									tabindex="0"
+									aria-describedby="flip-desc-2"
+								>
+									<div class="flip-card-inner">
+										<div class="flip-card-front" aria-hidden="false">
+											"I’m part Indigenous too, my great-great-grandmother was
+											Indigenous."
+										</div>
+										<div class="flip-card-back" aria-hidden="true">
+											<div class="sub-container">
+												<p>
+													Minimizing Indigenous identity and heritage by
+													treating it as a casual or romanticized claim.
+												</p>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div class="microaggression-card">
-									<p class="quote">"Why don’t you just get over it?"</p>
-									<p class="explanation">
-										Dismissing historical and ongoing traumas experienced by
-										Indigenous communities.
-									</p>
+								<span class="sr-only" id="flip-desc-2"
+									>This is a flip card. Activated by pressing enter or
+									spacebar.</span
+								>
+
+								<!-- Flip Card 3 -->
+								<div
+									class="flip-card"
+									role="button"
+									aria-pressed="false"
+									tabindex="0"
+									aria-describedby="flip-desc-3"
+								>
+									<div class="flip-card-inner">
+										<div class="flip-card-front" aria-hidden="false">
+											"Why don’t you just get over it?"
+										</div>
+										<div class="flip-card-back" aria-hidden="true">
+											<div class="sub-container">
+												<p>
+													Dismissing historical and ongoing traumas experienced
+													by Indigenous communities.
+												</p>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div class="microaggression-card">
-									<p class="quote">"But you don’t seem oppressed."</p>
-									<p class="explanation">
-										Invalidating lived experiences and systemic inequalities
-										faced by Indigenous peoples.
-									</p>
+								<span class="sr-only" id="flip-desc-3"
+									>This is a flip card. Activated by pressing enter or
+									spacebar.</span
+								>
+
+								<!-- Flip Card 4 -->
+								<div
+									class="flip-card"
+									role="button"
+									aria-pressed="false"
+									tabindex="0"
+									aria-describedby="flip-desc-4"
+								>
+									<div class="flip-card-inner">
+										<div class="flip-card-front" aria-hidden="false">
+											"But you don’t seem oppressed."
+										</div>
+										<div class="flip-card-back" aria-hidden="true">
+											<div class="sub-container">
+												<p>
+													Invalidating lived experiences and systemic
+													inequalities faced by Indigenous peoples.
+												</p>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div class="microaggression-card">
-									<p class="quote">
-										"You’re so lucky you don’t have to pay taxes."
-									</p>
-									<p class="explanation">
-										Perpetuating a myth that misrepresents Indigenous peoples'
-										relationship with taxation and treaty agreements.
-									</p>
+								<span class="sr-only" id="flip-desc-4"
+									>This is a flip card. Activated by pressing enter or
+									spacebar.</span
+								>
+
+								<!-- Flip Card 5 -->
+								<div
+									class="flip-card"
+									role="button"
+									aria-pressed="false"
+									tabindex="0"
+									aria-describedby="flip-desc-5"
+								>
+									<div class="flip-card-inner">
+										<div class="flip-card-front" aria-hidden="false">
+											"You’re so lucky you don’t have to pay taxes."
+										</div>
+										<div class="flip-card-back" aria-hidden="true">
+											<div class="sub-container">
+												<p>
+													Perpetuating a myth that misrepresents Indigenous
+													peoples' relationship with taxation and treaty
+													agreements.
+												</p>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div class="microaggression-card">
-									<p class="quote">
-										"It's not only Indigenous People who have suffered."
-									</p>
-									<p class="explanation">
-										Minimizes Indigenous Peoples' unique experiences of systemic
-										oppression.
-									</p>
+								<span class="sr-only" id="flip-desc-5"
+									>This is a flip card. Activated by pressing enter or
+									spacebar.</span
+								>
+
+								<!-- Flip Card 6 -->
+								<div
+									class="flip-card"
+									role="button"
+									aria-pressed="false"
+									tabindex="0"
+									aria-describedby="flip-desc-6"
+								>
+									<div class="flip-card-inner">
+										<div class="flip-card-front" aria-hidden="false">
+											"It's not only Indigenous People who have suffered."
+										</div>
+										<div class="flip-card-back" aria-hidden="true">
+											<div class="sub-container">
+												<p>
+													Minimizes Indigenous Peoples' unique experiences of
+													systemic oppression.
+												</p>
+											</div>
+										</div>
+									</div>
 								</div>
+								<span class="sr-only" id="flip-desc-6"
+									>This is a flip card. Activated by pressing enter or
+									spacebar.</span
+								>
 							</div>
 						</section>
 
@@ -966,6 +1155,41 @@
 					if (targetPanel) {
 						targetPanel.classList.add("active");
 					}
+				}
+
+				// --- Flip Card Logic ---
+				const flipCards = document.querySelectorAll(".flip-card");
+
+				flipCards.forEach(function (card) {
+					card.addEventListener("click", function () {
+						toggleFlip(card);
+						toggleSrHidden(card);
+					});
+
+					card.addEventListener("keydown", function (event) {
+						if (
+							(event.code === "Enter" || event.code === "Space") &&
+							!event.repeat
+						) {
+							event.preventDefault();
+							toggleFlip(card);
+							toggleSrHidden(card);
+						}
+					});
+				});
+
+				function toggleFlip(card) {
+					var isPressed = card.getAttribute("aria-pressed") === "true";
+					card.setAttribute("aria-pressed", String(!isPressed));
+				}
+
+				function toggleSrHidden(card) {
+					let isPressed = card.getAttribute("aria-pressed") === "true";
+					const front = card.querySelector(".flip-card-front");
+					const back = card.querySelector(".flip-card-back");
+
+					if (front) front.setAttribute("aria-hidden", String(isPressed));
+					if (back) back.setAttribute("aria-hidden", String(!isPressed));
 				}
 
 				// --- Quiz Logic ---

@@ -359,8 +359,8 @@
 			}
 			.flip-card-back {
 				background-color: white;
-				border: 2px solid var(--primary-color); /* #2d3748 for better contrast */
-				color: white;
+				border: 2px solid var(--primary-color);
+				color: var(--text-color);
 				transform: rotateY(180deg);
 				font-weight: normal;
 				line-height: 1.6;
@@ -585,7 +585,10 @@
 
 		<main class="course-main">
 			<div class="course-header">
-				<h1>Recognizing Microaggressions Towards Indigenous Peoples</h1>
+				<h1>
+					Recognizing Microaggressions <br />
+					Towards Indigenous Peoples
+				</h1>
 				<p id="welcome-message">
 					Welcome, <span id="learner-name">learner</span>!
 				</p>
@@ -863,45 +866,145 @@
 							aria-labelledby="tab-3"
 						>
 							<p>
-								Here are some approaches to help guide you when you notice a
-								possible bias:
+								<strong>Instructions:</strong> Click or use the Enter/Spacebar
+								key on a card to flip it over and read the explanation. Each
+								card presents an approach to addressing bias.
 							</p>
 							<div class="card-grid">
-								<div class="bias-card">
-									<h4>1. Model Curiosity</h4>
-									<p>
-										Ask open-ended questions to understand the comment better.
-										e.g., “Can you tell me more about that?”
-									</p>
+								<!-- Flip Card 1 -->
+								<div
+									class="flip-card"
+									role="button"
+									aria-pressed="false"
+									tabindex="0"
+									aria-describedby="flip-desc-bias-1"
+								>
+									<div class="flip-card-inner">
+										<div class="flip-card-front" aria-hidden="false">
+											1. Model Curiosity
+										</div>
+										<div class="flip-card-back" aria-hidden="true">
+											<div class="sub-container">
+												<p>
+													Ask open-ended questions to understand the comment
+													better. e.g., “Can you tell me more about that?”
+												</p>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div class="bias-card">
-									<h4>2. Acknowledge the Incident</h4>
-									<p>
-										Pause the conversation to directly address the issue and
-										create a safe space for learning.
-									</p>
+								<span class="sr-only" id="flip-desc-bias-1"
+									>This is a flip card. Activated by pressing enter or
+									spacebar.</span
+								>
+
+								<!-- Flip Card 2 -->
+								<div
+									class="flip-card"
+									role="button"
+									aria-pressed="false"
+									tabindex="0"
+									aria-describedby="flip-desc-bias-2"
+								>
+									<div class="flip-card-inner">
+										<div class="flip-card-front" aria-hidden="false">
+											2. Acknowledge the Incident
+										</div>
+										<div class="flip-card-back" aria-hidden="true">
+											<div class="sub-container">
+												<p>
+													Pause the conversation to directly address the issue
+													and create a safe space for learning.
+												</p>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div class="bias-card">
-									<h4>3. Avoid Shaming</h4>
-									<p>
-										Focus on the comment or behavior, not the person. Keep the
-										tone educational.
-									</p>
+								<span class="sr-only" id="flip-desc-bias-2"
+									>This is a flip card. Activated by pressing enter or
+									spacebar.</span
+								>
+
+								<!-- Flip Card 3 -->
+								<div
+									class="flip-card"
+									role="button"
+									aria-pressed="false"
+									tabindex="0"
+									aria-describedby="flip-desc-bias-3"
+								>
+									<div class="flip-card-inner">
+										<div class="flip-card-front" aria-hidden="false">
+											3. Avoid Shaming
+										</div>
+										<div class="flip-card-back" aria-hidden="true">
+											<div class="sub-container">
+												<p>
+													Focus on the comment or behavior, not the person. Keep
+													the tone educational.
+												</p>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div class="bias-card">
-									<h4>4. Reframe the Statement</h4>
-									<p>
-										Reword the comment to promote understanding. e.g., "Perhaps
-										what you meant to express was..."
-									</p>
+								<span class="sr-only" id="flip-desc-bias-3"
+									>This is a flip card. Activated by pressing enter or
+									spacebar.</span
+								>
+
+								<!-- Flip Card 4 -->
+								<div
+									class="flip-card"
+									role="button"
+									aria-pressed="false"
+									tabindex="0"
+									aria-describedby="flip-desc-bias-4"
+								>
+									<div class="flip-card-inner">
+										<div class="flip-card-front" aria-hidden="false">
+											4. Reframe the Statement
+										</div>
+										<div class="flip-card-back" aria-hidden="true">
+											<div class="sub-container">
+												<p>
+													Reword the comment to promote understanding. e.g.,
+													"Perhaps what you meant to express was..."
+												</p>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div class="bias-card">
-									<h4>5. Provide Context</h4>
-									<p>
-										Briefly explain how the comment may unintentionally
-										perpetuate biases and why that's problematic.
-									</p>
+								<span class="sr-only" id="flip-desc-bias-4"
+									>This is a flip card. Activated by pressing enter or
+									spacebar.</span
+								>
+
+								<!-- Flip Card 5 -->
+								<div
+									class="flip-card"
+									role="button"
+									aria-pressed="false"
+									tabindex="0"
+									aria-describedby="flip-desc-bias-5"
+								>
+									<div class="flip-card-inner">
+										<div class="flip-card-front" aria-hidden="false">
+											5. Provide Context
+										</div>
+										<div class="flip-card-back" aria-hidden="true">
+											<div class="sub-container">
+												<p>
+													Briefly explain how the comment may unintentionally
+													perpetuate biases and why that's problematic.
+												</p>
+											</div>
+										</div>
+									</div>
 								</div>
+								<span class="sr-only" id="flip-desc-bias-5"
+									>This is a flip card. Activated by pressing enter or
+									spacebar.</span
+								>
 							</div>
 						</section>
 
@@ -1292,9 +1395,8 @@
 				}
 
 				function displayOverallResult(finalScore, correct, total) {
-					let message = `You scored ${correct} out of ${total} (${finalScore.toFixed(
-						0
-					)}%). `;
+					console.log(finalScore);
+					let message = ``;
 					resultsDiv.className =
 						finalScore >= PASSING_SCORE ? "passed" : "failed";
 					message +=

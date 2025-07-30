@@ -4,6 +4,10 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Recognizing Microaggressions Towards Indigenous Peoples</title>
+		<script
+			src="https://kit.fontawesome.com/76452193de.js"
+			crossorigin="anonymous"
+		></script>
 		<style>
 			/* CSS is embedded directly in the HTML file */
 			@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700&display=swap");
@@ -164,7 +168,6 @@
 
 			/* Main Content Styles - Background is now handled by the slideshow */
 			.course-main {
-				/* The background properties have been removed from here */
 				position: relative; /* Needed for z-index stacking context */
 				z-index: 1;
 			}
@@ -532,15 +535,47 @@
 
 			/* Footer */
 			.course-footer {
-				text-align: center;
-				padding: 2rem;
+				display: flex;
+				align-items: center;
+				padding: 1.5rem 2rem;
 				background-color: #2d3748;
 				color: #a0aec0;
 			}
-			.course-footer img {
-				max-width: 150px;
-				margin-bottom: 1rem;
+			.course-footer a.feedback-link {
+				color: #cbd5e0;
+				text-decoration: none;
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
 			}
+
+			.course-footer a.feedback-link span {
+				text-decoration: underline;
+				background-color: white;
+				color: #005a9c;
+				padding: 15px;
+				border-radius: 6px;
+				transition: 150ms all ease-in-out;
+			}
+			.course-footer a.feedback-link span:hover {
+				color: #044878;
+			}
+			.feedback-icon {
+				width: 100px;
+				height: 100px;
+				background-color: white;
+				border-radius: 50%;
+				display: flex;
+				color: #005a9c;
+				align-items: center;
+				justify-content: center;
+			}
+			.feedback-icon svg {
+				width: 100px;
+				height: 100px;
+				color: var(--primary-color);
+			}
+
 			header#header-nav {
 				height: fit-content;
 			}
@@ -553,6 +588,58 @@
 				text-align: center;
 				display: flex;
 				align-items: center;
+			}
+
+			/* --- Back to Top Button Styles --- */
+			#back-to-top-btn {
+				position: fixed;
+				bottom: 20px;
+				right: 20px;
+				width: 85px;
+				height: 85px;
+				border-radius: 50%;
+				background-color: #ffffff;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				opacity: 0;
+				pointer-events: none;
+				transform: scale(0.9);
+				transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+				z-index: 1050; /* High z-index to be on top */
+				border: none;
+				cursor: pointer;
+			}
+
+			#back-to-top-btn.visible {
+				opacity: 1;
+				pointer-events: auto;
+				transform: scale(1);
+			}
+
+			#back-to-top-btn .progress-ring {
+				width: 100%;
+				height: 100%;
+			}
+
+			#back-to-top-btn .progress-ring__circle {
+				stroke-width: 4;
+				stroke: var(--primary-color);
+				fill: transparent;
+				r: 25; /* SVG radius */
+				cx: 28; /* SVG center x */
+				cy: 28; /* SVG center y */
+				transition: stroke-dashoffset 0.1s linear;
+				transform: rotate(-90deg);
+				transform-origin: 50% 50%;
+			}
+
+			#back-to-top-btn .arrow-icon {
+				position: absolute;
+				color: var(--primary-color);
+				width: 24px;
+				height: 24px;
 			}
 		</style>
 		<script
@@ -1064,16 +1151,42 @@
 				</div>
 			</div>
 		</main>
+
 		<footer class="course-footer">
-			<img
-				src="https://www.csps-efpc.gc.ca/Assets/gfx/CSPS_logo_white.svg"
-				alt="Canada School of Public Service Logo"
-			/>
-			<p>
-				Canada School of Public Service / École de la fonction publique du
-				Canada
-			</p>
+			<a
+				href="https://airtable.com/appiWB5orohCHzA35/shrfyFm9N7HuQBhe8"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="feedback-link"
+			>
+				<div class="feedback-icon">
+					<i class="fa-regular fa-message fa-2xl"></i>
+				</div>
+				<span>Feedback</span>
+			</a>
 		</footer>
+
+		<!-- Back to Top Button HTML -->
+		<button id="back-to-top-btn" aria-label="Back to top">
+			<svg class="progress-ring" viewBox="0 0 56 56">
+				<circle class="progress-ring__circle" />
+			</svg>
+			<div class="arrow-icon">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="3"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M5 15l7-7 7 7"
+					/>
+				</svg>
+			</div>
+		</button>
 
 		<!-- Embedded JavaScript -->
 		<script>
@@ -1331,10 +1444,10 @@
 							.join("");
 
 						questionEl.innerHTML = `
-                            <legend class="question-text">${q.text}</legend>
-                            <div class="options">${optionsHTML}</div>
-                            <div class="feedback"></div>
-                        `;
+                        <legend class="question-text">${q.text}</legend>
+                        <div class="options">${optionsHTML}</div>
+                        <div class="feedback"></div>
+                    `;
 						quizForm.appendChild(questionEl);
 					});
 				}
@@ -1423,6 +1536,47 @@
 						.getElementById("header-nav")
 						.classList.toggle("scrolled", window.scrollY > 50)
 				);
+
+				// --- Back to Top Button Logic ---
+				const backToTopBtn = document.getElementById("back-to-top-btn");
+				const progressCircle = document.querySelector(".progress-ring__circle");
+
+				if (backToTopBtn && progressCircle) {
+					const radius = progressCircle.r.baseVal.value;
+					const circumference = 2 * Math.PI * radius;
+
+					progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+					progressCircle.style.strokeDashoffset = circumference;
+
+					function setProgress(percent) {
+						const offset = circumference - (percent / 100) * circumference;
+						progressCircle.style.strokeDashoffset = offset;
+					}
+
+					window.addEventListener("scroll", () => {
+						const scrollHeight =
+							document.documentElement.scrollHeight -
+							document.documentElement.clientHeight;
+						const scrollTop = window.scrollY;
+						const scrollPercent =
+							scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+
+						setProgress(scrollPercent);
+
+						if (scrollTop > 300) {
+							backToTopBtn.classList.add("visible");
+						} else {
+							backToTopBtn.classList.remove("visible");
+						}
+					});
+
+					backToTopBtn.addEventListener("click", () => {
+						window.scrollTo({
+							top: 0,
+							behavior: "smooth",
+						});
+					});
+				}
 
 				// --- Course Lifecycle ---
 				window.addEventListener("beforeunload", () => {

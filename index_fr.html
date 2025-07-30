@@ -114,7 +114,7 @@
 				top: -40px;
 				left: 0;
 				background: var(--primary-color);
-				color: white;
+				color: white !important;
 				padding: 8px;
 				z-index: 1100;
 				transition: top 0.3s;
@@ -267,7 +267,7 @@
 				margin-bottom: 1rem;
 			}
 
-			.sub-container > * {
+			.sub-container.bias > * {
 				font-size: 14px !important;
 			}
 			blockquote {
@@ -548,18 +548,22 @@
 			}
 			.course-footer a.feedback-link:hover,
 			.course-footer a.feedback-link:hover span {
-				color: white;
 			}
 			.course-footer a.feedback-link span {
 				text-decoration: underline;
+				padding: 15px;
+				background-color: white;
+				border-radius: 6px;
+				color: #005a9c;
 			}
 			.feedback-icon {
-				width: 48px;
-				height: 48px;
+				width: 100px;
+				height: 100px;
 				background-color: white;
 				border-radius: 50%;
 				display: flex;
 				align-items: center;
+				color: #005a9c;
 				justify-content: center;
 			}
 			.feedback-icon svg {
@@ -587,8 +591,8 @@
 				position: fixed;
 				bottom: 20px;
 				right: 20px;
-				width: 56px;
-				height: 56px;
+				width: 100px;
+				height: 100px;
 				border-radius: 50%;
 				background-color: #ffffff;
 				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -963,7 +967,7 @@
 											1. Model Curiosity
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
-											<div class="sub-container">
+											<div class="sub-container bias">
 												<h1>Ask Questions</h1>
 												<p>
 													Encourage reflection by asking open-ended questions to
@@ -999,7 +1003,7 @@
 											2. Acknowledge the Incident
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
-											<div class="sub-container">
+											<div class="sub-container bias">
 												<h1>Pause and Address</h1>
 												<p>
 													Stop the conversation to directly address the issue
@@ -1033,7 +1037,7 @@
 											3. Avoid Shaming
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
-											<div class="sub-container">
+											<div class="sub-container bias">
 												<h1>Stay Constructive</h1>
 												<p>
 													Focus on the comment or behavior, not the person, to
@@ -1067,7 +1071,7 @@
 											4. Reframe the Statement
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
-											<div class="sub-container">
+											<div class="sub-container bias">
 												<h1>Clarify Intentions</h1>
 												<p>
 													Reword the comment to help the group engage with it in
@@ -1101,7 +1105,7 @@
 											5. Provide Context
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
-											<div class="sub-container">
+											<div class="sub-container bias">
 												<h1>Explain the Impact</h1>
 												<p>
 													Briefly explain how the comment may unintentionally
@@ -1159,20 +1163,22 @@
 						>
 							<ul class="resource-list">
 								<li>
-									<a href="https://www.themicropedia.org/" target="_blank"
+									<a
+										href="https://www.themicropedia.org/#/category/indigenous"
+										target="_blank"
 										>The Micropedia of Microaggressions</a
 									>
 								</li>
 								<li>
 									<a
-										href="https://www.queensu.ca/indigenous/ways-knowing/indigenous-allyship/indigenous-ally-toolkit"
+										href="https://reseaumtlnetwork.com/en/publication/ally-toolkit/"
 										target="_blank"
 										>Indigenous Ally Toolkit</a
 									>
 								</li>
 								<li>
 									Video: Addressing Micro-aggressions Towards Indigenous Peoples
-									(coming soon)
+									<span style="color: #005a9c">(coming soon)</span>
 								</li>
 							</ul>
 						</section>
@@ -1189,17 +1195,7 @@
 				class="feedback-link"
 			>
 				<div class="feedback-icon">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 24 24"
-						fill="currentColor"
-					>
-						<path
-							fill-rule="evenodd"
-							d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.352 0 9.75-2.906 9.75-6.5S17.352 8.25 12 8.25s-9.75 2.906-9.75 6.5c0 1.257.612 2.414 1.628 3.443a.75.75 0 01.276.565v.254c0 .342-.114.663-.321.923l-.206.257a.75.75 0 00.935 1.055l.257-.206a9.735 9.735 0 012.25-1.65zM12 10.5a4.99 4.99 0 00-4.75 3.375c0 1.902 2.12 3.375 4.75 3.375s4.75-1.473 4.75-3.375A4.99 4.99 0 0012 10.5z"
-							clip-rule="evenodd"
-						/>
-					</svg>
+					<i class="fa-regular fa-message fa-2xl"></i>
 				</div>
 				<span>Feedback</span>
 			</a>

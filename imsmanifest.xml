@@ -13,12 +13,12 @@
         <lom xmlns="http://www.imsglobal.org/xsd/imsmd_rootv1p2p1">
             <general>
                 <title>
-                    <!-- <langstring xml:lang="en">Recognizing Microaggressions Towards Indigenous Peoples</langstring> -->
-                    <langstring xml:lang="fr">			Savoir reconnaître les microagressions envers les peuples autochtones
-</langstring>
+                    <langstring xml:lang="en">Recognizing Microaggressions Towards Indigenous Peoples</langstring>
+                    <!-- <langstring xml:lang="fr">			Savoir reconnaître les microagressions envers les peuples autochtones
+</langstring> -->
                 </title>
                 <description>
-                    <!-- <langstring xml:lang="en">An interactive course on identifying and understanding microaggressions towards Indigenous Peoples.</langstring> -->
+                    <langstring xml:lang="en">An interactive course on identifying and understanding microaggressions towards Indigenous Peoples.</langstring>
                 </description>
             </general>
             <technical>
@@ -29,7 +29,8 @@
 
     <organizations default="B0">
         <organization identifier="B0">
-            <title>			Savoir reconnaître les microagressions envers les peuples autochtones
+            <title>			Recognizing Microaggressions
+Towards Indigenous Peoples
 </title>
             <item identifier="I1" identifierref="R1" isvisible="true">
                 <title> Module</title>
@@ -38,8 +39,8 @@
     </organizations>
 
     <resources>
-        <resource identifier="R1" type="webcontent" adlcp:scormtype="sco" href="index_fr.html">
-            <file href="index_fr.html"/>
+        <resource identifier="R1" type="webcontent" adlcp:scormtype="sco" href="index.html">
+            <file href="index.html"/>
         </resource>
     </resources>
 

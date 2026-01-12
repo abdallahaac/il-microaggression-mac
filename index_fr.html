@@ -3,9 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>
-			Savoir reconnaître les microagressions envers les peuples autochtones
-		</title>
+		<title>Reconnaître les microagressions envers les Autochtones</title>
 		<style>
 			/* CSS is embedded directly in the HTML file */
 			@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700&display=swap");
@@ -669,10 +667,7 @@
 
 		<main class="course-main">
 			<div class="course-header">
-				<h1>
-					Savoir reconnaître les microagressions <br />
-					envers les peuples autochtones
-				</h1>
+				<h1>Reconnaître les microagressions <br />envers les Autochtones</h1>
 				<p id="welcome-message">
 					Bienvenue, <span id="learner-name">apprenant</span>!
 				</p>
@@ -1774,15 +1769,56 @@
 					},
 				];
 
+				function scormNameToFirstLast(raw) {
+					let firstName = "",
+						lastName = "";
+					const trimmed = String(raw || "").trim();
+					if (!trimmed) return { firstName, lastName, display: "learner" };
+
+					if (trimmed.includes(",")) {
+						// Typical SCORM 1.2: "Last, First Middle"
+						const [last, first] = trimmed.split(",").map((s) => s.trim());
+						lastName = last || "";
+						firstName = first || "";
+					} else {
+						// Fallback: "First Last" or single token
+						const parts = trimmed.split(/\\s+/);
+						if (parts.length === 1) {
+							firstName = parts[0];
+						} else {
+							firstName = parts.slice(0, -1).join(" ");
+							lastName = parts.slice(-1)[0];
+						}
+					}
+
+					const display =
+						[firstName, lastName].filter(Boolean).join(" ") || "learner";
+					return { firstName, lastName, display };
+				}
+
 				// --- SCORM Initialization ---
 				function initCourse() {
 					try {
 						lmsConnected = pipwerks.SCORM.init();
+						console.log(
+							`SCORM connection: ${lmsConnected ? "successful" : "not found"}`
+						);
+
 						if (lmsConnected) {
-							const studentName = pipwerks.SCORM.get("cmi.core.student_name");
-							if (studentName)
-								document.getElementById("learner-name").textContent =
-									studentName;
+							const learnerSpan = document.getElementById("learner-name");
+							const rawName = pipwerks.SCORM.get("cmi.core.student_name") || "";
+							if (rawName) {
+								const { firstName, lastName, display } =
+									scormNameToFirstLast(rawName);
+								console.log(`SCORM raw student_name: "${rawName}"`);
+								console.log(`first name: ${firstName}`);
+								console.log(`last name : ${lastName}`);
+								if (learnerSpan) learnerSpan.textContent = display; // "First Last"
+							} else {
+								console.log(
+									"SCORM student_name not found; leaving default 'learner'."
+								);
+							}
 
 							const lessonStatus = pipwerks.SCORM.get("cmi.core.lesson_status");
 							if (lessonStatus === "completed" || lessonStatus === "passed") {
@@ -1794,6 +1830,7 @@
 								renderQuiz();
 							}
 						} else {
+							// No LMS found
 							renderQuiz();
 						}
 					} catch (e) {
@@ -1801,7 +1838,6 @@
 						renderQuiz();
 					}
 				}
-
 				// --- Tab Navigation Logic ---
 				const tabNav = document.querySelector(".tab-nav");
 				const tabButtons = document.querySelectorAll(".tab-button");

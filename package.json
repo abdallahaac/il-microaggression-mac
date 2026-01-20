@@ -5,9 +5,11 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"clean": "rm -f package-en.zip package-fr.zip",
+		"dev": "vite",
+		"clean": "node -e \"['package-en.zip','package-fr.zip','imsmanifest.xml.bak'].forEach(f=>{try{require('fs').unlinkSync(f)}catch(e){}})\"",
 		"package-en": "bestzip package-en.zip assets imsmanifest.xml index.html",
-		"package-fr": "bestzip package-fr.zip assets imsmanifest.xml index_fr.html"
+		"package-fr": "node -e \"const fs=require('fs'); fs.copyFileSync('imsmanifest.xml','imsmanifest.xml.bak'); fs.copyFileSync('imsmanifest_fr.xml','imsmanifest.xml');\" && bestzip package-fr.zip assets imsmanifest.xml index_fr.html && node -e \"const fs=require('fs'); fs.copyFileSync('imsmanifest.xml.bak','imsmanifest.xml'); fs.unlinkSync('imsmanifest.xml.bak');\"",
+		"package-all": "npm run package-en && npm run package-fr"
 	},
 	"repository": {
 		"type": "git",
@@ -18,6 +20,8 @@
 	"license": "ISC",
 	"type": "commonjs",
 	"devDependencies": {
-		"bestzip": "^2.2.1"
+		"bestzip": "^2.2.1",
+		"http-server": "^14.1.1",
+		"vite": "^5.4.0"
 	}
 }

@@ -1,26 +1,22 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Recognizing Microaggressions Towards Indigenous Peoples (SCORM 1.2)
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+This project is a modularized SCORM 1.2 + Brightspace-compatible version of the original single-file course, with shared CSS/JS for EN and FR.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Run locally
+- Open `index.html` (EN) or `index_fr.html` (FR) directly in a browser.
+- Or run `npm run dev` after `npm install`, then open `http://127.0.0.1:8080/index.html` or `http://127.0.0.1:8080/index_fr.html`.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+## Package SCORM ZIPs
+1. Install dependencies: `npm install`
+2. Package EN: `npm run package-en`
+3. Package FR: `npm run package-fr`
+4. Package both: `npm run package-all`
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+`package-fr` temporarily swaps `imsmanifest.xml` using `imsmanifest_fr.xml` to ensure the FR zip launches `index_fr.html`.
 
+## Brightspace Manage Files (non-SCORM)
+- Upload `index.html` (or `index_fr.html`) and the entire `assets` folder to the course files area.
+- The course will run without SCORM API and still function normally.
 
-
-IRA1-J27-DEV-EN
-
-IRA1-J27-DEV-EN
+## Brightspace core bundle reference
+- If your deployment requires `brightspace-core-bundle.js`, keep or update the `<script type="module" src="...">` tag in `index.html` to match your enforced content path.

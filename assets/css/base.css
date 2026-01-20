@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap");
+
+:root {
+	--primary-color: #005a9c;
+	--secondary-color: #4a5568;
+	--background-color: #ffffff;
+	--card-background: #ffffff;
+	--text-color: #2d3748;
+	--light-text-color: #555;
+	--success-color: #2e7d32;
+	--error-color: #c62828;
+	--success-bg: #e8f5e9;
+	--error-bg: #ffebee;
+	--focus-ring-color: #ffbf47;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	scroll-behavior: smooth;
+	overflow-x: hidden;
+	font-family: "Noto Sans", sans-serif;
+	background-color: var(--background-color);
+	color: var(--text-color);
+}
+
+html {
+	overflow-x: hidden;
+}
+
+:focus-visible {
+	outline: 3px solid var(--focus-ring-color);
+	outline-offset: 2px;
+	border-radius: 4px;
+}
+
+.skip-link {
+	position: absolute;
+	top: -40px;
+	left: 0;
+	background: var(--primary-color);
+	color: white;
+	padding: 8px;
+	z-index: 1100;
+	transition: top 0.3s;
+}
+
+.skip-link:focus {
+	top: 0;
+}
+
+p,
+li {
+	color: var(--light-text-color);
+	font-size: 1.1rem;
+	margin-bottom: 1rem;
+}
+
+html[lang="fr"] p,
+html[lang="fr"] li {
+	line-height: 1.8;
+}
+
+blockquote {
+	font-style: italic;
+	border-left: 4px solid var(--primary-color);
+	padding-left: 1.5rem;
+	margin: 2rem 0;
+	color: var(--secondary-color);
+	font-size: 1.2rem;
+}
+
+.sr-only {
+	position: absolute;
+	left: -10000px;
+	width: 1px;
+	height: 1px;
+	top: auto;
+	overflow: hidden;
+}
+
+.is-hidden {
+	display: none !important;
+}

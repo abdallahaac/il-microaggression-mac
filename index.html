@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -7,659 +7,28 @@
 		<link
 			rel="icon"
 			type="image/png"
-			href="./favicon/favicon-96x96.png"
+			href="./assets/favicon/favicon-96x96.png"
 			sizes="96x96"
 		/>
-		<link rel="icon" type="image/svg+xml" href="./favicon//favicon.svg" />
-		<link rel="shortcut icon" href="./favicon//favicon.ico" />
+		<link rel="icon" type="image/svg+xml" href="./assets/favicon/favicon.svg" />
+		<link rel="shortcut icon" href="./assets/favicon/favicon.ico" />
 		<link
 			rel="apple-touch-icon"
 			sizes="180x180"
-			href="./favicon//apple-touch-icon.png"
+			href="./assets/favicon/apple-touch-icon.png"
 		/>
-		<link rel="manifest" href="./favicon//site.webmanifest" />
-		<style>
-			/* CSS is embedded directly in the HTML file */
-			@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700&display=swap");
-			@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap");
+		<script type="module" src="./brightspace-core-bundle.js"></script>
+		<link rel="manifest" href="./assets/favicon/site.webmanifest" />
+		<link rel="stylesheet" href="./assets/css/base.css" />
+		<link rel="stylesheet" href="./assets/css/layout.css" />
+		<link rel="stylesheet" href="./assets/css/components.css" />
+		<link rel="stylesheet" href="./assets/css/quiz.css" />
+		<link rel="stylesheet" href="./assets/css/back-to-top.css" />
+		<script
+			defer
+			src="https://templates.lcs.brightspace.com/lib/assets/js/scripts.min.js"
+		></script>
 
-			:root {
-				--primary-color: #005a9c; /* Darker blue for WCAG AA compliance */
-				--secondary-color: #4a5568;
-				--background-color: #ffffff; /* White background for the content area */
-				--card-background: #ffffff;
-				--text-color: #2d3748;
-				--light-text-color: #555;
-				--success-color: #2e7d32;
-				--error-color: #c62828;
-				--success-bg: #e8f5e9;
-				--error-bg: #ffebee;
-				--focus-ring-color: #ffbf47; /* Gold/orange for high contrast focus */
-			}
-			.flip-card-back .sub-container.bias {
-				display: flex;
-				flex-direction: column;
-				justify-content: flex-start; /* locks h1 at top */
-				height: 100%;
-			}
-
-			.flip-card-back .sub-container.bias h1 {
-				margin: 0;
-				padding-top: -15px; /* adjust as needed for your design */
-			}
-
-			body {
-				padding: 0;
-				margin: 0;
-				box-sizing: border-box;
-				scroll-behavior: smooth;
-				overflow-x: hidden;
-				font-family: "Noto Sans", sans-serif;
-				background-color: var(--background-color);
-				color: var(--text-color);
-			}
-
-			html {
-				overflow-x: hidden;
-			}
-
-			/* --- Slideshow Styles --- */
-			.slideshow {
-				position: fixed;
-				width: 100%;
-				height: 100%;
-				top: 0;
-				left: 0;
-				z-index: -10; /* Ensures slideshow is behind all content */
-				list-style: none;
-				padding: 0;
-				margin: 0;
-			}
-
-			.slideshow li {
-				width: 100%;
-				height: 100%;
-				position: absolute;
-				top: 0;
-				left: 0;
-				background-size: cover;
-				background-position: center center;
-				background-repeat: no-repeat;
-				opacity: 0;
-				z-index: -12; /* Behind the overlay */
-				animation: imageAnimation 24s linear infinite;
-			}
-
-			.slideshow li:nth-child(1) {
-				background-image: url("./assets/background-01.png");
-			}
-			.slideshow li:nth-child(2) {
-				background-image: url("./assets/background-02.png");
-				animation-delay: 6s;
-			}
-			.slideshow li:nth-child(3) {
-				background-image: url("./assets/background-03.png");
-				animation-delay: 12s;
-			}
-
-			@keyframes imageAnimation {
-				0% {
-					opacity: 0;
-					animation-timing-function: ease-in;
-				}
-				10% {
-					opacity: 1;
-				}
-				25% {
-					opacity: 1;
-				}
-				35% {
-					opacity: 0;
-				}
-				100% {
-					opacity: 0;
-				}
-			}
-			/* --- End Slideshow Styles --- */
-
-			/* Accessibility: Focus Indicator */
-			:focus-visible {
-				outline: 3px solid var(--focus-ring-color);
-				outline-offset: 2px;
-				border-radius: 4px;
-			}
-
-			/* Accessibility: Skip Link Styling */
-			.skip-link {
-				position: absolute;
-				top: -40px;
-				left: 0;
-				background: var(--primary-color);
-				color: white;
-				padding: 8px;
-				z-index: 1100;
-				transition: top 0.3s;
-			}
-			.skip-link:focus {
-				top: 0;
-			}
-
-			/* Header and Nav */
-			.hero-image-navigation {
-				display: flex;
-				position: fixed;
-				top: 0;
-				left: 0;
-				z-index: 1000;
-				color: white;
-				width: 100%;
-				justify-content: space-between;
-				transition: all 0.3s ease;
-				height: 80px;
-				align-items: center;
-				padding: 0 2rem;
-				background-color: transparent;
-			}
-
-			.hero-image-navigation.scrolled {
-				background-color: var(--card-background);
-				color: var(--text-color);
-				box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-			}
-
-			.hero-image-navigation.scrolled a {
-				color: var(--text-color);
-			}
-
-			.left-hero {
-				display: flex;
-				align-items: center;
-				font-family: "Playfair Display", serif;
-			}
-
-			.left-hero a {
-				text-decoration: none;
-				color: white;
-				font-size: 1.2rem;
-			}
-
-			/* Main Content Styles - Background is now handled by the slideshow */
-			.course-main {
-				position: relative; /* Needed for z-index stacking context */
-				z-index: 1;
-			}
-
-			.course-header {
-				padding: 10rem 2rem 4rem 2rem;
-				text-align: center;
-				background-color: rgba(45, 55, 72, 0.7);
-				color: white;
-				height: 400px;
-			}
-
-			.course-header h1 {
-				font-family: "Playfair Display", serif;
-				font-size: clamp(2rem, 5vw, 3.5rem);
-				margin-bottom: 0.5rem;
-				text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-			}
-
-			.course-header #welcome-message {
-				font-size: clamp(1.2rem, 3vw, 1.5rem);
-				font-weight: 400;
-				opacity: 0.9;
-				color: white;
-			}
-
-			/* This container holds the main content area */
-			.content-wrapper {
-				background-color: var(--background-color); /* White background */
-				padding: 4rem 1rem 6rem 1rem;
-			}
-
-			.tab-container {
-				max-width: 1100px;
-				margin: 0 auto;
-				background: var(--card-background);
-				border-radius: 12px;
-				box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1),
-					0 5px 10px rgba(0, 0, 0, 0.05);
-				overflow: hidden;
-			}
-
-			.tab-nav {
-				display: flex;
-				flex-wrap: wrap;
-				background-color: #f0f8ff;
-				border-bottom: 1px solid #e2e8f0;
-			}
-
-			.tab-button {
-				padding: 1rem 1.5rem;
-				cursor: pointer;
-				border: none;
-				background: transparent;
-				font-size: 1rem;
-				font-weight: 700;
-				color: var(--secondary-color);
-				transition: color 0.3s, border-bottom 0.3s;
-				border-bottom: 3px solid transparent;
-				flex-grow: 1;
-				text-align: center;
-			}
-
-			/* ACCESSIBILITY FIX: Use inset box-shadow for focus to prevent clipping */
-			.tab-button:focus-visible {
-				outline: none;
-				box-shadow: inset 0 0 0 3px var(--focus-ring-color);
-				border-radius: 0;
-			}
-
-			.tab-button.active {
-				color: var(--primary-color);
-				border-bottom-color: var(--primary-color);
-			}
-
-			.tab-panel {
-				display: none;
-				padding: 2rem;
-				animation: fadeIn 0.5s ease-in-out;
-			}
-
-			.tab-panel.active {
-				display: block;
-			}
-
-			@keyframes fadeIn {
-				from {
-					opacity: 0;
-					transform: translateY(10px);
-				}
-				to {
-					opacity: 1;
-					transform: translateY(0);
-				}
-			}
-
-			p,
-			li {
-				color: var(--light-text-color);
-				font-size: 1.1rem;
-				margin-bottom: 1rem;
-			}
-
-			.sub-container.bias > * {
-				font-size: 14px !important;
-			}
-			blockquote {
-				font-style: italic;
-				border-left: 4px solid var(--primary-color);
-				padding-left: 1.5rem;
-				margin: 2rem 0;
-				color: var(--secondary-color);
-				font-size: 1.2rem;
-			}
-
-			.card-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-				gap: 2.5rem; /* Increased gap for flip cards */
-				margin-top: 1.5rem;
-				justify-items: center; /* Center cards in the grid */
-			}
-
-			.microaggression-card,
-			.bias-card {
-				background: #f9f9f9;
-				border: 1px solid #e2e8f0;
-				padding: 1.5rem;
-				border-radius: 8px;
-			}
-
-			.microaggression-card .quote {
-				font-weight: bold;
-				color: var(--text-color);
-				margin-bottom: 0.5rem;
-			}
-
-			.microaggression-card .explanation {
-				font-size: 1rem;
-				color: var(--light-text-color);
-			}
-
-			.bias-card h4 {
-				font-family: "Playfair Display", serif;
-				color: var(--primary-color);
-				margin-top: 0;
-			}
-
-			/* --- Flip Card Styles --- */
-			.flip-card {
-				perspective: 1000px;
-				width: 250px;
-				height: 350px;
-				position: relative;
-				cursor: pointer;
-				background-color: transparent; /* Remove default color */
-			}
-			.flip-card:focus-visible {
-				outline: none; /* Remove default outline to use the inner one */
-			}
-			.flip-card:focus-visible .flip-card-inner {
-				outline: 3px solid var(--focus-ring-color);
-				outline-offset: 3px;
-			}
-			.flip-card[aria-pressed="true"] .flip-card-inner {
-				transform: rotateY(180deg);
-			}
-			.flip-card-inner {
-				width: 100%;
-				height: 100%;
-				transform-style: preserve-3d;
-				transition: transform 0.6s;
-				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-				border-radius: 8px;
-			}
-			.flip-card-front,
-			.flip-card-back {
-				width: 100%;
-				height: 100%;
-				position: absolute;
-				backface-visibility: hidden;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 1.2rem; /* Consistent font size */
-				font-weight: bold;
-				padding: 1rem;
-				text-align: center;
-				border-radius: 8px;
-				box-sizing: border-box; /* Ensures padding doesn't affect size */
-			}
-			.flip-card-front {
-				background-color: var(--primary-color); /* #005a9c */
-				color: white;
-			}
-			.flip-card-back {
-				background-color: white;
-				border: 2px solid var(--primary-color);
-				color: var(--text-color);
-				transform: rotateY(180deg);
-				font-weight: normal;
-				line-height: 1.6;
-			}
-			.flip-card-back .sub-container {
-				width: 90%;
-			}
-			.sr-only {
-				position: absolute;
-				left: -10000px;
-				width: 1px;
-				height: 1px;
-				top: auto;
-				overflow: hidden;
-			}
-			/* --- End Flip Card Styles --- */
-
-			.resource-list {
-				list-style: none;
-				padding-left: 0;
-			}
-
-			.resource-list li a {
-				color: var(--primary-color);
-				text-decoration: none;
-				font-weight: bold;
-			}
-
-			.resource-list li a:hover {
-				text-decoration: underline;
-			}
-
-			/* Attractive Quiz Styles */
-			#quiz-form fieldset {
-				border: 1px solid #e2e8f0;
-				border-radius: 8px;
-				padding: 1.5rem;
-				margin: 0 0 2rem 0;
-			}
-			#quiz-form legend {
-				font-weight: bold;
-				font-size: 1.2rem;
-				padding: 0 0.5rem;
-				margin-left: 1rem;
-			}
-			#quiz-form .options label {
-				display: flex;
-				align-items: center;
-				padding: 1rem;
-				margin-top: 0.5rem;
-				border-radius: 8px;
-				cursor: pointer;
-				transition: background-color 0.2s ease, box-shadow 0.2s ease;
-				border: 1px solid #e2e8f0;
-			}
-			#quiz-form .options label:hover {
-				background-color: #f0f8ff;
-			}
-			#quiz-form input[type="radio"] {
-				position: absolute;
-				opacity: 0;
-				width: 0;
-				height: 0;
-			}
-
-			/* ACCESSIBILITY FIX: Enhanced focus state for quiz options */
-			#quiz-form .options label:focus-within {
-				outline: 3px solid var(--focus-ring-color);
-				outline-offset: 2px;
-				background-color: #e0efff;
-			}
-
-			#quiz-form .options label .custom-radio {
-				width: 24px;
-				height: 24px;
-				border: 2px solid var(--secondary-color);
-				border-radius: 50%;
-				margin-right: 1rem;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				transition: border-color 0.3s;
-			}
-			#quiz-form .options label .custom-radio::after {
-				content: "";
-				width: 12px;
-				height: 12px;
-				background: var(--primary-color);
-				border-radius: 50%;
-				transform: scale(0);
-				transition: transform 0.3s;
-			}
-			#quiz-form input[type="radio"]:checked + .custom-radio {
-				border-color: var(--primary-color);
-			}
-			#quiz-form input[type="radio"]:checked + .custom-radio::after {
-				transform: scale(1);
-			}
-			#quiz-form input[type="radio"]:checked + .custom-radio + span {
-				font-weight: 700;
-			}
-
-			.feedback {
-				padding: 1rem;
-				margin-top: 1rem;
-				border-radius: 8px;
-				display: none;
-				font-weight: 700;
-				border-left-width: 5px;
-				border-left-style: solid;
-			}
-			.feedback.correct {
-				background-color: var(--success-bg);
-				color: var(--success-color);
-				border-left-color: var(--success-color);
-			}
-			.feedback.incorrect {
-				background-color: var(--error-bg);
-				color: var(--error-color);
-				border-left-color: var(--error-color);
-			}
-
-			.quiz-controls {
-				text-align: center;
-				margin-top: 2rem;
-			}
-			.submit-button,
-			#try-again-btn {
-				background-color: var(--primary-color);
-				color: white;
-				border: none;
-				padding: 1rem 2rem;
-				font-size: 1.2rem;
-				font-family: "Playfair Display", serif;
-				border-radius: 50px;
-				cursor: pointer;
-				display: inline-block;
-				margin: 0.5rem;
-				transition: background-color 0.3s, transform 0.2s;
-			}
-			.submit-button:hover,
-			#try-again-btn:hover {
-				background-color: #00447a;
-				transform: translateY(-2px);
-			}
-			#try-again-btn {
-				background-color: var(--secondary-color);
-			}
-			#try-again-btn:hover {
-				background-color: #2d3748;
-			}
-
-			#quiz-results {
-				text-align: center;
-				padding: 2rem;
-				border-radius: 8px;
-				margin-top: 2rem;
-				font-size: 1.3rem;
-				font-weight: 700;
-			}
-			#quiz-results.passed {
-				background-color: var(--success-bg);
-				color: var(--success-color);
-			}
-			#quiz-results.failed {
-				background-color: var(--error-bg);
-				color: var(--error-color);
-			}
-
-			/* Footer */
-			.course-footer {
-				display: flex;
-				align-items: center;
-				padding: 1.5rem 2rem;
-				background-color: #2d3748;
-				color: #a0aec0;
-			}
-			.course-footer a.feedback-link {
-				color: #cbd5e0;
-				text-decoration: none;
-				display: flex;
-				align-items: center;
-				gap: 0.75rem;
-			}
-			.course-footer a.feedback-link:hover,
-			.course-footer a.feedback-link:hover span {
-			}
-			.course-footer a.feedback-link span {
-				text-decoration: underline;
-				padding: 15px;
-				background-color: white;
-				border-radius: 6px;
-				color: #005a9c;
-			}
-			.feedback-icon {
-				width: 100px;
-				height: 100px;
-				background-color: white;
-				border-radius: 50%;
-				display: flex;
-				align-items: center;
-				color: #005a9c;
-				justify-content: center;
-			}
-			.feedback-icon svg {
-				width: 28px;
-				height: 28px;
-				color: var(--primary-color);
-			}
-
-			header#header-nav {
-				height: fit-content;
-			}
-			img.header-logo {
-				width: 80px;
-				margin: 10px;
-				margin-right: 20px;
-			}
-			.left-hero > a {
-				text-align: center;
-				display: flex;
-				align-items: center;
-			}
-
-			/* --- Back to Top Button Styles --- */
-			#back-to-top-btn {
-				position: fixed;
-				bottom: 20px;
-				right: 20px;
-				width: 100px;
-				height: 100px;
-				border-radius: 50%;
-				background-color: #ffffff;
-				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				opacity: 0;
-				pointer-events: none;
-				transform: scale(0.9);
-				transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-				z-index: 1050; /* High z-index to be on top */
-				border: none;
-				cursor: pointer;
-			}
-
-			#back-to-top-btn.visible {
-				opacity: 1;
-				pointer-events: auto;
-				transform: scale(1);
-			}
-
-			#back-to-top-btn .progress-ring {
-				width: 100%;
-				height: 100%;
-			}
-
-			#back-to-top-btn .progress-ring__circle {
-				stroke-width: 4;
-				stroke: var(--primary-color);
-				fill: transparent;
-				r: 25; /* SVG radius */
-				cx: 28; /* SVG center x */
-				cy: 28; /* SVG center y */
-				transition: stroke-dashoffset 0.1s linear;
-				transform: rotate(-90deg);
-				transform-origin: 50% 50%;
-			}
-
-			#back-to-top-btn .arrow-icon {
-				position: absolute;
-				color: var(--primary-color);
-				width: 24px;
-				height: 24px;
-			}
-		</style>
 		<script
 			src="https://kit.fontawesome.com/76452193de.js"
 			crossorigin="anonymous"
@@ -689,10 +58,7 @@
 
 		<main class="course-main">
 			<div class="course-header">
-				<h1>
-					Recognizing Microaggressions <br />
-					Towards Indigenous Peoples
-				</h1>
+				<h1>Develop Your Critical <br />Thinking Skills</h1>
 				<p id="welcome-message">
 					Welcome, <span id="learner-name">learner</span>!
 				</p>
@@ -708,7 +74,7 @@
 							aria-selected="true"
 							aria-controls="panel-1"
 						>
-							Microaggressions
+							Critical Thinking in the Public Service
 						</button>
 						<button
 							class="tab-button"
@@ -750,407 +116,258 @@
 							role="tabpanel"
 							aria-labelledby="tab-1"
 						>
-							<blockquote>
-								"Microaggressions are the everyday
-								<strong
-									style="color: #005a9c; cursor: pointer"
-									aria-label="e.g., “Where are you really from?”"
-									title="e.g., “Where are you really from?”"
-									tabindex="0"
-									>verbal</strong
-								>,
-								<strong
-									style="color: #005a9c; cursor: pointer"
-									title="e.g., clutching a bag when someone approaches."
-									tabindex="0"
-									>nonverbal</strong
-								>, and
-								<strong
-									style="color: #005a9c; cursor: pointer"
-									tabindex="0"
-									title="e.g., a lack of diverse representation in leadership roles."
-									>environmental</strong
-								>
-								slights, snubs, or insults, whether intentional or
-								unintentional, that communicate hostile, derogatory, or negative
-								messages to target persons based solely upon their marginalized
-								group membership."
-								<a
-									href="#footnote-1"
-									style="text-decoration: none; color: #005a9c"
-									><sup>*</sup></a
-								>
-							</blockquote>
-							<div
-								class="media-section"
-								style="
-									display: flex;
-									width: 100%;
-									justify-content: center;
-									align-items: center;
-									flex-direction: column;
-								"
-							>
-								<iframe
-									title="Addressing Micro-aggressions Towards Indigenous Peoples (video)"
-									width="560"
-									height="315"
-									src="https://media.csps-efpc.gc.ca/V/Video?v=1208686&node=6659686&a=31517596&preload=false"
-									frameborder="0"
-									allow="fullscreen"
-									loading="lazy"
-									tabindex="0"
-									aria-describedby="video-desc"
-								></iframe>
-								<div id="video-desc" class="sr-only">
-									This video presents a scenario and expert commentary about
-									microaggressions towards Indigenous Peoples in the workplace.
-								</div>
-								<!-- Collapsible Transcript Dropdown -->
-								<div
-									class="transcript-collapsible"
-									style="width: 100%; max-width: 560px; margin-top: 2rem"
-								>
-									<button
-										type="button"
-										class="transcript-toggle"
-										aria-expanded="false"
-										aria-controls="video-transcript"
-										style="
-											width: 100%;
-											background: #005a9c;
-											color: #fff;
-											border: none;
-											padding: 1rem 1.5rem;
-											font-size: 1.1rem;
-											font-family: 'Noto Sans', sans-serif;
-											border-radius: 8px;
-											cursor: pointer;
-											text-align: left;
-											display: flex;
-											align-items: center;
-											justify-content: space-between;
-										"
-									>
-										<span id="transcript-toggle-label">Transcript</span>
-										<span
-											class="transcript-arrow"
-											aria-hidden="true"
-											style="transition: transform 0.3s"
-										>
-											<i class="fa-solid fa-chevron-down"></i>
-										</span>
-									</button>
-									<div
-										id="video-transcript"
-										class="transcript-content"
-										style="
-											display: none;
-											background: #f0f8ff;
-											color: #2d3748;
-											padding: 1.5rem;
-											border-radius: 8px;
-											margin-top: 0.5rem;
-											font-size: 1rem;
-											line-height: 1.6;
-											box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-											overflow-y: auto;
-											max-height: 400px;
-										"
-									>
-										<p>
-											This is Noah, a friendly and outgoing coworker appreciated
-											by his team.
-										</p>
-										<p>
-											A public servant who, without realizing it, is about to
-											make a blunder with serious consequences.
-										</p>
-										<p>The meeting is coming to an end when suddenly...</p>
-										<p>Oh my gosh, the news just came out.</p>
-										<p>
-											The Supreme Court has unanimously recognized that Bill
-											C-92 is constitutional.
-										</p>
-										<p>
-											This affirms the right and jurisdiction of Indigenous
-											peoples in matters of child and family services.
-										</p>
-										<p>Seriously? It's about time.</p>
-										<p>Not again.</p>
-										<p>
-											I think it's time that Indigenous people get over it and
-											move on.
-										</p>
-										<p>A quiet unease fills the room.</p>
-										<p>Noah's comment disturbs several team members.</p>
-										<p>
-											It particularly affects three of his Indigenous
-											colleagues: Tania, Thierry, and Kim.
-										</p>
-										<p>
-											All three look at one another, surprised, jaw dropped.
-										</p>
-										<p>
-											Let's pause and analyze the scene with psychologist Judith
-											Morency.
-										</p>
-										<p>
-											Noah's sudden statement has sent shockwaves through the
-											room all at once.
-										</p>
-										<p>
-											It shows insensitivity, indifference, and likely ignorance
-											of the injustices faced by Indigenous peoples through
-											colonization.
-										</p>
-										<p>
-											Noah's words contain many clichés but are far from
-											harmless.
-										</p>
-										<p>They carry significant emotional weight.</p>
-										<p>It's like saying, be quiet, don't bother us.</p>
-										<p>Solve your own problems.</p>
-										<p>It's not my concern.</p>
-										<p>Life goes on.</p>
-										<p>
-											Noah's remark dismisses the suffering, assaults, and
-											traumas that continue to affect many Indigenous people and
-											communities today.
-										</p>
-										<p>
-											Once again, Indigenous voices are silenced and made
-											invisible.
-										</p>
-										<p>
-											Noah's comment is a micro-aggression that reopens old
-											wounds.
-										</p>
-										<p>It breaks trust and damages relationships.</p>
-										<p>Let's go back to the conversation.</p>
-										<p>
-											Instantly, a warning bell goes off in the minds of Tania,
-											Thierry, and Kim.
-										</p>
-										<p>
-											Behind this silence, what are these three Indigenous
-											colleagues really thinking?
-										</p>
-										<p>
-											Tania, who is a proud Métis from Red River, is offended.
-										</p>
-										<p>Does he even realize what he just said?</p>
-										<p>
-											Isn't he aware of the impacts of colonization on Métis and
-											other Indigenous peoples?
-										</p>
-										<p>
-											Does he know what children have endured for generations?
-										</p>
-										<p>
-											My own grandmother was forced to go to a residential
-											school.
-										</p>
-										<p>That comment is outrageous.</p>
-										<p>Thierry, who is Inuk from Iqaluit, feels insulted.</p>
-										<p>How could Noah show such contempt?</p>
-										<p>Do I need to state suicide statistics of Inuit youth?</p>
-										<p>They are 10 times higher than the national average.</p>
-										<p>
-											Would that help him understand the disparity between his
-											world and mine?
-										</p>
-										<p>
-											Kim, who is Ojibwe Saulteaux from the northwest of
-											Ontario, is deeply hurt.
-										</p>
-										<p>Wow, I don't want to work with this team anymore.</p>
-										<p>I bet that some of my colleagues share Noah's views.</p>
-										<p>Even today, the disparities remain so significant.</p>
-										<p>
-											41% of Indigenous youth living in major Canadian cities
-											suffer from food insecurity.
-										</p>
-										<p>Oh, well, what's the point?</p>
-										<p>They don't want to hear it anyway.</p>
-										<p>Noah, are you aware of what you just said?</p>
-										<p>This comment is unacceptable.</p>
-										<p>
-											Noah, when you say get over it and move on, it's super
-											hurtful.
-										</p>
-										<p>
-											It gives the impression that the harm and suffering
-											experienced by those close to me are unimportant.
-										</p>
-										<p>It's not just about the past.</p>
-										<p>It's also about how it still affects them today.</p>
-										<p>There are so many challenges ahead.</p>
-										<p>
-											There are numerous repercussions that we, Inuit, and also
-											First Nations and Métis, experience in our daily lives.
-										</p>
-										<p>
-											Not so long ago, our cultures, languages, security,
-											independence, beliefs, and freedoms had been radically
-											removed from the Indigenous way of being.
-										</p>
-										<p>
-											These past actions still impact everyday Indigenous lives.
-										</p>
-										<p>
-											More than half of all foster children in Canada are
-											Indigenous, mainly Inuit.
-										</p>
-										<p>
-											This is despite Indigenous kids representing less than 8%
-											of the child population.
-										</p>
-										<p>
-											Noah, visibly unsettled, realizes the gravity of what he
-											said.
-										</p>
-										<p>I didn't mean to hurt anyone.</p>
-										<p>
-											I didn't realize that my comment might come across as
-											dismissive of your experiences.
-										</p>
-										<p>I'm really sorry, and I apologize.</p>
-										<p>To me, reconciliation isn't about getting over it.</p>
-										<p>It's about setting right those past wrongs.</p>
-										<p>
-											It's about working together on an equal footing and having
-											everyone — Indigenous and non-Indigenous — on par with one
-											another.
-										</p>
-										<p>
-											Naively, without considering the broader implications,
-											Noah brought the colonial elephant into the room and
-											deeply affected the relationship.
-										</p>
-										<p>
-											With a few words, which he thought were harmless, Noah
-											undermined reconciliation efforts.
-										</p>
-										<p>
-											Misconceptions and misunderstandings are hard to undo.
-										</p>
-										<p>
-											It's everyone's responsibility to speak up after they hear
-											inappropriate or misinformed comments.
-										</p>
-										<p>
-											Even when it may be difficult to do so, it's important to
-											stand up and take action.
-										</p>
-										<p>Reconciliation is a shared responsibility.</p>
-										<p>
-											It's about renewing and maintaining a relationship of
-											mutual respect between Indigenous and non-Indigenous
-											peoples in this country.
-										</p>
-										<p>
-											It's also about correcting the wrongs that were done and
-											committing to taking active steps for the actions needed
-											for change.
-										</p>
-										<p>Learn from Noah's blunder.</p>
-										<p>Be part of the solution.</p>
-										<p>Be aware of the past.</p>
-										<p>
-											Acknowledge the harm that was done and its ongoing
-											negative consequences.
-										</p>
-										<p>
-											Learn now about the true history of colonization and its
-											impacts.
-										</p>
-										<p>
-											Find out about the government's commitments to
-											reconciliation and the rights of Indigenous peoples.
-										</p>
-										<p>You have a role to play.</p>
-										<p>&#9835;</p>
-									</div>
-								</div>
-								<script>
-									document.addEventListener("DOMContentLoaded", function () {
-										const toggleBtn =
-											document.querySelector(".transcript-toggle");
-										const transcriptContent =
-											document.getElementById("video-transcript");
-										const arrow = toggleBtn.querySelector(".transcript-arrow");
-										toggleBtn.addEventListener("click", function () {
-											const expanded =
-												toggleBtn.getAttribute("aria-expanded") === "true";
-											toggleBtn.setAttribute(
-												"aria-expanded",
-												String(!expanded)
-											);
-											transcriptContent.style.display = expanded
-												? "none"
-												: "block";
-											arrow.style.transform = expanded
-												? "rotate(0deg)"
-												: "rotate(180deg)";
-											toggleBtn.querySelector("span").textContent = expanded
-												? "Transcript"
-												: "Transcript";
-										});
-									});
-								</script>
-							</div>
-							<h2
-								style="
-									color: #2d3748; /* Dark gray for better contrast */
-									font-size: 1.5rem;
-									margin-top: 2rem;
-									margin-bottom: 1rem;
-								"
-							>
-								Additional Resource
+							<h2 style="justify-content: center; text-align: center">
+								<img src="./assets/image.png" alt="" />
 							</h2>
-							<a
-								href="https://reseaumtlnetwork.com/en/publication/ally-toolkit/"
-								target="_blank"
-								style="
-									display: inline-flex;
-									align-items: center;
-									gap: 0.5rem;
-									color: #005a9c; /* Blue for link */
-									background-color: #f0f8ff; /* Light blue background for contrast */
-									padding: 0.75rem 1.5rem;
-									border-radius: 8px;
-									font-size: 1.1rem;
-									font-weight: 700;
-									text-decoration: none;
-									transition: background-color 0.2s, color 0.2s;
-									margin-bottom: 1rem; /* Add spacing below the link */
-								"
-								onmouseover="this.style.backgroundColor='#e0efff'; this.style.color='#00447a';"
-								onmouseout="this.style.backgroundColor='#f0f8ff'; this.style.color='#005a9c';"
+							<p>
+								There is a pond covered with lily pads. The pond began with 1
+								lily pad, but the patch doubles in size every day. On day 48 the
+								entire pond is covered. How long would it take the lily ponds to
+								cover exactly half the lake?
+							</p>
+							<p>
+								Your first thought was probably 24. Most people see the word
+								"half" and automatically divide 48 in half. Our brains take
+								these mental shortcuts to arrive at answers more quickly. If you
+								did not rush to judgment and took some time to deliberately
+								analyze the situation, you would eventually arrive at the
+								correct answer, 47.
+							</p>
+							<p>
+								As this riddle demonstrates, critical thinking takes time and
+								effort and is more than just "being smart." It is a deliberate,
+								mental process of checking the quality of your own thoughts and
+								information you receive before you accept it as true.
+							</p>
+
+							<blockquote class="d2l-blockquote">
+								"Learn to use your brain power. Critical thinking is the key to
+								creative problem-solving in business." <br />
+								<br />
+								- Richard Branson
+							</blockquote>
+
+							<p>
+								Of course, critical thinking is just one of the many cognitive
+								functions we use at work each day. Before we continue, do you
+								know how critical thinking differs from strategic thinking,
+								creative thinking and even problem solving?
+							</p>
+							<!-- ✅ TEST: Brightspace Practice Embed (Sequencing / any practice) -->
+							<div
+								class="d2l-practice mceNonEditable"
+								data-d2l-activity-href="https://ac48db9a-609b-477e-be1b-a64dce42f5be.api.brightspace.com/activity/12358586?ou=12333"
 							>
-								Indigenous Ally Toolkit
-								<span style="display: flex; align-items: center">
-									<i class="fa-solid fa-up-right-from-square"></i>
-								</span>
-							</a>
-							<br /><br />
-							<p
-								id="footnote-1"
-								style="
-									font-size: 0.9rem;
-									color: #555;
-									margin-top: 1rem; /* Add spacing above the footnote */
-								"
+								<div class="placeholder">
+									<p>Practice Activity Test</p>
+								</div>
+
+								<iframe
+									id="practice-test-1"
+									src="https://practices.lcs.brightspace.com/latest/practice.html?id=practice-test-1&t=1"
+									data-file="practice/config-1768331237930.practice.json"
+									width="100%"
+									style="border: 0; min-height: 520px"
+								></iframe>
+							</div>
+
+							<section aria-label="Critical Thinking definition">
+								<d2l-collapsible-panel-group>
+									<d2l-collapsible-panel
+										panel-title="Sequencing Instructions"
+										heading-level="3"
+										heading-style="3"
+										padding-type="default"
+										type="default"
+										style="border: none; outline: none"
+									>
+										<ul>
+											<li>
+												Dragging Instructions: Drag any sequence item to drop it
+												in the correct step.
+											</li>
+											<li>
+												Tap Instructions: Select a sequence step. Select a
+												sequence item to drop in the step.
+											</li>
+										</ul>
+
+										<d2l-button id="tooltip-preview">Instructions</d2l-button>
+										<d2l-tooltip for="tooltip-preview">
+											<ul>
+												<li>To use the keyboard, select Tab.</li>
+												<li>Use Tab to access the first step.</li>
+												<li>
+													Select the step to invoke a dropdown of sequenceable
+													items.
+												</li>
+												<li>
+													Use the up and down arrow keys to move through the
+													list and select an item to add to the step.
+												</li>
+												<li>
+													When all items are sequenced, tab to the bottom of the
+													page and select Check Answers.
+												</li>
+												<li>
+													Use Tab to navigate through steps for additional
+													feedback.
+												</li>
+											</ul>
+										</d2l-tooltip>
+									</d2l-collapsible-panel>
+								</d2l-collapsible-panel-group>
+								<h3>Critical Thinking</h3>
+								<p>
+									Critical thinking is the process of analyzing available facts,
+									evidence, and arguments to reach a reasoned judgment about
+									what is true or right.
+								</p>
+							</section>
+
+							<p>
+								We use critical thinking skills for more than solving riddles!
+								As public servants, we work in an environment of ambiguity,
+								rapid change, and high public scrutiny. From climate change and
+								affordable housing to digital transformation and reconciliation
+								with Indigenous peoples, our challenges demand rigorous,
+								insightful and impartial judgment. Finding solutions to these
+								problems requires critical thinking.
+							</p>
+							<p>
+								Consider if any of these examples relate to the work you do in
+								your current role:
+							</p>
+							<ul>
+								<li>
+									<strong>Evaluate Evidence:</strong> Critical thinkers assess
+									the source, reliability, and bias of data and research.
+								</li>
+								<li>
+									<strong>Manage Ambiguity:</strong> Critical thinkers make
+									reasoned decisions even when data is incomplete or
+									contradictory.
+								</li>
+								<li>
+									<strong>Combat Misinformation:</strong> Critical thinkers can
+									distinguish objective facts from opinion or persuasive
+									framing.
+								</li>
+								<li>
+									<strong>Challenge Assumptions:</strong> Critical thinkers
+									identify and question the unstated beliefs that underpin a
+									proposed course of action.
+								</li>
+								<li>
+									<strong>Assess Risk:</strong> Critical thinkers can
+									objectively weigh the pros and cons and potential unintended
+									consequences of various options.
+								</li>
+								<li>
+									<strong>Ensure Objectivity:</strong> Critical thinkers
+									minimize the impact of personal or organizational biases on
+									official advice.
+								</li>
+							</ul>
+
+							<p>
+								Even if you are not involved in solving complex policy problems
+								like climate change, you probably judge ideas and information at
+								work more often than you even realize.
+							</p>
+							<section
+								class="d2l-cplus-layout d2l-cplus-layout-thirds"
+								aria-label="Workplace images"
 							>
-								* Derald Wing Sue, “Microaggressions, Marginality, and
-								Oppression: An Introduction,” in
-								<em
-									>Microaggressions and Marginality: Manifestation, Dynamics,
-									and Impact</em
-								>, ed. Derald Wing Sue (Hoboken, NJ: John Wiley & Sons, 2010),
-								3.
+								<section class="d2l-cplus-layout-column" aria-label="Image 1">
+									<p>
+										<img
+											src="/content/enforced/12333-SB-Darla_McFarlane/image1.jpg"
+											alt=""
+											style="max-width: 100%"
+										/>
+									</p>
+								</section>
+								<section class="d2l-cplus-layout-column" aria-label="Image 2">
+									<p>
+										<img
+											src="/content/enforced/12333-SB-Darla_McFarlane/image2.jpg"
+											alt=""
+											style="max-width: 100%"
+										/>
+									</p>
+								</section>
+								<section class="d2l-cplus-layout-column" aria-label="Image 3">
+									<p>
+										<img
+											src="/content/enforced/12333-SB-Darla_McFarlane/image3.jpg"
+											alt=""
+											style="max-width: 100%"
+										/>
+									</p>
+								</section>
+							</section>
+							<p>
+								Have you been asked to contribute your thoughts and ideas to a
+								business process? Have you been asked to choose a suitable venue
+								for a team event? Have you participated in a selection process
+								for a new employee? Have you been asked to proofread a
+								colleague's email or report before it gets read by a senior
+								manager? Have you been asked to brainstorm ideas for how to
+								improve a program or your team's service to clients? All of
+								these tasks involve some degree of critical thinking.
+							</p>
+							<p>
+								In other words, not all of us are solving global problems at
+								work, but most of us are analyzing and judging information
+								related to our projects and internal processes every day.
+							</p>
+
+							<h2>Reflection Activity</h2>
+							<p>
+								Let's look at an ordinary workplace example where a manager
+								solicits feedback from two team leaders, Aaron and Soraiya:
+							</p>
+							<p>
+								<img
+									src="/content/enforced/12333-SB-Darla_McFarlane/image_20260113223437464.png"
+									alt=""
+									style="max-width: 100%"
+								/>
+							</p>
+
+							<p>
+								Like Soraiya and Aaron, we often have different views than our
+								colleagues on a range of topics and issues. Critical thinking
+								requires you to form your own beliefs rather than adopting the
+								inherited opinions of those around you.
+							</p>
+							<section aria-label="Inherited Opinion">
+								<h3>Inherited Opinion</h3>
+								<p>
+									An inherited opinion is when you adopt someone else's opinion
+									as your own rather than forming your own judgment.
+								</p>
+							</section>
+
+							<h2>What's Next?</h2>
+							<p>
+								Critical thinking requires the application of logic. We use our
+								reasoning skills to determine whether or not we accept or reject
+								information as true or right. Put another way -- if critical
+								thinking were a physical task then logic is the tool used to
+								complete the task, much like the relationship between a paint
+								brush and the act of painting.
+							</p>
+							<p>
+								In the next section, you will learn the fundamentals of logic
+								you need to become a well-equipped critical thinker.
+							</p>
+
+							<p style="text-align: center">
+								<strong
+									>Return to the main menu to proceed to the next topic.</strong
+								>
 							</p>
 						</section>
 
@@ -1178,7 +395,7 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											"You don’t look Indigenous."
+											"You donï¿½t look Indigenous."
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container">
@@ -1205,7 +422,7 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											"I’m part Indigenous too, my great-great-grandmother was
+											"Iï¿½m part Indigenous too, my great-great-grandmother was
 											Indigenous."
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
@@ -1233,7 +450,7 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											"Why don’t you just get over it?"
+											"Why donï¿½t you just get over it?"
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container">
@@ -1260,7 +477,7 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											"But you don’t seem oppressed."
+											"But you donï¿½t seem oppressed."
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container">
@@ -1287,7 +504,7 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											"You’re so lucky you don’t have to pay taxes."
+											"Youï¿½re so lucky you donï¿½t have to pay taxes."
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container">
@@ -1366,12 +583,12 @@
 													Encourage reflection by asking open-ended questions to
 													understand the comment better and promote discussion.
 													<br /><br /><em
-														>“Can you tell me more about that?”</em
+														>ï¿½Can you tell me more about that?ï¿½</em
 													>
-													<br /><em>“Help us understand what you mean?”</em
+													<br /><em>ï¿½Help us understand what you mean?ï¿½</em
 													><br />
 													<em
-														>“What do you think informs that perspective?”
+														>ï¿½What do you think informs that perspective?ï¿½
 													</em>
 												</p>
 											</div>
@@ -1402,14 +619,14 @@
 													Stop the conversation to directly address the issue
 													and create a safe space for learning.
 													<em
-														>“I want to pause and address something that was
-														just said.”</em
+														>ï¿½I want to pause and address something that was
+														just said.ï¿½</em
 													>
 												</p>
 
 												<p>
-													It’s important that we create a respectful space where
-													harmful assumptions or stereotypes are avoided.
+													Itï¿½s important that we create a respectful space
+													where harmful assumptions or stereotypes are avoided.
 												</p>
 											</div>
 										</div>
@@ -1441,9 +658,9 @@
 													avoid defensiveness. Keep the tone educational, not
 													accusatory.
 													<br /><br /><em
-														>“Let’s talk about the comment and why it might not
-														be helpful, rather than focusing on who said
-														it.”</em
+														>ï¿½Letï¿½s talk about the comment and why it might
+														not be helpful, rather than focusing on who said
+														it.ï¿½</em
 													>
 												</p>
 											</div>
@@ -1474,10 +691,10 @@
 													Reword the comment to help the group engage with it in
 													a way that promotes understanding and minimizes bias.
 													<br /><br /><em
-														>“Perhaps what you meant to express was..."</em
+														>ï¿½Perhaps what you meant to express was..."</em
 													><br /><em
-														>"Let’s explore that from a different angle to
-														ensure everyone feels heard and respected.”</em
+														>"Letï¿½s explore that from a different angle to
+														ensure everyone feels heard and respected.ï¿½</em
 													>
 												</p>
 											</div>
@@ -1506,14 +723,14 @@
 												<h1>Explain the Impact</h1>
 												<p>
 													Briefly explain how the comment may unintentionally
-													perpetuate biases and why that’s problematic.
+													perpetuate biases and why thatï¿½s problematic.
 													<em
-														>“That comment might unintentionally reinforce
-														stereotypes. ”</em
+														>ï¿½That comment might unintentionally reinforce
+														stereotypes. ï¿½</em
 													>
 												</p>
 												<p>
-													It’s important to recognize that language shapes our
+													Itï¿½s important to recognize that language shapes our
 													understanding of different groups.
 												</p>
 											</div>
@@ -1539,7 +756,7 @@
 							</form>
 							<div
 								id="quiz-results"
-								style="display: none"
+								class="is-hidden"
 								aria-live="polite"
 								aria-atomic="true"
 							></div>
@@ -1547,7 +764,7 @@
 								<button type="button" id="submit-btn" class="submit-button">
 									Submit Answers
 								</button>
-								<button type="button" id="try-again-btn" style="display: none">
+								<button type="button" id="try-again-btn" class="is-hidden">
 									Try Again
 								</button>
 							</div>
@@ -1633,454 +850,7 @@
 		</button>
 
 		<!-- Embedded JavaScript -->
-		<script>
-			// SCORM API Wrapper (pipwerks) - unchanged
-			var pipwerks = {};
-			pipwerks.SCORM = {};
-			pipwerks.SCORM.API = {
-				handle: null,
-				find: function (win) {
-					if (win.API) return win.API;
-					if (win.parent && win.parent != win) return this.find(win.parent);
-					if (win.opener && typeof win.opener != "undefined")
-						return this.find(win.opener);
-					return null;
-				},
-			};
-			pipwerks.SCORM.init = function () {
-				var api = pipwerks.SCORM.API.find(window);
-				if (api) {
-					pipwerks.SCORM.API.handle = api;
-					return pipwerks.SCORM.API.handle.LMSInitialize("");
-				}
-				return false;
-			};
-			pipwerks.SCORM.get = function (param) {
-				if (pipwerks.SCORM.API.handle) {
-					return pipwerks.SCORM.API.handle.LMSGetValue(param);
-				}
-				return null;
-			};
-			pipwerks.SCORM.set = function (param, value) {
-				if (pipwerks.SCORM.API.handle) {
-					return pipwerks.SCORM.API.handle.LMSSetValue(param, value);
-				}
-				return false;
-			};
-			pipwerks.SCORM.save = function () {
-				if (pipwerks.SCORM.API.handle) {
-					return pipwerks.SCORM.API.handle.LMSCommit("");
-				}
-				return false;
-			};
-			pipwerks.SCORM.quit = function () {
-				if (pipwerks.SCORM.API.handle) {
-					return pipwerks.SCORM.API.handle.LMSFinish("");
-				}
-				return false;
-			};
-		</script>
-		<script>
-			document.addEventListener("DOMContentLoaded", function () {
-				// --- Global Variables ---
-				const quizForm = document.getElementById("quiz-form");
-				const resultsDiv = document.getElementById("quiz-results");
-				const submitBtn = document.getElementById("submit-btn");
-				const tryAgainBtn = document.getElementById("try-again-btn");
-				const PASSING_SCORE = 75;
-				let lmsConnected = false;
-				let quizState = {};
 
-				const questions = [
-					{
-						id: "q1",
-						text: "1. According to the definition provided, microaggressions can be which of the following?",
-						options: [
-							{ text: "Only verbal insults.", value: "a" },
-							{
-								text: "Verbal, nonverbal, and environmental slights.",
-								value: "b",
-								correct: true,
-							},
-							{ text: "Only intentional actions.", value: "c" },
-						],
-					},
-					{
-						id: "q2",
-						text: "2. Which statement is an example of a microaggression that dismisses historical trauma?",
-						options: [
-							{ text: '"You don\'t look Indigenous."', value: "a" },
-							{
-								text: '"Why don\'t you just get over it?"',
-								value: "b",
-								correct: true,
-							},
-							{ text: '"Can you tell me more about that?"', value: "c" },
-						],
-					},
-					{
-						id: "q3",
-						text: "3. What is a recommended approach for addressing bias in a group discussion?",
-						options: [
-							{
-								text: "Model curiosity by asking open-ended questions.",
-								value: "a",
-								correct: true,
-							},
-							{ text: "Ignore the comment to avoid conflict.", value: "b" },
-							{
-								text: "Publicly shame the person who made the comment.",
-								value: "c",
-							},
-						],
-					},
-				];
-
-				// --- Name parsing helper (ADDED) ---
-				function scormNameToFirstLast(raw) {
-					let firstName = "",
-						lastName = "";
-					const trimmed = String(raw || "").trim();
-					if (!trimmed) return { firstName, lastName, display: "learner" };
-
-					if (trimmed.includes(",")) {
-						// Typical SCORM 1.2: "Last, First Middle"
-						const [last, first] = trimmed.split(",").map((s) => s.trim());
-						lastName = last || "";
-						firstName = first || "";
-					} else {
-						// Fallback: "First Last" or single token
-						const parts = trimmed.split(/\\s+/);
-						if (parts.length === 1) {
-							firstName = parts[0];
-						} else {
-							firstName = parts.slice(0, -1).join(" ");
-							lastName = parts.slice(-1)[0];
-						}
-					}
-
-					const display =
-						[firstName, lastName].filter(Boolean).join(" ") || "learner";
-					return { firstName, lastName, display };
-				}
-
-				// --- SCORM Initialization (REPLACED) ---
-				function initCourse() {
-					try {
-						lmsConnected = pipwerks.SCORM.init();
-						console.log(
-							`SCORM connection: ${lmsConnected ? "successful" : "not found"}`
-						);
-
-						if (lmsConnected) {
-							const learnerSpan = document.getElementById("learner-name");
-							const rawName = pipwerks.SCORM.get("cmi.core.student_name") || "";
-							if (rawName) {
-								const { firstName, lastName, display } =
-									scormNameToFirstLast(rawName);
-								console.log(`SCORM raw student_name: "${rawName}"`);
-								console.log(`first name: ${firstName}`);
-								console.log(`last name : ${lastName}`);
-								if (learnerSpan) learnerSpan.textContent = display; // "First Last"
-							} else {
-								console.log(
-									"SCORM student_name not found; leaving default 'learner'."
-								);
-							}
-
-							const lessonStatus = pipwerks.SCORM.get("cmi.core.lesson_status");
-							if (lessonStatus === "completed" || lessonStatus === "passed") {
-								renderQuiz();
-								checkAnswers(false);
-							} else {
-								pipwerks.SCORM.set("cmi.core.lesson_status", "incomplete");
-								pipwerks.SCORM.save();
-								renderQuiz();
-							}
-						} else {
-							// No LMS found
-							renderQuiz();
-						}
-					} catch (e) {
-						console.error("SCORM connection failed.", e);
-						renderQuiz();
-					}
-				}
-
-				// --- Tab Navigation Logic ---
-				const tabNav = document.querySelector(".tab-nav");
-				const tabButtons = document.querySelectorAll(".tab-button");
-				const tabPanels = document.querySelectorAll(".tab-panel");
-
-				tabNav.addEventListener("click", (e) => {
-					if (e.target.matches(".tab-button")) {
-						activateTab(e.target);
-					}
-				});
-
-				tabNav.addEventListener("keydown", (e) => {
-					let newIndex;
-					const currentIndex = Array.from(tabButtons).findIndex(
-						(tab) => tab === document.activeElement
-					);
-
-					if (e.key === "ArrowRight") {
-						newIndex = (currentIndex + 1) % tabButtons.length;
-						e.preventDefault();
-					} else if (e.key === "ArrowLeft") {
-						newIndex =
-							(currentIndex - 1 + tabButtons.length) % tabButtons.length;
-						e.preventDefault();
-					}
-
-					if (newIndex !== undefined) {
-						tabButtons[newIndex].focus();
-						activateTab(tabButtons[newIndex]);
-					}
-				});
-
-				function activateTab(button) {
-					tabButtons.forEach((btn) => {
-						btn.classList.remove("active");
-						btn.setAttribute("aria-selected", "false");
-						btn.setAttribute("tabindex", "-1");
-					});
-					tabPanels.forEach((panel) => {
-						panel.classList.remove("active");
-					});
-
-					button.classList.add("active");
-					button.setAttribute("aria-selected", "true");
-					button.setAttribute("tabindex", "0");
-					const targetPanel = document.getElementById(
-						button.getAttribute("aria-controls")
-					);
-					if (targetPanel) {
-						targetPanel.classList.add("active");
-					}
-				}
-
-				// --- Flip Card Logic ---
-				const flipCards = document.querySelectorAll(".flip-card");
-
-				flipCards.forEach(function (card) {
-					card.addEventListener("click", function () {
-						toggleFlip(card);
-						toggleSrHidden(card);
-					});
-
-					card.addEventListener("keydown", function (event) {
-						if (
-							(event.code === "Enter" || event.code === "Space") &&
-							!event.repeat
-						) {
-							event.preventDefault();
-							toggleFlip(card);
-							toggleSrHidden(card);
-						}
-					});
-				});
-
-				function toggleFlip(card) {
-					var isPressed = card.getAttribute("aria-pressed") === "true";
-					card.setAttribute("aria-pressed", String(!isPressed));
-				}
-
-				function toggleSrHidden(card) {
-					let isPressed = card.getAttribute("aria-pressed") === "true";
-					const front = card.querySelector(".flip-card-front");
-					const back = card.querySelector(".flip-card-back");
-
-					if (front) front.setAttribute("aria-hidden", String(isPressed));
-					if (back) back.setAttribute("aria-hidden", String(!isPressed));
-				}
-
-				// --- Quiz Logic ---
-				function shuffle(array) {
-					for (let i = array.length - 1; i > 0; i--) {
-						const j = Math.floor(Math.random() * (i + 1));
-						[array[i], array[j]] = [array[j], array[i]];
-					}
-					return array;
-				}
-
-				function renderQuiz() {
-					quizForm.innerHTML = "";
-					questions.forEach((q, qIndex) => {
-						const questionEl = document.createElement("fieldset");
-						questionEl.className = "quiz-question";
-						questionEl.id = q.id;
-
-						const shuffledOptions = shuffle([...q.options]);
-
-						let optionsHTML = shuffledOptions
-							.map((opt, oIndex) => {
-								const optionId = `${q.id}-opt-${oIndex}`;
-								return `
-                            <label for="${optionId}">
-                                <input type="radio" id="${optionId}" name="${
-									q.id
-								}" value="${opt.value}" ${
-									opt.correct ? 'data-correct="true"' : ""
-								}>
-                                <span class="custom-radio"></span>
-                                <span>${opt.text}</span>
-                            </label>
-                        `;
-							})
-							.join("");
-
-						questionEl.innerHTML = `
-                        <legend class="question-text">${q.text}</legend>
-                        <div class="options">${optionsHTML}</div>
-                        <div class="feedback"></div>
-                    `;
-						quizForm.appendChild(questionEl);
-					});
-				}
-
-				function checkAnswers(submitToLms = true) {
-					let score = 0;
-					const questionElements = quizForm.querySelectorAll(".quiz-question");
-
-					questionElements.forEach((qEl) => {
-						const selected = qEl.querySelector('input[type="radio"]:checked');
-						const feedbackEl = qEl.querySelector(".feedback");
-						const correctOption = qEl.querySelector(
-							'input[data-correct="true"]'
-						);
-
-						qEl
-							.querySelectorAll('input[type="radio"]')
-							.forEach((rb) => (rb.disabled = true));
-
-						if (selected) {
-							if (selected.dataset.correct) {
-								score++;
-								feedbackEl.textContent = "Correct!";
-								feedbackEl.className = "feedback correct";
-							} else {
-								feedbackEl.innerHTML = `Incorrect. The correct answer is: <strong>"${
-									correctOption.parentElement.querySelector("span:last-child")
-										.textContent
-								}"</strong>`;
-								feedbackEl.className = "feedback incorrect";
-							}
-						} else {
-							feedbackEl.innerHTML = `No answer selected. The correct answer is: <strong>"${
-								correctOption.parentElement.querySelector("span:last-child")
-									.textContent
-							}"</strong>`;
-							feedbackEl.className = "feedback incorrect";
-						}
-						feedbackEl.style.display = "block";
-					});
-
-					const finalScore = (score / questionElements.length) * 100;
-					displayOverallResult(finalScore, score, questionElements.length);
-
-					if (lmsConnected && submitToLms) {
-						pipwerks.SCORM.set("cmi.core.score.min", "0");
-						pipwerks.SCORM.set("cmi.core.score.max", "100");
-						pipwerks.SCORM.set("cmi.core.score.raw", finalScore.toFixed(0));
-						pipwerks.SCORM.set(
-							"cmi.core.lesson_status",
-							finalScore >= PASSING_SCORE ? "passed" : "failed"
-						);
-						pipwerks.SCORM.save();
-						console.log(
-							`Score submitted to SCORM: ${finalScore.toFixed(0)} (${
-								finalScore >= PASSING_SCORE ? "passed" : "failed"
-							})`
-						);
-					}
-
-					submitBtn.style.display = "none";
-					tryAgainBtn.style.display = "inline-block";
-				}
-
-				function displayOverallResult(finalScore, correct, total) {
-					console.log(finalScore);
-					let message = ``;
-					resultsDiv.className =
-						finalScore >= PASSING_SCORE ? "passed" : "failed";
-					message +=
-						finalScore >= PASSING_SCORE
-							? "You passed!"
-							: "Please review the material.";
-					resultsDiv.textContent = message;
-					resultsDiv.style.display = "block";
-				}
-
-				function resetQuiz() {
-					resultsDiv.style.display = "none";
-					tryAgainBtn.style.display = "none";
-					submitBtn.style.display = "inline-block";
-					renderQuiz();
-				}
-
-				submitBtn.addEventListener("click", () => checkAnswers());
-				tryAgainBtn.addEventListener("click", resetQuiz);
-
-				// --- UI Enhancements ---
-				window.addEventListener("scroll", () =>
-					document
-						.getElementById("header-nav")
-						.classList.toggle("scrolled", window.scrollY > 50)
-				);
-
-				// --- Back to Top Button Logic ---
-				const backToTopBtn = document.getElementById("back-to-top-btn");
-				const progressCircle = document.querySelector(".progress-ring__circle");
-
-				if (backToTopBtn && progressCircle) {
-					const radius = progressCircle.r.baseVal.value;
-					const circumference = 2 * Math.PI * radius;
-
-					progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-					progressCircle.style.strokeDashoffset = circumference;
-
-					function setProgress(percent) {
-						const offset = circumference - (percent / 100) * circumference;
-						progressCircle.style.strokeDashoffset = offset;
-					}
-
-					window.addEventListener("scroll", () => {
-						const scrollHeight =
-							document.documentElement.scrollHeight -
-							document.documentElement.clientHeight;
-						const scrollTop = window.scrollY;
-						const scrollPercent =
-							scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-
-						setProgress(scrollPercent);
-
-						if (scrollTop > 300) {
-							backToTopBtn.classList.add("visible");
-						} else {
-							backToTopBtn.classList.remove("visible");
-						}
-					});
-
-					backToTopBtn.addEventListener("click", () => {
-						window.scrollTo({
-							top: 0,
-							behavior: "smooth",
-						});
-					});
-				}
-
-				// --- Course Lifecycle ---
-				window.addEventListener("beforeunload", () => {
-					if (lmsConnected) {
-						pipwerks.SCORM.quit();
-						console.log("SCORM session ended (LMSFinish called).");
-					}
-				});
-
-				// Start the course
-				initCourse();
-			});
-		</script>
+		<script type="module" src="./assets/js/app.js"></script>
 	</body>
 </html>

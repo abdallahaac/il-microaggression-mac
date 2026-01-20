@@ -3,639 +3,17 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>ReconnaÃ®tre les microagressions envers les Autochtones</title>
-		<style>
-			/* CSS is embedded directly in the HTML file */
-			@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700&display=swap");
-			@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap");
-
-			:root {
-				--primary-color: #005a9c; /* Darker blue for WCAG AA compliance */
-				--secondary-color: #4a5568;
-				--background-color: #ffffff; /* White background for the content area */
-				--card-background: #ffffff;
-				--text-color: #2d3748;
-				--light-text-color: #555;
-				--success-color: #2e7d32;
-				--error-color: #c62828;
-				--success-bg: #e8f5e9;
-				--error-bg: #ffebee;
-				--focus-ring-color: #ffbf47; /* Gold/orange for high contrast focus */
-			}
-
-			body {
-				padding: 0;
-				margin: 0;
-				box-sizing: border-box;
-				scroll-behavior: smooth;
-				overflow-x: hidden;
-				font-family: "Noto Sans", sans-serif;
-				background-color: var(--background-color);
-				color: var(--text-color);
-			}
-
-			html {
-				overflow-x: hidden;
-			}
-
-			/* --- Slideshow Styles --- */
-			.slideshow {
-				position: fixed;
-				width: 100%;
-				height: 100%;
-				top: 0;
-				left: 0;
-				z-index: -10; /* Ensures slideshow is behind all content */
-				list-style: none;
-				padding: 0;
-				margin: 0;
-			}
-
-			.slideshow li {
-				width: 100%;
-				height: 100%;
-				position: absolute;
-				top: 0;
-				left: 0;
-				background-size: cover;
-				background-position: center center;
-				background-repeat: no-repeat;
-				opacity: 0;
-				z-index: -12; /* Behind the overlay */
-				animation: imageAnimation 24s linear infinite;
-			}
-
-			.slideshow li:nth-child(1) {
-				background-image: url("./assets/background-01.png");
-			}
-			.slideshow li:nth-child(2) {
-				background-image: url("./assets/background-02.png");
-				animation-delay: 6s;
-			}
-			.slideshow li:nth-child(3) {
-				background-image: url("./assets/background-03.png");
-				animation-delay: 12s;
-			}
-
-			@keyframes imageAnimation {
-				0% {
-					opacity: 0;
-					animation-timing-function: ease-in;
-				}
-				10% {
-					opacity: 1;
-				}
-				25% {
-					opacity: 1;
-				}
-				35% {
-					opacity: 0;
-				}
-				100% {
-					opacity: 0;
-				}
-			}
-			/* --- End Slideshow Styles --- */
-
-			/* Accessibility: Focus Indicator */
-			:focus-visible {
-				outline: 3px solid var(--focus-ring-color);
-				outline-offset: 2px;
-				border-radius: 4px;
-			}
-
-			/* Accessibility: Skip Link Styling */
-			.skip-link {
-				position: absolute;
-				top: -40px;
-				left: 0;
-				background: var(--primary-color);
-				color: white;
-				padding: 8px;
-				z-index: 1100;
-				transition: top 0.3s;
-			}
-			.skip-link:focus {
-				top: 0;
-			}
-
-			/* Header and Nav */
-			.hero-image-navigation {
-				display: flex;
-				position: fixed;
-				top: 0;
-				left: 0;
-				z-index: 1000;
-				color: white;
-				width: 100%;
-				justify-content: space-between;
-				transition: all 0.3s ease;
-				height: 80px;
-				align-items: center;
-				padding: 0 2rem;
-				background-color: transparent;
-			}
-
-			.hero-image-navigation.scrolled {
-				background-color: var(--card-background);
-				color: var(--text-color);
-				box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-			}
-
-			.hero-image-navigation.scrolled a {
-				color: var(--text-color);
-			}
-
-			.left-hero {
-				display: flex;
-				align-items: center;
-				font-family: "Playfair Display", serif;
-			}
-
-			.left-hero a {
-				text-decoration: none;
-				color: white;
-				font-size: 1.2rem;
-			}
-
-			/* Main Content Styles - Background is now handled by the slideshow */
-			.course-main {
-				position: relative; /* Needed for z-index stacking context */
-				z-index: 1;
-			}
-
-			.course-header {
-				padding: 10rem 2rem 4rem 2rem;
-				text-align: center;
-				background-color: rgba(45, 55, 72, 0.7);
-				color: white;
-				height: 400px;
-			}
-
-			.course-header h1 {
-				font-family: "Playfair Display", serif;
-				font-size: clamp(2rem, 5vw, 3.5rem);
-				margin-bottom: 0.5rem;
-				text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-			}
-
-			.course-header #welcome-message {
-				font-size: clamp(1.2rem, 3vw, 1.5rem);
-				font-weight: 400;
-				opacity: 0.9;
-				color: white;
-			}
-
-			/* This container holds the main content area */
-			.content-wrapper {
-				background-color: var(--background-color); /* White background */
-				padding: 4rem 1rem 6rem 1rem;
-			}
-
-			.tab-container {
-				max-width: 1100px;
-				margin: 0 auto;
-				background: var(--card-background);
-				border-radius: 12px;
-				box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1),
-					0 5px 10px rgba(0, 0, 0, 0.05);
-				overflow: hidden;
-			}
-
-			.tab-nav {
-				display: flex;
-				flex-wrap: wrap;
-				background-color: #f0f8ff;
-				border-bottom: 1px solid #e2e8f0;
-			}
-
-			.tab-button {
-				padding: 1rem 0.5rem;
-				cursor: pointer;
-				border: none;
-				background: transparent;
-				font-size: 1rem;
-				font-weight: 700;
-				color: var(--secondary-color);
-				transition: color 0.3s, border-bottom 0.3s;
-				border-bottom: 3px solid transparent;
-				flex-grow: 1;
-				text-align: center;
-			}
-
-			/* ACCESSIBILITY FIX: Use inset box-shadow for focus to prevent clipping */
-			.tab-button:focus-visible {
-				outline: none;
-				box-shadow: inset 0 0 0 3px var(--focus-ring-color);
-				border-radius: 0;
-			}
-
-			.tab-button.active {
-				color: var(--primary-color);
-				border-bottom-color: var(--primary-color);
-			}
-
-			.tab-panel {
-				display: none;
-				padding: 2rem;
-				animation: fadeIn 0.5s ease-in-out;
-			}
-
-			.tab-panel.active {
-				display: block;
-			}
-
-			@keyframes fadeIn {
-				from {
-					opacity: 0;
-					transform: translateY(10px);
-				}
-				to {
-					opacity: 1;
-					transform: translateY(0);
-				}
-			}
-
-			p,
-			li {
-				line-height: 1.8;
-				color: var(--light-text-color);
-				font-size: 1.1rem;
-				margin-bottom: 1rem;
-			}
-
-			blockquote {
-				font-style: italic;
-				border-left: 4px solid var(--primary-color);
-				padding-left: 1.5rem;
-				margin: 2rem 0;
-				color: var(--secondary-color);
-				font-size: 1.2rem;
-			}
-
-			.card-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-				gap: 2.5rem; /* Increased gap for flip cards */
-				margin-top: 1.5rem;
-				justify-items: center; /* Center cards in the grid */
-			}
-
-			.microaggression-card,
-			.bias-card {
-				background: #f9f9f9;
-				border: 1px solid #e2e8f0;
-				padding: 1.5rem;
-				border-radius: 8px;
-			}
-
-			.microaggression-card .quote {
-				font-weight: bold;
-				color: var(--text-color);
-				margin-bottom: 0.5rem;
-			}
-
-			.microaggression-card .explanation {
-				font-size: 1rem;
-				color: var(--light-text-color);
-			}
-
-			.bias-card h4 {
-				font-family: "Playfair Display", serif;
-				color: var(--primary-color);
-				margin-top: 0;
-			}
-
-			/* --- Flip Card Styles --- */
-			.flip-card {
-				perspective: 1000px;
-				width: 250px;
-				height: 350px;
-				position: relative;
-				cursor: pointer;
-				background-color: transparent; /* Remove default color */
-			}
-			.flip-card:focus-visible {
-				outline: none; /* Remove default outline to use the inner one */
-			}
-			.flip-card:focus-visible .flip-card-inner {
-				outline: 3px solid var(--focus-ring-color);
-				outline-offset: 3px;
-			}
-			.flip-card[aria-pressed="true"] .flip-card-inner {
-				transform: rotateY(180deg);
-			}
-			.flip-card-inner {
-				width: 100%;
-				height: 100%;
-				transform-style: preserve-3d;
-				transition: transform 0.6s;
-				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-				border-radius: 8px;
-			}
-			.flip-card-front,
-			.flip-card-back {
-				width: 100%;
-				height: 100%;
-				position: absolute;
-				backface-visibility: hidden;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 1.2rem; /* Consistent font size */
-				font-weight: bold;
-				padding: 1rem;
-				text-align: center;
-				border-radius: 8px;
-				box-sizing: border-box; /* Ensures padding doesn't affect size */
-			}
-			.flip-card-front {
-				background-color: var(--primary-color); /* #005a9c */
-				color: white;
-			}
-			.flip-card-back {
-				background-color: white;
-				border: 2px solid var(--primary-color);
-				color: var(--text-color);
-				transform: rotateY(180deg);
-				font-weight: normal;
-				line-height: 1.6;
-			}
-			.sub-container.bias > * {
-				font-size: 12.5px !important;
-			}
-			.flip-card-back .sub-container {
-				width: 90%;
-			}
-			.sr-only {
-				position: absolute;
-				left: -10000px;
-				width: 1px;
-				height: 1px;
-				top: auto;
-				overflow: hidden;
-			}
-			/* --- End Flip Card Styles --- */
-
-			.resource-list {
-				list-style: none;
-				padding-left: 0;
-			}
-
-			.resource-list li a {
-				color: var(--primary-color);
-				text-decoration: none;
-				font-weight: bold;
-			}
-
-			.resource-list li a:hover {
-				text-decoration: underline;
-			}
-
-			/* Attractive Quiz Styles */
-			#quiz-form fieldset {
-				border: 1px solid #e2e8f0;
-				border-radius: 8px;
-				padding: 1.5rem;
-				margin: 0 0 2rem 0;
-			}
-			#quiz-form legend {
-				font-weight: bold;
-				font-size: 1.2rem;
-				padding: 0 0.5rem;
-				margin-left: 1rem;
-			}
-			#quiz-form .options label {
-				display: flex;
-				align-items: center;
-				padding: 1rem;
-				margin-top: 0.5rem;
-				border-radius: 8px;
-				cursor: pointer;
-				transition: background-color 0.2s ease, box-shadow 0.2s ease;
-				border: 1px solid #e2e8f0;
-			}
-			#quiz-form .options label:hover {
-				background-color: #f0f8ff;
-			}
-			#quiz-form input[type="radio"] {
-				position: absolute;
-				opacity: 0;
-				width: 0;
-				height: 0;
-			}
-
-			/* ACCESSIBILITY FIX: Enhanced focus state for quiz options */
-			#quiz-form .options label:focus-within {
-				outline: 3px solid var(--focus-ring-color);
-				outline-offset: 2px;
-				background-color: #e0efff;
-			}
-
-			#quiz-form .options label .custom-radio {
-				width: 24px;
-				height: 24px;
-				border: 2px solid var(--secondary-color);
-				border-radius: 50%;
-				margin-right: 1rem;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				transition: border-color 0.3s;
-			}
-			#quiz-form .options label .custom-radio::after {
-				content: "";
-				width: 12px;
-				height: 12px;
-				background: var(--primary-color);
-				border-radius: 50%;
-				transform: scale(0);
-				transition: transform 0.3s;
-			}
-			#quiz-form input[type="radio"]:checked + .custom-radio {
-				border-color: var(--primary-color);
-			}
-			#quiz-form input[type="radio"]:checked + .custom-radio::after {
-				transform: scale(1);
-			}
-			#quiz-form input[type="radio"]:checked + .custom-radio + span {
-				font-weight: 700;
-			}
-
-			.feedback {
-				padding: 1rem;
-				margin-top: 1rem;
-				border-radius: 8px;
-				display: none;
-				font-weight: 700;
-				border-left-width: 5px;
-				border-left-style: solid;
-			}
-			.feedback.correct {
-				background-color: var(--success-bg);
-				color: var(--success-color);
-				border-left-color: var(--success-color);
-			}
-			.feedback.incorrect {
-				background-color: var(--error-bg);
-				color: var(--error-color);
-				border-left-color: var(--error-color);
-			}
-
-			.quiz-controls {
-				text-align: center;
-				margin-top: 2rem;
-			}
-			.submit-button,
-			#try-again-btn {
-				background-color: var(--primary-color);
-				color: white;
-				border: none;
-				padding: 1rem 2rem;
-				font-size: 1.2rem;
-				font-family: "Playfair Display", serif;
-				border-radius: 50px;
-				cursor: pointer;
-				display: inline-block;
-				margin: 0.5rem;
-				transition: background-color 0.3s, transform 0.2s;
-			}
-			.submit-button:hover,
-			#try-again-btn:hover {
-				background-color: #00447a;
-				transform: translateY(-2px);
-			}
-			#try-again-btn {
-				background-color: var(--secondary-color);
-			}
-			#try-again-btn:hover {
-				background-color: #2d3748;
-			}
-
-			#quiz-results {
-				text-align: center;
-				padding: 2rem;
-				border-radius: 8px;
-				margin-top: 2rem;
-				font-size: 1.3rem;
-				font-weight: 700;
-			}
-			#quiz-results.passed {
-				background-color: var(--success-bg);
-				color: var(--success-color);
-			}
-			#quiz-results.failed {
-				background-color: var(--error-bg);
-				color: var(--error-color);
-			}
-
-			/* Footer */
-			.course-footer {
-				display: flex;
-				align-items: center;
-				padding: 1.5rem 2rem;
-				background-color: #2d3748;
-				color: #a0aec0;
-			}
-			.course-footer a.feedback-link {
-				color: #cbd5e0;
-				text-decoration: none;
-				display: flex;
-				align-items: center;
-				gap: 0.75rem;
-			}
-			.course-footer a.feedback-link:hover,
-			.course-footer a.feedback-link:hover span {
-			}
-			.course-footer a.feedback-link span {
-				text-decoration: underline;
-				padding: 15px;
-				background-color: white;
-				border-radius: 6px;
-				color: #005a9c;
-			}
-			.feedback-icon {
-				width: 100px;
-				height: 100px;
-				background-color: white;
-				border-radius: 50%;
-				display: flex;
-				align-items: center;
-				color: #005a9c;
-				justify-content: center;
-			}
-			.feedback-icon svg {
-				width: 28px;
-				height: 28px;
-				color: var(--primary-color);
-			}
-
-			header#header-nav {
-				height: fit-content;
-			}
-			img.header-logo {
-				width: 80px;
-				margin: 10px;
-				margin-right: 20px;
-			}
-			.left-hero > a {
-				text-align: center;
-				display: flex;
-				align-items: center;
-			}
-
-			/* --- Back to Top Button Styles --- */
-			#back-to-top-btn {
-				position: fixed;
-				bottom: 20px;
-				right: 20px;
-				width: 100px;
-				height: 100px;
-				border-radius: 50%;
-				background-color: #ffffff;
-				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				opacity: 0;
-				pointer-events: none;
-				transform: scale(0.9);
-				transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-				z-index: 1050; /* High z-index to be on top */
-				border: none;
-				cursor: pointer;
-			}
-
-			#back-to-top-btn.visible {
-				opacity: 1;
-				pointer-events: auto;
-				transform: scale(1);
-			}
-
-			#back-to-top-btn .progress-ring {
-				width: 100%;
-				height: 100%;
-			}
-
-			#back-to-top-btn .progress-ring__circle {
-				stroke-width: 4;
-				stroke: var(--primary-color);
-				fill: transparent;
-				r: 25; /* SVG radius */
-				cx: 28; /* SVG center x */
-				cy: 28; /* SVG center y */
-				transition: stroke-dashoffset 0.1s linear;
-				transform: rotate(-90deg);
-				transform-origin: 50% 50%;
-			}
-
-			#back-to-top-btn .arrow-icon {
-				position: absolute;
-				color: var(--primary-color);
-				width: 24px;
-				height: 24px;
-			}
-		</style>
+				<title>Reconnaître les microagressions envers les Autochtones</title>
+		<link rel="icon" type="image/png" href="./assets/favicon/favicon-96x96.png" sizes="96x96" />
+		<link rel="icon" type="image/svg+xml" href="./assets/favicon/favicon.svg" />
+		<link rel="shortcut icon" href="./assets/favicon/favicon.ico" />
+		<link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-touch-icon.png" />
+		<link rel="manifest" href="./assets/favicon/site.webmanifest" />
+				<link rel="stylesheet" href="./assets/css/base.css" />
+		<link rel="stylesheet" href="./assets/css/layout.css" />
+		<link rel="stylesheet" href="./assets/css/components.css" />
+		<link rel="stylesheet" href="./assets/css/quiz.css" />
+		<link rel="stylesheet" href="./assets/css/back-to-top.css" />
 		<script
 			src="https://kit.fontawesome.com/76452193de.js"
 			crossorigin="anonymous"
@@ -660,14 +38,14 @@
 						alt="Indigenous Learning Logo"
 						class="header-logo"
 					/>
-					<span>Apprentissage sur les rÃ©alitÃ©s autochtones</span>
+					<span>Apprentissage sur les réalités autochtones</span>
 				</a>
 			</div>
 		</header>
 
 		<main class="course-main">
 			<div class="course-header">
-				<h1>ReconnaÃ®tre les microagressions <br />envers les Autochtones</h1>
+				<h1>Reconnaître les microagressions <br />envers les Autochtones</h1>
 				<p id="welcome-message">
 					Bienvenue, <span id="learner-name">apprenant</span>!
 				</p>
@@ -703,7 +81,7 @@
 							aria-controls="panel-3"
 							tabindex="-1"
 						>
-							Comment rÃ©agir
+							Comment réagir
 						</button>
 						<button
 							class="tab-button"
@@ -713,7 +91,7 @@
 							aria-controls="panel-4"
 							tabindex="-1"
 						>
-							VÃ©rification des connaissances
+							Vérification des connaissances
 						</button>
 					</nav>
 
@@ -726,52 +104,43 @@
 							aria-labelledby="tab-1"
 						>
 							<blockquote>
-								Â« Les microagressions sont des affronts, des froissements ou des
+								« Les microagressions sont des affronts, des froissements ou des
 								insultes
 								<strong
-									style="color: #005a9c; cursor: pointer"
-									title="par exemple, en demandant Â« Dâ€™oÃ¹ viens-tu rÃ©ellement? Â»"
+									class="term-highlight"
+									title="par exemple, en demandant « D’où viens-tu réellement? »"
 									tabindex="0"
-									aria-label="par exemple, en demandant Â« Dâ€™oÃ¹ viens-tu rÃ©ellement? Â»"
+									aria-label="par exemple, en demandant « D’où viens-tu réellement? »"
 									>verbales</strong
 								>,
 								<strong
-									style="color: #005a9c; cursor: pointer"
-									title="par exemple, en tenant nerveusement son sac Ã  lâ€™approche dâ€™une personne"
+									class="term-highlight"
+									title="par exemple, en tenant nerveusement son sac à l’approche d’une personne"
 									tabindex="0"
-									aria-label="par exemple, en tenant nerveusement son sac Ã  lâ€™approche dâ€™une personne"
+									aria-label="par exemple, en tenant nerveusement son sac à l’approche d’une personne"
 									>non verbales</strong
 								>
 								et
 								<strong
-									style="color: #005a9c; cursor: pointer"
-									title="par exemple, en constatant un manque de diversitÃ© dans les postes de direction"
+									class="term-highlight"
+									title="par exemple, en constatant un manque de diversité dans les postes de direction"
 									tabindex="0"
-									aria-label="par exemple, en constatant un manque de diversitÃ© dans les postes de direction"
+									aria-label="par exemple, en constatant un manque de diversité dans les postes de direction"
 									>environnementales</strong
 								>
 								quotidiennes, intentionnelles ou non, qui communiquent des
-								messages hostiles, dÃ©sobligeants ou nÃ©gatifs Ã  des personnes
-								ciblÃ©es, fondÃ©s exclusivement sur leur appartenance Ã  un groupe
-								marginalisÃ©. Â»
+								messages hostiles, désobligeants ou négatifs à des personnes
+								ciblées, fondés exclusivement sur leur appartenance à un groupe
+								marginalisé. »
 								<a
 									href="#footnote-1"
-									style="text-decoration: none; color: #005a9c"
+									class="footnote-link"
 									><sup>*</sup></a
 								>
 							</blockquote>
-							<div
-								class="media-section"
-								style="
-									display: flex;
-									width: 100%;
-									justify-content: center;
-									align-items: center;
-									flex-direction: column;
-								"
-							>
+														<div class="media-section">
 								<iframe
-									title="RÃ©agir aux microagressions envers les peuples autochtones (vidÃ©o)"
+									title="Réagir aux microagressions envers les peuples autochtones (vidéo)"
 									width="560"
 									height="315"
 									src="https://media.csps-efpc.gc.ca/V/Video?v=1208687&node=6659687&a=12992065&preload=false"
@@ -782,386 +151,296 @@
 									aria-describedby="video-desc"
 								></iframe>
 								<div id="video-desc" class="sr-only">
-									Cette vidÃ©o prÃ©sente un scÃ©nario et des commentaires d'experts
+									Cette vidéo présente un scénario et des commentaires d'experts
 									sur les microagressions envers les peuples autochtones en
 									milieu de travail.
 								</div>
 								<!-- Collapsible Transcript Dropdown -->
-								<div
-									class="transcript-collapsible"
-									style="width: 100%; max-width: 560px; margin-top: 2rem"
-								>
+								<div class="transcript-collapsible">
 									<button
 										type="button"
 										class="transcript-toggle"
 										aria-expanded="false"
 										aria-controls="video-transcript"
-										style="
-											width: 100%;
-											background: #005a9c;
-											color: #fff;
-											border: none;
-											padding: 1rem 1.5rem;
-											font-size: 1.1rem;
-											font-family: 'Noto Sans', sans-serif;
-											border-radius: 8px;
-											cursor: pointer;
-											text-align: left;
-											display: flex;
-											align-items: center;
-											justify-content: space-between;
-										"
 									>
 										<span id="transcript-toggle-label">Transcription</span>
-										<span
-											class="transcript-arrow"
-											aria-hidden="true"
-											style="transition: transform 0.3s"
-										>
+										<span class="transcript-arrow" aria-hidden="true">
 											<i class="fa-solid fa-chevron-down"></i>
 										</span>
 									</button>
-									<div
-										id="video-transcript"
-										class="transcript-content"
-										style="
-											display: none;
-											background: #f0f8ff;
-											color: #2d3748;
-											padding: 1.5rem;
-											border-radius: 8px;
-											margin-top: 0.5rem;
-											font-size: 1rem;
-											line-height: 1.6;
-											box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-											overflow-y: auto;
-											max-height: 400px;
-										"
-									>
+									<div id="video-transcript" class="transcript-content">
 										<p>
-											Voici Noah, un collÃ¨gue chaleureux et sociable bien
-											apprÃ©ciÃ© de son Ã©quipe.
+											Voici Noah, un collègue chaleureux et sociable bien
+											apprécié de son équipe.
 										</p>
 										<p>
-											Un fonctionnaire qui, sans le rÃ©aliser, s'apprÃªte Ã 
+											Un fonctionnaire qui, sans le réaliser, s'apprête à
 											commettre une maladresse.
 										</p>
-										<p>Elle aura de lourdes consÃ©quences.</p>
-										<p>La rÃ©union touche Ã  sa fin lorsque...</p>
+										<p>Elle aura de lourdes conséquences.</p>
+										<p>La réunion touche à sa fin lorsque...</p>
 										<p>Oh waouh ! La nouvelle vient juste de tomber.</p>
 										<p>
-											La Cour suprÃªme vient de reconnaÃ®tre Ã  l'unanimitÃ© la Loi
+											La Cour suprême vient de reconnaître à l'unanimité la Loi
 											C-92 comme constitutionnelle.
 										</p>
 										<p>
-											Elle affirme les droits et la compÃ©tence des peuples
+											Elle affirme les droits et la compétence des peuples
 											autochtones.
 										</p>
-										<p>En matiÃ¨re de services Ã  l'enfance et Ã  la famille.</p>
-										<p>Super ! Il Ã©tait temps.</p>
+										<p>En matière de services à l'enfance et à la famille.</p>
+										<p>Super ! Il était temps.</p>
 										<p>Ah non ! Pas encore !</p>
 										<p>
-											C'est Ã  peu prÃ¨s temps que les Autochtones tournent la
+											C'est à peu près temps que les Autochtones tournent la
 											page.
 										</p>
-										<p>Et passent Ã  autre chose.</p>
+										<p>Et passent à autre chose.</p>
 										<p>Malaise !</p>
 										<p>
 											Le commentaire de Noah perturbe plusieurs membres de
-											l'Ã©quipe.
+											l'équipe.
 										</p>
 										<p>
-											Il affecte particuliÃ¨rement trois de ses collÃ¨gues
+											Il affecte particulièrement trois de ses collègues
 											autochtones : Tania, Thierry et Kim.
 										</p>
-										<p>Tous les trois se regardent, surpris et bouche bÃ©e.</p>
+										<p>Tous les trois se regardent, surpris et bouche bée.</p>
 										<p>
-											Faisons une pause et analysons la scÃ¨ne avec la
+											Faisons une pause et analysons la scène avec la
 											psychologue Judith Morency.
 										</p>
 										<p>
-											D'un seul coup, la remarque de Noah a crÃ©Ã© une onde de
+											D'un seul coup, la remarque de Noah a créé une onde de
 											choc.
 										</p>
 										<p>
-											Elle reflÃ¨te de l'insensibilitÃ©, de l'indiffÃ©rence et sans
+											Elle reflète de l'insensibilité, de l'indifférence et sans
 											doute de l'ignorance.
 										</p>
 										<p>
-											Ã€ l'Ã©gard des injustices et des torts causÃ©s aux
-											Autochtones par la colonisation.
+											À l'égard des injustices et des torts causés aux
+											autochtones par la colonisation.
 										</p>
 										<p>
-											Les propos de Noah, bien que clichÃ©s, sont loin d'Ãªtre
+											Les propos de Noah, bien que clichés, sont loin d'être
 											inoffensifs.
 										</p>
-										<p>Ils portent une charge Ã©motive Ã©norme.</p>
+										<p>Ils portent une charge émotive énorme.</p>
 										<p>
-											C'est un peu comme s'il disait : Â« Revenez-en,
-											taisez-vous, arrÃªtez de nous dÃ©ranger. Â»
+											C'est un peu comme s'il disait : « Revenez-en,
+											taisez-vous, arrêtez de nous déranger. »
 										</p>
-										<p>Â« RÃ©glez vos problÃ¨mes.</p>
-										<p>Ã‡a ne me regarde pas.</p>
-										<p>La vie continue. Â»</p>
+										<p>« Réglez vos problèmes.</p>
+										<p>Ça ne me regarde pas.</p>
+										<p>La vie continue. »</p>
 										<p>
 											Le commentaire de Noah ne tient pas compte des souffrances
-											reliÃ©es aux nombreuses agressions.
+											reliées aux nombreuses agressions.
 										</p>
-										<p>Et traumatismes vÃ©cus qui pÃ¨sent encore aujourd'hui.</p>
+										<p>Et traumatismes vécus qui pèsent encore aujourd'hui.</p>
 										<p>
-											Sur bien des Autochtones et de nombreuses communautÃ©s.
+											Sur bien des Autochtones et de nombreuses communautés.
 										</p>
-										<p>Encore une fois, ils sont rÃ©duits au silence.</p>
-										<p>Et contraints Ã  l'invisibilitÃ©.</p>
+										<p>Encore une fois, ils sont réduits au silence.</p>
+										<p>Et contraints à l'invisibilité.</p>
 										<p>
-											La rÃ©flexion de Noah est une microagression qui ravive les
+											La réflexion de Noah est une microagression qui ravive les
 											blessures.
 										</p>
 										<p>
 											Elle brise les liens de confiance et affecte les
 											relations.
 										</p>
-										<p>Revenons Ã  la conversation.</p>
+										<p>Revenons à la conversation.</p>
 										<p>
-											ImmÃ©diatement, un voyant lumineux rouge surgit dans la
-											tÃªte de Tania, Thierry et Kim.
+											Immédiatement, un voyant lumineux rouge surgit dans la
+											tête de Tania, Thierry et Kim.
 										</p>
 										<p>
-											DerriÃ¨re ce silence, que pensent les trois collÃ¨gues
+											Derrière ce silence, que pensent les trois collègues
 											autochtones ?
 										</p>
 										<p>
-											Tania, qui est une fiÃ¨re MÃ©tis de Red River, est offensÃ©e.
+											Tania, qui est une fière Métis de Red River, est offensée.
 										</p>
 										<p>
 											Non mais, est-ce qu'il se rend compte de ce qu'il vient de
 											dire ?
 										</p>
 										<p>
-											Il n'est pas au courant des consÃ©quences de la
+											Il n'est pas au courant des conséquences de la
 											colonisation.
 										</p>
-										<p>Sur les MÃ©tis et les autres peuples autochtones.</p>
+										<p>Sur les Métis et les autres peuples autochtones.</p>
 										<p>
 											Et de tout ce que les enfants ont subi pendant des
-											gÃ©nÃ©rations.
+											générations.
 										</p>
 										<p>
-											Ma propre grand-mÃ¨re a Ã©tÃ© contrainte d'aller dans un
+											Ma propre grand-mère a été contrainte d'aller dans un
 											pensionnat.
 										</p>
 										<p>C'est n'importe quoi, ce commentaire !</p>
-										<p>Thierry, qui est Inuk d'Iqaluit, est insultÃ©.</p>
-										<p>Ã‡a ne se peut pas que Noah affiche un tel mÃ©pris.</p>
+										<p>Thierry, qui est Inuk d'Iqaluit, est insulté.</p>
+										<p>Ça ne se peut pas que Noah affiche un tel mépris.</p>
 										<p>
 											Faut-il que je lui balance les statistiques de suicide des
 											jeunes Inuits ?
 										</p>
-										<p>Ils sont dix fois supÃ©rieurs Ã  la moyenne nationale.</p>
+										<p>Ils sont dix fois supérieurs à la moyenne nationale.</p>
 										<p>
-											Pour qu'il rÃ©alise les Ã©carts entre son monde et le mien ?
+											Pour qu'il réalise les écarts entre son monde et le mien ?
 										</p>
 										<p>
-											Kim, qui est OjibwÃ© Saulteaux du nord-ouest de l'Ontario,
-											est profondÃ©ment blessÃ©e.
+											Kim, qui est Ojibwé Saulteaux du nord-ouest de l'Ontario,
+											est profondément blessée.
 										</p>
 										<p>
-											Ayoye ! Je ne veux mÃªme plus travailler dans cette Ã©quipe.
+											Ayoye ! Je ne veux même plus travailler dans cette équipe.
 										</p>
-										<p>Je gage que mes autres collÃ¨gues pensent comme Noah.</p>
-										<p>Pourtant les Ã©carts demeurent tellement importants.</p>
+										<p>Je gage que mes autres collègues pensent comme Noah.</p>
+										<p>Pourtant les écarts demeurent tellement importants.</p>
 										<p>
 											41 % des jeunes Autochtones qui vivent dans les grandes
-											villes canadiennes souffrent d'insÃ©curitÃ© alimentaire.
+											villes canadiennes souffrent d'insécurité alimentaire.
 										</p>
-										<p>Puis, Ã  quoi bon ?</p>
-										<p>De toute faÃ§on, ils ne veulent mÃªme pas l'entendre.</p>
+										<p>Puis, à quoi bon ?</p>
+										<p>De toute façon, ils ne veulent même pas l'entendre.</p>
 										<p>
-											Hey Noah, est-ce que tu rÃ©alises ce que tu viens de dire ?
+											Hey Noah, est-ce que tu réalises ce que tu viens de dire ?
 										</p>
 										<p>Ce genre de commentaire est inacceptable.</p>
 										<p>
-											Noah, lorsque tu dis Â« Tournez la page et passez Ã  autre
-											chose Â», c'est vraiment blessant.
+											Noah, lorsque tu dis « Tournez la page et passez à autre
+											chose », c'est vraiment blessant.
 										</p>
 										<p>
-											Ã‡a donne l'impression que les prÃ©judices et les
-											souffrances vÃ©cus par mes proches sont sans importance.
+											Ça donne l'impression que les préjudices et les
+											souffrances vécus par mes proches sont sans importance.
 										</p>
-										<p>Il ne s'agit pas seulement du passÃ©.</p>
+										<p>Il ne s'agit pas seulement du passé.</p>
 										<p>
-											Mais aussi de la maniÃ¨re dont Ã§a les affecte encore
+											Mais aussi de la manière dont ça les affecte encore
 											aujourd'hui.
 										</p>
-										<p>Il reste tellement de dÃ©fis Ã  relever.</p>
+										<p>Il reste tellement de défis à relever.</p>
 										<p>
-											Il y a de nombreuses rÃ©percussions que nous, les Inuits,
+											Il y a de nombreuses répercussions que nous, les Inuits,
 											subissons au quotidien.
 										</p>
-										<p>Mais aussi les PremiÃ¨res Nations et les MÃ©tis.</p>
+										<p>Mais aussi les Premières Nations et les Métis.</p>
 										<p>
 											Il n'y a pas si longtemps, nos cultures, nos langues,
-											notre sÃ©curitÃ©, notre indÃ©pendance, nos croyances et notre
-											libertÃ© ont Ã©tÃ© radicalement supprimÃ©es de nos modes de
+											notre sécurité, notre indépendance, nos croyances et notre
+											liberté ont été radicalement supprimées de nos modes de
 											vie.
 										</p>
 										<p>
-											Ces actions passÃ©es ont encore une incidence sur nos vies
+											Ces actions passées ont encore une incidence sur nos vies
 											au quotidien.
 										</p>
 										<p>
-											Plus de la moitiÃ© des enfants placÃ©s en famille d'accueil
+											Plus de la moitié des enfants placés en famille d'accueil
 											au Canada sont des Autochtones.
 										</p>
 										<p>Principalement des Inuits.</p>
 										<p>
-											Alors que les enfants autochtones ne reprÃ©sentent que
+											Alors que les enfants autochtones ne représentent que
 											moins de 8 % de la population infantile.
 										</p>
 										<p>
-											Noah, visiblement dÃ©stabilisÃ©, rÃ©alise la gravitÃ© de ses
+											Noah, visiblement déstabilisé, réalise la gravité de ses
 											propos.
 										</p>
 										<p>Je ne voulais pas blesser qui que ce soit.</p>
 										<p>
-											Je n'ai pas rÃ©alisÃ© que mon commentaire pouvait Ãªtre
-											interprÃ©tÃ© comme un dÃ©saveu de vos expÃ©riences.
+											Je n'ai pas réalisé que mon commentaire pouvait être
+											interprété comme un désaveu de vos expériences.
 										</p>
-										<p>Je suis vraiment dÃ©solÃ© et je m'excuse.</p>
+										<p>Je suis vraiment désolé et je m'excuse.</p>
 										<p>
-											Pour moi, la rÃ©conciliation ne consiste pas Ã  tourner la
+											Pour moi, la réconciliation ne consiste pas à tourner la
 											page.
 										</p>
-										<p>Mais Ã  rÃ©parer les erreurs du passÃ©.</p>
+										<p>Mais à réparer les erreurs du passé.</p>
 										<p>Il s'agit de travailler ensemble.</p>
 										<p>
 											Et de faire en sorte que toutes les personnes, autochtones
-											ou non, soient sur un pied d'Ã©galitÃ©.
+											ou non, soient sur un pied d'égalité.
 										</p>
 										<p>
-											NaÃ¯vement, sans penser plus loin que le bout de son nez,
-											Noah a fait entrer l'Ã©lÃ©phant colonial dans la piÃ¨ce.
+											Naïvement, sans penser plus loin que le bout de son nez,
+											Noah a fait entrer l'éléphant colonial dans la pièce.
 										</p>
 										<p>
-											Et a entachÃ© profondÃ©ment la relation avec ses collÃ¨gues.
+											Et a entaché profondément la relation avec ses collègues.
 										</p>
 										<p>
 											Avec ses quelques mots, qu'il croyait inoffensifs, Noah
-											vient de nuire aux efforts de rÃ©conciliation.
+											vient de nuire aux efforts de réconciliation.
 										</p>
 										<p>
-											Les idÃ©es prÃ©conÃ§ues et la mÃ©connaissance ont la vie dure.
+											Les idées préconçues et la méconnaissance ont la vie dure.
 										</p>
-										<p>C'est le rÃ´le de chacun et chacune d'intervenir.</p>
+										<p>C'est le rôle de chacun et chacune d'intervenir.</p>
 										<p>
-											Lorsqu'une personne formule des commentaires inappropriÃ©s
+											Lorsqu'une personne formule des commentaires inappropriés
 											ou trompeurs.
 										</p>
 										<p>
-											MÃªme si c'est difficile, il est important de se lever et
+											Même si c'est difficile, il est important de se lever et
 											d'agir.
 										</p>
-										<p>La rÃ©conciliation est une responsabilitÃ© partagÃ©e.</p>
+										<p>La réconciliation est une responsabilité partagée.</p>
 										<p>
-											Elle consiste Ã  renouer et Ã  maintenir une relation de
+											Elle consiste à renouer et à maintenir une relation de
 											respect mutuel.
 										</p>
 										<p>
 											Entre les peuples autochtones et non-autochtones au pays.
 										</p>
-										<p>Mais aussi Ã  rÃ©parer les torts.</p>
+										<p>Mais aussi à réparer les torts.</p>
 										<p>
-											Et Ã  s'engager Ã  prendre des mesures concrÃ¨tes pour
+											Et à s'engager à prendre des mesures concrètes pour
 											changer les choses.
 										</p>
-										<p>Tirez des leÃ§ons de la maladresse de Noah.</p>
+										<p>Tirez des leçons de la maladresse de Noah.</p>
 										<p>Faites partie de la solution.</p>
-										<p>Prenez conscience du passÃ©.</p>
+										<p>Prenez conscience du passé.</p>
 										<p>
-											Et reconnaissez le mal qui a Ã©tÃ© fait et ses sÃ©quelles
+											Et reconnaissez le mal qui a été fait et ses séquelles
 											persistantes.
 										</p>
 										<p>
-											Apprenez-en davantage sur l'histoire vÃ©ritable de la
-											colonisation et sur ses rÃ©percussions.
+											Apprenez-en davantage sur l'histoire véritable de la
+											colonisation et sur ses répercussions.
 										</p>
 										<p>
 											Informez-vous sur les engagements du gouvernement en
-											matiÃ¨re de rÃ©conciliation.
+											matière de réconciliation.
 										</p>
 										<p>Ainsi que sur les droits des peuples autochtones.</p>
-										<p>Vous avez un rÃ´le Ã  jouer.</p>
-										<p>â™ªâ™ª</p>
+										<p>Vous avez un rôle à jouer.</p>
+										<p>??</p>
 									</div>
 								</div>
-								<script>
-									document.addEventListener("DOMContentLoaded", function () {
-										const toggleBtn =
-											document.querySelector(".transcript-toggle");
-										const transcriptContent =
-											document.getElementById("video-transcript");
-										const arrow = toggleBtn.querySelector(".transcript-arrow");
-										toggleBtn.addEventListener("click", function () {
-											const expanded =
-												toggleBtn.getAttribute("aria-expanded") === "true";
-											toggleBtn.setAttribute(
-												"aria-expanded",
-												String(!expanded)
-											);
-											transcriptContent.style.display = expanded
-												? "none"
-												: "block";
-											arrow.style.transform = expanded
-												? "rotate(0deg)"
-												: "rotate(180deg)";
-											toggleBtn.querySelector("span").textContent = expanded
-												? "Transcription"
-												: "Transcription";
-										});
-									});
-								</script>
 							</div>
-							<h2
-								style="
-									color: #2d3748;
-									font-size: 1.5rem;
-									margin-top: 2rem;
-									margin-bottom: 1rem;
-								"
-							>
-								Ressource SupplÃ©mentaire
-							</h2>
+							<h2 class="resource-heading">Ressource Supplémentaire</h2>
 							<a
 								href="https://reseaumtlnetwork.com/publication/trousse-alliees/"
 								target="_blank"
-								style="
-									display: inline-flex;
-									align-items: center;
-									gap: 0.5rem;
-									color: #005a9c;
-									background-color: #f0f8ff;
-									padding: 0.75rem 1.5rem;
-									border-radius: 8px;
-									font-size: 1.1rem;
-									font-weight: 700;
-									text-decoration: none;
-									transition: background-color 0.2s, color 0.2s;
-								"
-								onmouseover="this.style.backgroundColor='#e0efff'; this.style.color='#00447a';"
-								onmouseout="this.style.backgroundColor='#f0f8ff'; this.style.color='#005a9c';"
+								class="resource-link"
 							>
-								Trousse d'outils pour les alliÃ©Â·es aux luttes autochtones
-								<span style="display: flex; align-items: center">
+								Trousse d'outils pour les allié·es aux luttes autochtones
+								<span class="resource-link-icon">
 									<i class="fa-solid fa-up-right-from-square"></i>
 								</span>
 							</a>
 							<br /><br />
-							<p
-								id="footnote-1"
-								style="font-size: 0.9rem; color: #555; margin-top: 0.5rem"
-							>
-								* Derald Wing Sue, â€œMicroaggressions, Marginality, and
-								Oppression: An Introduction,â€ in
+							<p id="footnote-1" class="footnote">
+								* Derald Wing Sue, “Microaggressions, Marginality, and
+								Oppression: An Introduction,” in
 								<em
 									>Microaggressions and Marginality: Manifestation, Dynamics,
 									and Impact</em
@@ -1179,8 +458,8 @@
 						>
 							<p>
 								<strong>Instructions:</strong> Cliquez ou utilisez la barre
-								d'espace/entrÃ©e sur une carte pour la retourner et lire
-								l'explication. Chaque carte prÃ©sente une microagression courante
+								d'espace/entrée sur une carte pour la retourner et lire
+								l'explication. Chaque carte présente une microagression courante
 								au recto et son impact au verso.
 							</p>
 							<div class="card-grid">
@@ -1194,12 +473,12 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											Â« Tu nâ€™as pas lâ€™air autochtone Â»
+											« Tu n’as pas l’air autochtone »
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container">
 												<p>
-													TÃ©moigne dâ€™une vision Ã©troite et stÃ©rÃ©otypÃ©e de ce Ã 
+													Témoigne d’une vision étroite et stéréotypée de ce à
 													quoi les Autochtones devraient ressembler.
 												</p>
 											</div>
@@ -1207,8 +486,8 @@
 									</div>
 								</div>
 								<span class="sr-only" id="flip-desc-1"
-									>Ceci est une carte Ã  retourner. Activez-la en appuyant sur
-									EntrÃ©e ou sur la barre dâ€™espace.</span
+									>Ceci est une carte à retourner. Activez-la en appuyant sur
+									Entrée ou sur la barre d’espace.</span
 								>
 
 								<!-- Flip Card 2 -->
@@ -1221,23 +500,23 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											Â« Je suis aussi en partie autochtone; mon
-											arriÃ¨re-arriÃ¨re-grand-mÃ¨re Ã©tait autochtone. Â»
+											« Je suis aussi en partie autochtone; mon
+											arrière-arrière-grand-mère était autochtone. »
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container">
 												<p>
-													Minimise lâ€™identitÃ© et lâ€™hÃ©ritage autochtone en les
+													Minimise l’identité et l’héritage autochtone en les
 													traitant comme une revendication occasionnelle ou
-													romancÃ©e.
+													romancée.
 												</p>
 											</div>
 										</div>
 									</div>
 								</div>
 								<span class="sr-only" id="flip-desc-2"
-									>Ceci est une carte Ã  retourner. Activez-la en appuyant sur
-									EntrÃ©e ou sur la barre dâ€™espace.</span
+									>Ceci est une carte à retourner. Activez-la en appuyant sur
+									Entrée ou sur la barre d’espace.</span
 								>
 
 								<!-- Flip Card 3 -->
@@ -1250,21 +529,21 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											Â« Pourquoi vous ne passez pas Ã  autre chose? Â»
+											« Pourquoi vous ne passez pas à autre chose? »
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container">
 												<p>
 													Ne tient pas compte des traumatismes historiques et
-													actuels subis par les communautÃ©s autochtones.
+													actuels subis par les communautés autochtones.
 												</p>
 											</div>
 										</div>
 									</div>
 								</div>
 								<span class="sr-only" id="flip-desc-3"
-									>Ceci est une carte Ã  retourner. Activez-la en appuyant sur
-									EntrÃ©e ou sur la barre dâ€™espace.</span
+									>Ceci est une carte à retourner. Activez-la en appuyant sur
+									Entrée ou sur la barre d’espace.</span
 								>
 
 								<!-- Flip Card 4 -->
@@ -1277,13 +556,13 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											Â« Pourtant, tu nâ€™as pas lâ€™air opprimÃ©Â·e. Â»
+											« Pourtant, tu n’as pas l’air opprimé·e. »
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container">
 												<p>
-													Invalide les expÃ©riences vÃ©cues et les inÃ©galitÃ©s
-													systÃ©miques auxquelles sont confrontÃ©es les
+													Invalide les expériences vécues et les inégalités
+													systémiques auxquelles sont confrontées les
 													populations autochtones.
 												</p>
 											</div>
@@ -1291,8 +570,8 @@
 									</div>
 								</div>
 								<span class="sr-only" id="flip-desc-4"
-									>Ceci est une carte Ã  retourner. Activez-la en appuyant sur
-									EntrÃ©e ou sur la barre dâ€™espace.</span
+									>Ceci est une carte à retourner. Activez-la en appuyant sur
+									Entrée ou sur la barre d’espace.</span
 								>
 
 								<!-- Flip Card 5 -->
@@ -1305,22 +584,22 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											Â« Vous avez de la chance de ne pas avoir Ã  payer dâ€™impÃ´ts.
-											Â»
+											« Vous avez de la chance de ne pas avoir à payer d’impôts.
+											»
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container">
 												<p>
-													PerpÃ©tue un mythe qui dÃ©forme la relation des peuples
-													autochtones avec la fiscalitÃ© et les traitÃ©s.
+													Perpétue un mythe qui déforme la relation des peuples
+													autochtones avec la fiscalité et les traités.
 												</p>
 											</div>
 										</div>
 									</div>
 								</div>
 								<span class="sr-only" id="flip-desc-5"
-									>Ceci est une carte Ã  retourner. Activez-la en appuyant sur
-									EntrÃ©e ou sur la barre dâ€™espace.</span
+									>Ceci est une carte à retourner. Activez-la en appuyant sur
+									Entrée ou sur la barre d’espace.</span
 								>
 
 								<!-- Flip Card 6 -->
@@ -1333,22 +612,22 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											Â« Les Autochtones ne sont pas les seuls Ã  avoir souffert
-											ou Ã  souffrir encore. Â»
+											« Les Autochtones ne sont pas les seuls à avoir souffert
+											ou à souffrir encore. »
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container">
 												<p>
-													Minimise les expÃ©riences uniques des peuples
-													autochtones en matiÃ¨re d'oppression systÃ©mique.
+													Minimise les expériences uniques des peuples
+													autochtones en matière d'oppression systémique.
 												</p>
 											</div>
 										</div>
 									</div>
 								</div>
 								<span class="sr-only" id="flip-desc-6"
-									>Ceci est une carte Ã  retourner. Activez-la en appuyant sur
-									EntrÃ©e ou sur la barre dâ€™espace.</span
+									>Ceci est une carte à retourner. Activez-la en appuyant sur
+									Entrée ou sur la barre d’espace.</span
 								>
 							</div>
 						</section>
@@ -1362,9 +641,9 @@
 						>
 							<p>
 								<strong>Instructions:</strong> Cliquez ou utilisez la barre
-								d'espace/entrÃ©e sur une carte pour la retourner et lire
-								l'explication. Chaque carte prÃ©sente une approche pour aborder
-								les prÃ©jugÃ©s.
+								d'espace/entrée sur une carte pour la retourner et lire
+								l'explication. Chaque carte présente une approche pour aborder
+								les préjugés.
 							</p>
 							<div class="card-grid">
 								<!-- Flip Card 1 -->
@@ -1377,24 +656,24 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											1. Faire preuve de curiositÃ©
+											1. Faire preuve de curiosité
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container bias">
-												<h1>Faire preuve de curiositÃ©</h1>
+												<h1>Faire preuve de curiosité</h1>
 												<p>
-													Encouragez la rÃ©flexion en posant des questions
+													Encouragez la réflexion en posant des questions
 													ouvertes pour mieux comprendre le commentaire et
 													favoriser la discussion.
 													<br /><br /><em
-														>Â« Pouvez-vous mâ€™en dire plus Ã  ce sujet? Â»</em
+														>« Pouvez-vous m’en dire plus à ce sujet? »</em
 													><br /><em
-														>Â« Aidez-nous Ã  comprendre ce que vous voulez dire
-														Â»</em
+														>« Aidez-nous à comprendre ce que vous voulez dire
+														»</em
 													>
 													<br /><em
-														>Â« Quâ€™est-ce qui, selon vous, appuie ce point de
-														vue? Â»</em
+														>« Qu’est-ce qui, selon vous, appuie ce point de
+														vue? »</em
 													>
 												</p>
 											</div>
@@ -1402,8 +681,8 @@
 									</div>
 								</div>
 								<span class="sr-only" id="flip-desc-bias-1"
-									>Ceci est une carte Ã  retourner. Activez-la en appuyant sur
-									EntrÃ©e ou sur la barre dâ€™espace.</span
+									>Ceci est une carte à retourner. Activez-la en appuyant sur
+									Entrée ou sur la barre d’espace.</span
 								>
 
 								<!-- Flip Card 2 -->
@@ -1416,24 +695,24 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											2. ReconnaÃ®tre lâ€™incident
+											2. Reconnaître l’incident
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container bias">
-												<h1>ReconnaÃ®tre lâ€™incident</h1>
+												<h1>Reconnaître l’incident</h1>
 												<p>
 													Interrompez la conversation pour aborder directement
-													le problÃ¨me et crÃ©er un espace sÃ»r pour
-													lâ€™apprentissage.
+													le problème et créer un espace sûr pour
+													l’apprentissage.
 													<br /><br /><em
-														>Â« Je voudrais prendre un moment pour aborder
-														quelque chose qui vient dâ€™Ãªtre dit. Â»</em
+														>« Je voudrais prendre un moment pour aborder
+														quelque chose qui vient d’être dit. »</em
 													>
 												</p>
 
 												<p>
-													Il est important de crÃ©er un espace respectueux oÃ¹
-													lâ€™on Ã©vite les hypothÃ¨ses ou les stÃ©rÃ©otypes
+													Il est important de créer un espace respectueux où
+													l’on évite les hypothèses ou les stéréotypes
 													nuisibles.
 												</p>
 											</div>
@@ -1441,8 +720,8 @@
 									</div>
 								</div>
 								<span class="sr-only" id="flip-desc-bias-2"
-									>Ceci est une carte Ã  retourner. Activez-la en appuyant sur
-									EntrÃ©e ou sur la barre dâ€™espace.</span
+									>Ceci est une carte à retourner. Activez-la en appuyant sur
+									Entrée ou sur la barre d’espace.</span
 								>
 
 								<!-- Flip Card 3 -->
@@ -1455,19 +734,19 @@
 								>
 									<div class="flip-card-inner">
 										<div class="flip-card-front" aria-hidden="false">
-											3. Ã‰viter la honte
+											3. Éviter la honte
 										</div>
 										<div class="flip-card-back" aria-hidden="true">
 											<div class="sub-container bias">
-												<h1>Ã‰viter la honte</h1>
+												<h1>Éviter la honte</h1>
 												<p>
-													Mettez lâ€™accent sur le commentaire ou le comportement,
-													et non sur la personne, afin dâ€™Ã©viter toute attitude
-													dÃ©fensive. Gardez un ton Ã©ducatif et non accusateur.
+													Mettez l’accent sur le commentaire ou le comportement,
+													et non sur la personne, afin d’éviter toute attitude
+													défensive. Gardez un ton éducatif et non accusateur.
 													<br /><br /><em
-														>Â« Parlons du commentaire et des raisons pour
-														lesquelles il nâ€™est pas utile, plutÃ´t que de nous
-														concentrer sur la personne qui lâ€™a fait. Â»</em
+														>« Parlons du commentaire et des raisons pour
+														lesquelles il n’est pas utile, plutôt que de nous
+														concentrer sur la personne qui l’a fait. »</em
 													>
 												</p>
 											</div>
@@ -1475,8 +754,8 @@
 									</div>
 								</div>
 								<span class="sr-only" id="flip-desc-bias-3"
-									>Ceci est une carte Ã  retourner. Activez-la en appuyant sur
-									EntrÃ©e ou sur la barre dâ€™espace.</span
+									>Ceci est une carte à retourner. Activez-la en appuyant sur
+									Entrée ou sur la barre d’espace.</span
 								>
 
 								<!-- Flip Card 4 -->
@@ -1495,16 +774,16 @@
 											<div class="sub-container bias">
 												<h1>Recadrer le propos</h1>
 												<p>
-													Reformulez le commentaire pour aider le groupe Ã 
-													lâ€™aborder dâ€™une maniÃ¨re qui favorise la comprÃ©hension
-													et minimise les prÃ©jugÃ©s.
+													Reformulez le commentaire pour aider le groupe à
+													l’aborder d’une manière qui favorise la compréhension
+													et minimise les préjugés.
 													<br /><br /><em
-														>Â« Peut-Ãªtre que ce que vous vouliez exprimer
-														Ã©tait... Â»</em
+														>« Peut-être que ce que vous vouliez exprimer
+														était... »</em
 													>
 													<br /><em
-														>Â« Explorons cela sous un angle diffÃ©rent pour que
-														tout le monde se sente entendu et respectÃ© Â».</em
+														>« Explorons cela sous un angle différent pour que
+														tout le monde se sente entendu et respecté ».</em
 													>
 												</p>
 											</div>
@@ -1512,8 +791,8 @@
 									</div>
 								</div>
 								<span class="sr-only" id="flip-desc-bias-4"
-									>Ceci est une carte Ã  retourner. Activez-la en appuyant sur
-									EntrÃ©e ou sur la barre dâ€™espace.</span
+									>Ceci est une carte à retourner. Activez-la en appuyant sur
+									Entrée ou sur la barre d’espace.</span
 								>
 
 								<!-- Flip Card 5 -->
@@ -1532,25 +811,25 @@
 											<div class="sub-container bias">
 												<h1>Contextualiser</h1>
 												<p>
-													Expliquez briÃ¨vement comment le commentaire peut
-													perpÃ©tuer involontairement des prÃ©jugÃ©s et pourquoi
-													cela pose problÃ¨me.
+													Expliquez brièvement comment le commentaire peut
+													perpétuer involontairement des préjugés et pourquoi
+													cela pose problème.
 													<br /><br /><em
-														>Â« Ce commentaire pourrait involontairement
-														renforcer des stÃ©rÃ©otypes. Â»
+														>« Ce commentaire pourrait involontairement
+														renforcer des stéréotypes. »
 													</em>
 												</p>
 												<p>
-													Il est important de reconnaÃ®tre que le langage faÃ§onne
-													notre comprÃ©hension des diffÃ©rents groupes.
+													Il est important de reconnaître que le langage façonne
+													notre compréhension des différents groupes.
 												</p>
 											</div>
 										</div>
 									</div>
 								</div>
 								<span class="sr-only" id="flip-desc-bias-5"
-									>Ceci est une carte Ã  retourner. Activez-la en appuyant sur
-									EntrÃ©e ou sur la barre dâ€™espace.</span
+									>Ceci est une carte à retourner. Activez-la en appuyant sur
+									Entrée ou sur la barre d’espace.</span
 								>
 							</div>
 						</section>
@@ -1565,18 +844,16 @@
 							<form id="quiz-form">
 								<!-- Questions will be dynamically inserted here by JavaScript -->
 							</form>
-							<div
-								id="quiz-results"
-								style="display: none"
+							<div id="quiz-results" class="is-hidden"
 								aria-live="polite"
 								aria-atomic="true"
 							></div>
 							<div class="quiz-controls">
 								<button type="button" id="submit-btn" class="submit-button">
-									Soumettre les rÃ©ponses
+									Soumettre les réponses
 								</button>
-								<button type="button" id="try-again-btn" style="display: none">
-									RÃ©essayer
+								<button type="button" id="try-again-btn" class="is-hidden">
+									Réessayer
 								</button>
 							</div>
 						</section>
@@ -1593,8 +870,8 @@
 									<a
 										href="https://www.themicropedia.org/#/category/indigenous"
 										target="_blank"
-										>Mini encyclopÃ©die sur les microagressions
-										<span style="color: #005a9c">(en anglais)</span>
+										>Mini encyclopédie sur les microagressions
+										<span class="resource-note">(en anglais)</span>
 										<span><i class="fa-solid fa-up-right-from-square"></i></span
 									></a>
 								</li>
@@ -1602,7 +879,7 @@
 									<a
 										href="https://reseaumtlnetwork.com/publication/trousse-alliees/"
 										target="_blank"
-										>Trousse d'outils pour les alliÃ©es aux luttes autochtones
+										>Trousse d'outils pour les alliées aux luttes autochtones
 										<span><i class="fa-solid fa-up-right-from-square"></i></span
 									></a>
 								</li>
@@ -1611,7 +888,7 @@
 										href="https://www.csps-efpc.gc.ca/video/indigenous-micro-aggressions-fra.aspx"
 										target="_blank"
 									>
-										VidÃ©o : RÃ©agir aux microagressions envers les peuples
+										Vidéo : Réagir aux microagressions envers les peuples
 										autochtones
 										<span><i class="fa-solid fa-up-right-from-square"></i></span
 									></a>
@@ -1633,7 +910,7 @@
 				<div class="feedback-icon">
 					<i class="fa-regular fa-message fa-2xl"></i>
 				</div>
-				<span>RÃ©troaction</span>
+				<span>Rétroaction</span>
 			</a>
 		</footer>
 
@@ -1660,450 +937,14 @@
 		</button>
 
 		<!-- Embedded JavaScript -->
-		<script>
-			// SCORM API Wrapper (pipwerks) - unchanged
-			var pipwerks = {};
-			pipwerks.SCORM = {};
-			pipwerks.SCORM.API = {
-				handle: null,
-				find: function (win) {
-					if (win.API) return win.API;
-					if (win.parent && win.parent != win) return this.find(win.parent);
-					if (win.opener && typeof win.opener != "undefined")
-						return this.find(win.opener);
-					return null;
-				},
-			};
-			pipwerks.SCORM.init = function () {
-				var api = pipwerks.SCORM.API.find(window);
-				if (api) {
-					pipwerks.SCORM.API.handle = api;
-					return pipwerks.SCORM.API.handle.LMSInitialize("");
-				}
-				return false;
-			};
-			pipwerks.SCORM.get = function (param) {
-				if (pipwerks.SCORM.API.handle) {
-					return pipwerks.SCORM.API.handle.LMSGetValue(param);
-				}
-				return null;
-			};
-			pipwerks.SCORM.set = function (param, value) {
-				if (pipwerks.SCORM.API.handle) {
-					return pipwerks.SCORM.API.handle.LMSSetValue(param, value);
-				}
-				return false;
-			};
-			pipwerks.SCORM.save = function () {
-				if (pipwerks.SCORM.API.handle) {
-					return pipwerks.SCORM.API.handle.LMSCommit("");
-				}
-				return false;
-			};
-			pipwerks.SCORM.quit = function () {
-				if (pipwerks.SCORM.API.handle) {
-					return pipwerks.SCORM.API.handle.LMSFinish("");
-				}
-				return false;
-			};
-		</script>
-		<script>
-			document.addEventListener("DOMContentLoaded", function () {
-				// --- Global Variables ---
-				const quizForm = document.getElementById("quiz-form");
-				const resultsDiv = document.getElementById("quiz-results");
-				const submitBtn = document.getElementById("submit-btn");
-				const tryAgainBtn = document.getElementById("try-again-btn");
-				const PASSING_SCORE = 75;
-				let lmsConnected = false;
-				let quizState = {};
-
-				const questions = [
-					{
-						id: "q1",
-						text: "1. Selon la dÃ©finition fournie, les microagressions peuvent prendre laquelle des formes suivantes?",
-						options: [
-							{ text: "Seulement des insultes verbales.", value: "a" },
-							{
-								text: "Des affronts verbaux, non verbaux et environnementaux.",
-								value: "b",
-								correct: true,
-							},
-							{ text: "Seulement des actions intentionnelles.", value: "c" },
-						],
-					},
-					{
-						id: "q2",
-						text: "2. Quel Ã©noncÃ© est un exemple de microagression qui ne tient pas compte du traumatisme historique?",
-						options: [
-							{ text: "Â« Tu nâ€™as pas lâ€™air autochtone Â».", value: "a" },
-							{
-								text: "Â« Pourquoi ne pas vous en remettre? Â»",
-								value: "b",
-								correct: true,
-							},
-							{
-								text: "Â« Pouvez-vous mâ€™en dire plus Ã  ce sujet? Â»",
-								value: "c",
-							},
-						],
-					},
-					{
-						id: "q3",
-						text: "3. Quelle est lâ€™approche recommandÃ©e pour enrayer les prÃ©jugÃ©s dans une discussion de groupe?",
-						options: [
-							{
-								text: "Faire preuve de curiositÃ© en posant des questions ouvertes.",
-								value: "a",
-								correct: true,
-							},
-							{
-								text: "Ignorer le commentaire pour Ã©viter les conflits.",
-								value: "b",
-							},
-							{
-								text: "Faire honte publiquement Ã  la personne qui a fait le commentaire.",
-								value: "c",
-							},
-						],
-					},
-				];
-
-				function scormNameToFirstLast(raw) {
-					let firstName = "",
-						lastName = "";
-					const trimmed = String(raw || "").trim();
-					if (!trimmed) return { firstName, lastName, display: "learner" };
-
-					if (trimmed.includes(",")) {
-						// Typical SCORM 1.2: "Last, First Middle"
-						const [last, first] = trimmed.split(",").map((s) => s.trim());
-						lastName = last || "";
-						firstName = first || "";
-					} else {
-						// Fallback: "First Last" or single token
-						const parts = trimmed.split(/\\s+/);
-						if (parts.length === 1) {
-							firstName = parts[0];
-						} else {
-							firstName = parts.slice(0, -1).join(" ");
-							lastName = parts.slice(-1)[0];
-						}
-					}
-
-					const display =
-						[firstName, lastName].filter(Boolean).join(" ") || "learner";
-					return { firstName, lastName, display };
-				}
-
-				// --- SCORM Initialization ---
-				function initCourse() {
-					try {
-						lmsConnected = pipwerks.SCORM.init();
-						console.log(
-							`SCORM connection: ${lmsConnected ? "successful" : "not found"}`
-						);
-
-						if (lmsConnected) {
-							const learnerSpan = document.getElementById("learner-name");
-							const rawName = pipwerks.SCORM.get("cmi.core.student_name") || "";
-							if (rawName) {
-								const { firstName, lastName, display } =
-									scormNameToFirstLast(rawName);
-								console.log(`SCORM raw student_name: "${rawName}"`);
-								console.log(`first name: ${firstName}`);
-								console.log(`last name : ${lastName}`);
-								if (learnerSpan) learnerSpan.textContent = display; // "First Last"
-							} else {
-								console.log(
-									"SCORM student_name not found; leaving default 'learner'."
-								);
-							}
-
-							const lessonStatus = pipwerks.SCORM.get("cmi.core.lesson_status");
-							if (lessonStatus === "completed" || lessonStatus === "passed") {
-								renderQuiz();
-								checkAnswers(false);
-							} else {
-								pipwerks.SCORM.set("cmi.core.lesson_status", "incomplete");
-								pipwerks.SCORM.save();
-								renderQuiz();
-							}
-						} else {
-							// No LMS found
-							renderQuiz();
-						}
-					} catch (e) {
-						console.error("SCORM connection failed.", e);
-						renderQuiz();
-					}
-				}
-				// --- Tab Navigation Logic ---
-				const tabNav = document.querySelector(".tab-nav");
-				const tabButtons = document.querySelectorAll(".tab-button");
-				const tabPanels = document.querySelectorAll(".tab-panel");
-
-				tabNav.addEventListener("click", (e) => {
-					if (e.target.matches(".tab-button")) {
-						activateTab(e.target);
-					}
-				});
-
-				tabNav.addEventListener("keydown", (e) => {
-					let newIndex;
-					const currentIndex = Array.from(tabButtons).findIndex(
-						(tab) => tab === document.activeElement
-					);
-
-					if (e.key === "ArrowRight") {
-						newIndex = (currentIndex + 1) % tabButtons.length;
-						e.preventDefault();
-					} else if (e.key === "ArrowLeft") {
-						newIndex =
-							(currentIndex - 1 + tabButtons.length) % tabButtons.length;
-						e.preventDefault();
-					}
-
-					if (newIndex !== undefined) {
-						tabButtons[newIndex].focus();
-						activateTab(tabButtons[newIndex]);
-					}
-				});
-
-				function activateTab(button) {
-					tabButtons.forEach((btn) => {
-						btn.classList.remove("active");
-						btn.setAttribute("aria-selected", "false");
-						btn.setAttribute("tabindex", "-1");
-					});
-					tabPanels.forEach((panel) => {
-						panel.classList.remove("active");
-					});
-
-					button.classList.add("active");
-					button.setAttribute("aria-selected", "true");
-					button.setAttribute("tabindex", "0");
-					const targetPanel = document.getElementById(
-						button.getAttribute("aria-controls")
-					);
-					if (targetPanel) {
-						targetPanel.classList.add("active");
-					}
-				}
-
-				// --- Flip Card Logic ---
-				const flipCards = document.querySelectorAll(".flip-card");
-
-				flipCards.forEach(function (card) {
-					card.addEventListener("click", function () {
-						toggleFlip(card);
-						toggleSrHidden(card);
-					});
-
-					card.addEventListener("keydown", function (event) {
-						if (
-							(event.code === "Enter" || event.code === "Space") &&
-							!event.repeat
-						) {
-							event.preventDefault();
-							toggleFlip(card);
-							toggleSrHidden(card);
-						}
-					});
-				});
-
-				function toggleFlip(card) {
-					var isPressed = card.getAttribute("aria-pressed") === "true";
-					card.setAttribute("aria-pressed", String(!isPressed));
-				}
-
-				function toggleSrHidden(card) {
-					let isPressed = card.getAttribute("aria-pressed") === "true";
-					const front = card.querySelector(".flip-card-front");
-					const back = card.querySelector(".flip-card-back");
-
-					if (front) front.setAttribute("aria-hidden", String(isPressed));
-					if (back) back.setAttribute("aria-hidden", String(!isPressed));
-				}
-
-				// --- Quiz Logic ---
-				function shuffle(array) {
-					for (let i = array.length - 1; i > 0; i--) {
-						const j = Math.floor(Math.random() * (i + 1));
-						[array[i], array[j]] = [array[j], array[i]];
-					}
-					return array;
-				}
-
-				function renderQuiz() {
-					quizForm.innerHTML = "";
-					questions.forEach((q, qIndex) => {
-						const questionEl = document.createElement("fieldset");
-						questionEl.className = "quiz-question";
-						questionEl.id = q.id;
-
-						const shuffledOptions = shuffle([...q.options]);
-
-						let optionsHTML = shuffledOptions
-							.map((opt, oIndex) => {
-								const optionId = `${q.id}-opt-${oIndex}`;
-								return `
-                            <label for="${optionId}">
-                                <input type="radio" id="${optionId}" name="${
-									q.id
-								}" value="${opt.value}" ${
-									opt.correct ? 'data-correct="true"' : ""
-								}>
-                                <span class="custom-radio"></span>
-                                <span>${opt.text}</span>
-                            </label>
-                        `;
-							})
-							.join("");
-
-						questionEl.innerHTML = `
-                        <legend class="question-text">${q.text}</legend>
-                        <div class="options">${optionsHTML}</div>
-                        <div class="feedback"></div>
-                    `;
-						quizForm.appendChild(questionEl);
-					});
-				}
-
-				function checkAnswers(submitToLms = true) {
-					let score = 0;
-					const questionElements = quizForm.querySelectorAll(".quiz-question");
-
-					questionElements.forEach((qEl) => {
-						const selected = qEl.querySelector('input[type="radio"]:checked');
-						const feedbackEl = qEl.querySelector(".feedback");
-						const correctOption = qEl.querySelector(
-							'input[data-correct="true"]'
-						);
-
-						qEl
-							.querySelectorAll('input[type="radio"]')
-							.forEach((rb) => (rb.disabled = true));
-
-						if (selected) {
-							if (selected.dataset.correct) {
-								score++;
-								feedbackEl.textContent = "Correct!";
-								feedbackEl.className = "feedback correct";
-							} else {
-								feedbackEl.innerHTML = `Incorrect. La bonne rÃ©ponse est : <strong>"${
-									correctOption.parentElement.querySelector("span:last-child")
-										.textContent
-								}"</strong>`;
-								feedbackEl.className = "feedback incorrect";
-							}
-						} else {
-							feedbackEl.innerHTML = `Aucune rÃ©ponse sÃ©lectionnÃ©e. La bonne rÃ©ponse est : <strong>"${
-								correctOption.parentElement.querySelector("span:last-child")
-									.textContent
-							}"</strong>`;
-							feedbackEl.className = "feedback incorrect";
-						}
-						feedbackEl.style.display = "block";
-					});
-
-					const finalScore = (score / questionElements.length) * 100;
-					displayOverallResult(finalScore, score, questionElements.length);
-
-					if (lmsConnected && submitToLms) {
-						pipwerks.SCORM.set("cmi.core.score.min", "0");
-						pipwerks.SCORM.set("cmi.core.score.max", "100");
-						pipwerks.SCORM.set("cmi.core.score.raw", finalScore.toFixed(0));
-						pipwerks.SCORM.set(
-							"cmi.core.lesson_status",
-							finalScore >= PASSING_SCORE ? "passed" : "failed"
-						);
-						pipwerks.SCORM.save();
-					}
-
-					submitBtn.style.display = "none";
-					tryAgainBtn.style.display = "inline-block";
-				}
-
-				function displayOverallResult(finalScore, correct, total) {
-					console.log(finalScore);
-					let message = ``;
-					resultsDiv.className =
-						finalScore >= PASSING_SCORE ? "passed" : "failed";
-					message +=
-						finalScore >= PASSING_SCORE
-							? "Vous avez rÃ©ussi!"
-							: "Veuillez rÃ©viser le contenu.";
-					resultsDiv.textContent = message;
-					resultsDiv.style.display = "block";
-				}
-
-				function resetQuiz() {
-					resultsDiv.style.display = "none";
-					tryAgainBtn.style.display = "none";
-					submitBtn.style.display = "inline-block";
-					renderQuiz();
-				}
-
-				submitBtn.addEventListener("click", () => checkAnswers());
-				tryAgainBtn.addEventListener("click", resetQuiz);
-
-				// --- UI Enhancements ---
-				window.addEventListener("scroll", () =>
-					document
-						.getElementById("header-nav")
-						.classList.toggle("scrolled", window.scrollY > 50)
-				);
-
-				// --- Back to Top Button Logic ---
-				const backToTopBtn = document.getElementById("back-to-top-btn");
-				const progressCircle = document.querySelector(".progress-ring__circle");
-
-				if (backToTopBtn && progressCircle) {
-					const radius = progressCircle.r.baseVal.value;
-					const circumference = 2 * Math.PI * radius;
-
-					progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-					progressCircle.style.strokeDashoffset = circumference;
-
-					function setProgress(percent) {
-						const offset = circumference - (percent / 100) * circumference;
-						progressCircle.style.strokeDashoffset = offset;
-					}
-
-					window.addEventListener("scroll", () => {
-						const scrollHeight =
-							document.documentElement.scrollHeight -
-							document.documentElement.clientHeight;
-						const scrollTop = window.scrollY;
-						const scrollPercent =
-							scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-
-						setProgress(scrollPercent);
-
-						if (scrollTop > 300) {
-							backToTopBtn.classList.add("visible");
-						} else {
-							backToTopBtn.classList.remove("visible");
-						}
-					});
-
-					backToTopBtn.addEventListener("click", () => {
-						window.scrollTo({
-							top: 0,
-							behavior: "smooth",
-						});
-					});
-				}
-
-				// --- Course Lifecycle ---
-				window.addEventListener("beforeunload", () => {
-					if (lmsConnected) pipwerks.SCORM.quit();
-				});
-
-				// Start the course
-				initCourse();
-			});
-		</script>
+		
+		
+			<script type="module" src="./assets/js/app.js"></script>
 	</body>
 </html>
+
+
+
+
+
+

@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>D2L Sorting (Reverse Engineered)</title>
+
+		<link
+			rel="stylesheet"
+			href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css"
+		/>
+
+		<!-- Your local bundle that registers Brightspace components -->
+		<script type="module" src="./brightspace-core-bundle.js"></script>
+
+		<style>
+			:root {
+				--border: #cdd5dc;
+				--mica: #b9c2d0;
+				--text: #202122;
+				--muted: #5b6166;
+				--bg: #ffffff;
+				--radius: 6px;
+				--shadow: 0 2px 14px 1px rgba(0, 0, 0, 0.06);
+				--focus: 0 0 0 2px #ffffff, 0 0 0 4px #4a86e8;
+			}
+
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				background: var(--bg);
+				font-family: Lato, system-ui, sans-serif;
+				color: var(--text);
+			}
+
+			.wrapper {
+				max-width: 1400px;
+				margin: 18px auto;
+				padding: 0 18px;
+			}
+
+			.section-title {
+				font-size: 14px;
+				font-weight: 700;
+				margin: 0;
+				color: #202122;
+			}
+
+			/* ---------------------------
+         Categories (top)
+      --------------------------- */
+
+			.categories {
+				margin-bottom: 26px;
+			}
+
+			.category-grid {
+				display: flex;
+				gap: 16px;
+				flex-wrap: wrap;
+				align-items: stretch;
+			}
+
+			.category {
+				flex: 1;
+				min-width: 320px;
+				background: #fff;
+				border-radius: var(--radius);
+				overflow: hidden;
+			}
+
+			.category-header {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 12px;
+				position: relative;
+
+				background: #fff;
+				border: 1px solid var(--mica);
+				border-top-left-radius: var(--radius);
+				border-top-right-radius: var(--radius);
+
+				padding: 10px;
+				max-height: 100px;
+				text-align: center;
+			}
+
+			.category-title {
+				font-size: 14px;
+				font-weight: 700;
+				line-height: 18px;
+				max-width: 240px;
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				margin: 0;
+			}
+
+			/* Put the context menu button at the right edge */
+			.category-menu {
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+
+			.category-content {
+				border: 1px dashed var(--mica);
+				border-top: none;
+				border-bottom-left-radius: var(--radius);
+				border-bottom-right-radius: var(--radius);
+
+				padding: 12px;
+				min-height: 140px;
+				position: relative;
+
+				transition:
+					box-shadow 150ms ease,
+					border-color 150ms ease;
+
+				cursor: pointer;
+			}
+
+			.category-content.drag-over,
+			.category-content.ready-to-drop {
+				border-color: #4a86e8;
+				box-shadow: var(--shadow);
+			}
+
+			.category-content:focus-visible {
+				outline: none;
+				border-color: transparent;
+				box-shadow: var(--focus);
+			}
+
+			.category-info {
+				color: #6e7376;
+				font-size: 12px;
+				line-height: 18px;
+				text-align: center;
+				margin: 0;
+				padding: 8px 0 12px;
+				user-select: none;
+			}
+
+			.category-items {
+				display: flex;
+				flex-direction: column;
+				gap: 12px;
+				padding: 0;
+				margin: 0;
+				list-style: none;
+			}
+
+			/* plus stays near bottom like D2L */
+			.category-plus {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 14px 0 4px;
+				color: #9aa1a6;
+				pointer-events: none;
+			}
+
+			/* ---------------------------
+         Sortable Items (bottom)
+      --------------------------- */
+
+			.items {
+				margin-top: 12px;
+			}
+
+			.actions {
+				margin-top: 18px;
+				display: flex;
+				align-items: center;
+			}
+
+			.actions .is-hidden {
+				display: none;
+			}
+
+			.actions.loading #checkBtn {
+				display: none;
+			}
+
+			.actions.loading #checkSpinner {
+				display: inline-block;
+			}
+
+			#checkSpinner {
+				display: none;
+			}
+
+			.items-header {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				margin-bottom: 10px;
+				width: 100%;
+			}
+
+			.items-header-chevron {
+				display: inline-flex;
+				align-items: center;
+				color: #494c4e;
+				transform: translateY(1px);
+			}
+
+			.items-menu {
+				margin-left: 6px;
+			}
+
+			.items-menu.is-hidden {
+				display: none;
+			}
+
+			.items-dropzone {
+				position: relative;
+				border: 1px dashed var(--mica);
+				border-radius: var(--radius);
+				padding: 12px;
+
+				min-height: 120px; /* ✅ always looks like a dropzone even empty */
+				transition:
+					box-shadow 150ms ease,
+					border-color 150ms ease;
+			}
+
+			.items-dropzone.drag-over,
+			.items-dropzone.ready-to-drop {
+				border-color: #4a86e8;
+				box-shadow: var(--shadow);
+			}
+
+			.items-dropzone:focus-visible {
+				outline: none;
+				border-color: transparent;
+				box-shadow: var(--focus);
+			}
+
+			.items-list {
+				display: flex;
+				flex-direction: column;
+				gap: 12px;
+				padding: 0;
+				margin: 0;
+				list-style: none;
+			}
+
+			/* ✅ Centered plus icon when empty */
+			.items-dropzone-plus {
+				display: none;
+				align-items: center;
+				justify-content: center;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				color: #9aa1a6;
+				pointer-events: none;
+			}
+
+			.items-dropzone.is-empty .items-dropzone-plus {
+				display: flex;
+			}
+
+			.is-checked .drag-handle {
+				display: none;
+			}
+
+			/* ---------------------------
+         Sortable Cards
+      --------------------------- */
+			.sortable {
+				background: #fff;
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				min-height: 60px;
+				display: flex;
+				align-items: center;
+				user-select: none;
+				transition:
+					box-shadow 150ms ease,
+					border-color 150ms ease;
+			}
+
+			.sortable:hover {
+				border-color: #4a86e8;
+				cursor: pointer;
+			}
+
+			.sortable:focus-visible {
+				outline: none;
+				box-shadow: var(--focus);
+				border-color: transparent;
+			}
+
+			.sortable.is-selected {
+				border-color: transparent;
+				box-shadow: var(--focus);
+			}
+
+			.drag-handle {
+				width: 40px;
+				height: 18px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: var(--d2l-color-tungsten);
+				flex: 0 0 auto;
+				margin-top: 8px;
+			}
+
+			.sortable-text {
+				padding: 12px 12px 12px 0;
+				margin: 0;
+				line-height: 24px;
+				color: #202122;
+				overflow-wrap: anywhere;
+			}
+
+			.is-checked .sortable {
+				--d2l-color-mica: #cdd5dc;
+				--d2l-color-ferrite: #202122;
+				--d2l-color-tungsten: #494c4e;
+				border-color: var(--d2l-color-mica);
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+				font-size: 16px;
+				letter-spacing: 0.2px;
+				line-height: 24px;
+				color: var(--d2l-color-ferrite);
+				width: 100%;
+				box-sizing: border-box;
+			}
+
+			.is-checked .sortable-text {
+				padding: 8px 16px 14px;
+				color: var(--d2l-color-tungsten);
+				text-align: center;
+			}
+
+			.category-content.correct {
+				border-color: #3b8b5a;
+			}
+
+			.category-content.incorrect {
+				border-color: #d40000;
+			}
+
+			@media (max-width: 800px) {
+				.drag-handle {
+					display: none;
+				}
+				.sortable-text {
+					padding-left: 12px;
+				}
+			}
+
+			.sr-only {
+				border: 0;
+				clip: rect(0, 0, 0, 0);
+				height: 1px;
+				margin: -1px;
+				overflow: hidden;
+				padding: 0;
+				position: absolute;
+				width: 1px;
+				white-space: nowrap;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="wrapper">
+			<section class="categories" aria-label="Categories">
+				<div class="items-header">
+					<h3 class="section-title">Categories</h3>
+				</div>
+				<div class="category-grid" id="categoryGrid"></div>
+			</section>
+
+			<section class="items" aria-label="Sortable Items">
+				<div class="items-header">
+					<h3 class="section-title">Sortable Items</h3>
+					<span class="items-header-chevron" aria-hidden="true"> </span>
+					<div class="items-menu" id="itemsMenuWrap">
+						<d2l-dropdown-context-menu text="Sortable Items" id="itemsDropdown">
+							<d2l-dropdown-menu trap-focus max-height="500" no-auto-close>
+								<d2l-menu
+									label="Sortable Items"
+									id="itemsDropdownMenu"
+								></d2l-menu>
+								<d2l-button-subtle
+									primary
+									slot="footer"
+									class="items-dropdown-submit"
+									text="Submit"
+								></d2l-button-subtle>
+							</d2l-dropdown-menu>
+						</d2l-dropdown-context-menu>
+					</div>
+				</div>
+
+				<div
+					class="items-dropzone"
+					id="itemsDropzone"
+					role="button"
+					tabindex="0"
+					aria-label="Drop items back into Sortable Items"
+				>
+					<ul class="items-list" id="itemsList"></ul>
+
+					<div class="items-dropzone-plus" aria-hidden="true">
+						<d2l-icon icon="tier1:plus-large-thick"></d2l-icon>
+					</div>
+				</div>
+
+				<div class="sr-only" aria-live="polite" id="live"></div>
+			</section>
+			<div class="actions">
+				<d2l-button id="checkBtn" primary>Check Answers</d2l-button>
+				<d2l-button id="tryAgainBtn" class="is-hidden" primary
+					>Try Again</d2l-button
+				>
+				<d2l-loading-spinner id="checkSpinner"></d2l-loading-spinner>
+			</div>
+		</div>
+
+		<script>
+			// -----------------------------
+			// DATA (edit however you want)
+			// -----------------------------
+			const categories = [
+				{ id: "aaron", title: "Aaron's", total: 1 },
+				{ id: "soraiya", title: "Soraiya's", total: 1 },
+			];
+
+			const items = [
+				{
+					id: "i1",
+					text: "Responds quickly without analyzing the situation carefully.",
+					categoryId: "aaron",
+				},
+				{
+					id: "i2",
+					text: "Takes time to analyze the situation more carefully and to seek new information.",
+					categoryId: "soraiya",
+				},
+			];
+
+			// selected[itemId] = categoryId OR "0" for pool
+			const selected = Object.fromEntries(items.map((it) => [it.id, "0"]));
+
+			// click-to-move selected item
+			let activeItemId = null;
+			let hasChecked = false;
+			let isChecking = false;
+
+			// DOM
+			const categoryGrid = document.getElementById("categoryGrid");
+			const itemsList = document.getElementById("itemsList");
+			const itemsDropzone = document.getElementById("itemsDropzone");
+			const live = document.getElementById("live");
+			const itemsMenuWrap = document.getElementById("itemsMenuWrap");
+			const itemsDropdown = document.getElementById("itemsDropdown");
+			const itemsDropdownMenu = document.getElementById("itemsDropdownMenu");
+			const itemsDropdownSubmit = document.querySelector(
+				".items-dropdown-submit",
+			);
+			const checkBtn = document.getElementById("checkBtn");
+			const tryAgainBtn = document.getElementById("tryAgainBtn");
+			const actionsWrap = document.querySelector(".actions");
+
+			function getItemById(itemId) {
+				return items.find((it) => it.id === itemId);
+			}
+
+			function isCorrect(itemId) {
+				const item = getItemById(itemId);
+				if (!item) return false;
+				return selected[itemId] === item.categoryId;
+			}
+
+			function countCorrect() {
+				return items.filter((it) => isCorrect(it.id)).length;
+			}
+
+			function announce(msg) {
+				live.textContent = msg;
+			}
+
+			function countInCategory(catId) {
+				return Object.values(selected).filter((v) => v === catId).length;
+			}
+
+			function selectItem(itemId) {
+				if (hasChecked) return;
+				activeItemId = activeItemId === itemId ? null : itemId;
+				render();
+			}
+
+			function moveSelectedTo(catId) {
+				if (hasChecked) return;
+				if (!activeItemId) return;
+				selected[activeItemId] = catId;
+				announce(`Moved item to ${catId === "0" ? "Sortable Items" : catId}`);
+				activeItemId = null;
+				render();
+			}
+
+			function setItemToCategory(itemId, catId) {
+				if (hasChecked) return;
+				selected[itemId] = catId;
+			}
+
+			function getItemsInCategory(catId) {
+				return items.filter((it) => selected[it.id] === catId);
+			}
+
+			// -----------------------------
+			// Drop back into pool (drag)
+			// -----------------------------
+			itemsDropzone.addEventListener("dragover", (e) => {
+				e.preventDefault();
+				if (hasChecked) return;
+				itemsDropzone.classList.add("drag-over");
+			});
+
+			itemsDropzone.addEventListener("dragleave", () => {
+				itemsDropzone.classList.remove("drag-over");
+			});
+
+			itemsDropzone.addEventListener("drop", (e) => {
+				e.preventDefault();
+				itemsDropzone.classList.remove("drag-over");
+				if (hasChecked) return;
+
+				const itemId = e.dataTransfer.getData("text/plain");
+				if (!itemId) return;
+
+				selected[itemId] = "0";
+				activeItemId = null;
+				render();
+			});
+
+			// Click-to-move back into pool
+			itemsDropzone.addEventListener("click", (e) => {
+				if (hasChecked) return;
+				if (!activeItemId) return;
+
+				const clickedCard = e.target.closest(".sortable");
+				if (clickedCard) return;
+
+				moveSelectedTo("0");
+			});
+
+			// Keyboard drop back into pool
+			itemsDropzone.addEventListener("keydown", (e) => {
+				if (hasChecked) return;
+				if (!activeItemId) return;
+				if (e.key === "Enter" || e.key === " ") {
+					e.preventDefault();
+					moveSelectedTo("0");
+				}
+			});
+
+			function applyPoolMenuSelection(chosenIds) {
+				for (const itemId of chosenIds) {
+					setItemToCategory(itemId, "0");
+				}
+				activeItemId = null;
+				render();
+			}
+
+			// -----------------------------
+			// Brightspace Menu Logic (Category Menus)
+			// -----------------------------
+			function applyMenuSelection(categoryId, chosenIds) {
+				if (hasChecked) return;
+				// Items checked should be in this category
+				for (const itemId of chosenIds) {
+					setItemToCategory(itemId, categoryId);
+				}
+
+				// Items previously in category but now unchecked go back to pool
+				const currentlyInCategory = getItemsInCategory(categoryId).map(
+					(it) => it.id,
+				);
+				for (const itemId of currentlyInCategory) {
+					if (!chosenIds.includes(itemId)) {
+						setItemToCategory(itemId, "0");
+					}
+				}
+
+				activeItemId = null;
+				render();
+			}
+
+			// -----------------------------
+			// RENDER
+			// -----------------------------
+			function render() {
+				document.body.classList.toggle("is-checked", hasChecked);
+				// --- categories
+				categoryGrid.innerHTML = "";
+
+				categories.forEach((cat) => {
+					const wrap = document.createElement("div");
+					wrap.className = "category";
+
+					// Build checkbox menu HTML
+					const menuId = `menu-${cat.id}`;
+					const dropdownId = `dropdown-${cat.id}`;
+
+					wrap.innerHTML = `
+						<div class="category-header">
+							<div class="category-title">${cat.title}</div>
+
+							<div class="category-menu">
+								<d2l-dropdown-context-menu text="${cat.title}" id="${dropdownId}">
+									<d2l-dropdown-menu trap-focus max-height="500" no-auto-close>
+										<d2l-menu label="${cat.title}">
+											${items
+												.map((it) => {
+													const isHere = selected[it.id] === cat.id;
+													return `
+													<d2l-menu-item-checkbox
+														id="${it.id}"
+														text="${it.text.replaceAll('"', "&quot;")}"
+														${isHere ? "selected" : ""}
+													></d2l-menu-item-checkbox>
+												`;
+												})
+												.join("")}
+										</d2l-menu>
+
+										<d2l-button-subtle primary slot="footer"
+											class="dropdown-submit-button"
+											text="Submit">
+										</d2l-button-subtle>
+									</d2l-dropdown-menu>
+								</d2l-dropdown-context-menu>
+							</div>
+						</div>
+
+						<div class="category-content ${
+							activeItemId ? "ready-to-drop" : ""
+						}" data-dropzone="${cat.id}" role="button" tabindex="0"
+							aria-label="Drop into ${cat.title}">
+							
+							<p class="category-info">
+								Sortable Items: ${countInCategory(cat.id)} / ${cat.total}
+							</p>
+
+							<ul class="category-items" id="cat-${cat.id}"></ul>
+
+							<div class="category-plus" aria-hidden="true">
+								<d2l-icon icon="tier1:plus-large-thick"></d2l-icon>
+							</div>
+						</div>
+					`;
+
+					categoryGrid.appendChild(wrap);
+
+					// render assigned items in this category
+					const list = wrap.querySelector(`#cat-${cat.id}`);
+					items.forEach((it) => {
+						if (selected[it.id] !== cat.id) return;
+						list.appendChild(buildSortable(it));
+					});
+
+					// dropzone interactions
+					const dropzone = wrap.querySelector(".category-content");
+
+					// click-to-move target
+					dropzone.addEventListener("click", () => moveSelectedTo(cat.id));
+
+					dropzone.addEventListener("keydown", (e) => {
+						if (e.key === "Enter" || e.key === " ") {
+							e.preventDefault();
+							moveSelectedTo(cat.id);
+						}
+					});
+
+					// drag highlight
+					dropzone.addEventListener("dragover", (e) => {
+						e.preventDefault();
+						if (hasChecked) return;
+						dropzone.classList.add("drag-over");
+					});
+					dropzone.addEventListener("dragleave", () => {
+						dropzone.classList.remove("drag-over");
+					});
+					dropzone.addEventListener("drop", (e) => {
+						e.preventDefault();
+						dropzone.classList.remove("drag-over");
+						if (hasChecked) return;
+
+						const itemId = e.dataTransfer.getData("text/plain");
+						if (!itemId) return;
+
+						selected[itemId] = cat.id;
+						activeItemId = null;
+						render();
+					});
+
+					// -----------------------------
+					// Menu behavior (submit applies selection)
+					// -----------------------------
+					const contextMenu = wrap.querySelector(`#${dropdownId}`);
+					const dropdownMenu = wrap.querySelector("d2l-dropdown-menu");
+					const submitBtn = wrap.querySelector(".dropdown-submit-button");
+
+					// On open, sync selected states with current assignments
+					dropdownMenu.addEventListener("d2l-dropdown-open", () => {
+						if (hasChecked) return;
+						const checkboxes = dropdownMenu.querySelectorAll(
+							"d2l-menu-item-checkbox",
+						);
+
+						checkboxes.forEach((cb) => {
+							const id = cb.id;
+							if (selected[id] === cat.id) cb.setAttribute("selected", "");
+							else cb.removeAttribute("selected");
+						});
+					});
+
+					// Submit applies selected checkboxes
+					submitBtn.addEventListener("click", () => {
+						if (hasChecked) return;
+						const chosen = Array.from(
+							dropdownMenu.querySelectorAll("d2l-menu-item-checkbox[selected]"),
+						).map((el) => el.id);
+
+						applyMenuSelection(cat.id, chosen);
+
+						// close menu safely
+						if (typeof dropdownMenu.close === "function") dropdownMenu.close();
+						if ("opened" in contextMenu) contextMenu.opened = false;
+					});
+				});
+
+				// --- sortable items pool
+				itemsList.innerHTML = "";
+
+				let poolCount = 0;
+				items.forEach((it) => {
+					if (selected[it.id] !== "0") return;
+					poolCount++;
+					itemsList.appendChild(buildSortable(it));
+				});
+
+				if (itemsMenuWrap) {
+					itemsMenuWrap.classList.toggle("is-hidden", poolCount !== 0);
+				}
+
+				itemsDropzone.classList.toggle("ready-to-drop", Boolean(activeItemId));
+				itemsDropzone.classList.toggle("is-empty", poolCount === 0);
+			}
+
+			function buildSortable(it) {
+				const li = document.createElement("li");
+				li.className = "sortable";
+				li.draggable = !hasChecked;
+				li.tabIndex = 0;
+				li.dataset.id = it.id;
+
+				if (activeItemId === it.id) {
+					li.classList.add("is-selected");
+					li.setAttribute("aria-selected", "true");
+				} else {
+					li.setAttribute("aria-selected", "false");
+				}
+
+				li.innerHTML = `
+					<div class="drag-handle" aria-hidden="true">
+						<d2l-icon icon="tier1:dragger"></d2l-icon>
+					</div>
+					<p class="sortable-text">${it.text}</p>
+				`;
+
+				// click = select
+				li.addEventListener("click", (e) => {
+					e.stopPropagation();
+					selectItem(it.id);
+				});
+
+				// keyboard = select
+				li.addEventListener("keydown", (e) => {
+					if (e.key === "Enter" || e.key === " ") {
+						e.preventDefault();
+						selectItem(it.id);
+					}
+				});
+
+				// drag support
+				li.addEventListener("dragstart", (e) => {
+					if (hasChecked) return;
+					e.dataTransfer.setData("text/plain", it.id);
+					e.dataTransfer.effectAllowed = "move";
+				});
+
+				return li;
+			}
+
+			function initItemsMenu() {
+				if (!itemsDropdownMenu || !itemsDropdownSubmit || !itemsDropdown)
+					return;
+
+				itemsDropdownMenu.innerHTML = items
+					.map(
+						(it) => `
+						<d2l-menu-item-checkbox
+							id="pool-${it.id}"
+							text="${it.text.replaceAll('"', "&quot;")}"
+						></d2l-menu-item-checkbox>
+					`,
+					)
+					.join("");
+
+				itemsDropdownMenu.addEventListener("d2l-dropdown-open", () => {
+					const checkboxes = itemsDropdownMenu.querySelectorAll(
+						"d2l-menu-item-checkbox",
+					);
+					checkboxes.forEach((cb) => {
+						const itemId = cb.id.replace("pool-", "");
+						if (selected[itemId] === "0") cb.setAttribute("selected", "");
+						else cb.removeAttribute("selected");
+					});
+				});
+
+				itemsDropdownSubmit.addEventListener("click", () => {
+					const chosen = Array.from(
+						itemsDropdownMenu.querySelectorAll(
+							"d2l-menu-item-checkbox[selected]",
+						),
+					).map((el) => el.id.replace("pool-", ""));
+
+					applyPoolMenuSelection(chosen);
+
+					if (typeof itemsDropdownMenu.close === "function")
+						itemsDropdownMenu.close();
+					if ("opened" in itemsDropdown) itemsDropdown.opened = false;
+				});
+			}
+
+			itemsDropzone.addEventListener("click", () => {
+				if (activeItemId) return;
+				if (!itemsMenuWrap?.classList.contains("is-hidden")) {
+					if ("opened" in itemsDropdown) itemsDropdown.opened = true;
+				}
+			});
+
+			itemsDropzone.addEventListener("keydown", (e) => {
+				if (activeItemId) return;
+				if (e.key === "Enter" || e.key === " ") {
+					if (!itemsMenuWrap?.classList.contains("is-hidden")) {
+						e.preventDefault();
+						if ("opened" in itemsDropdown) itemsDropdown.opened = true;
+					}
+				}
+			});
+
+			function checkAnswers() {
+				if (isChecking || hasChecked) return;
+				setCheckingUI(true);
+				setTimeout(() => {
+					hasChecked = true;
+					const correct = countCorrect();
+					announce(`Checked answers. ${correct} of ${items.length} correct.`);
+					render();
+					updateButtons();
+					updateFeedback();
+					setCheckingUI(false);
+				}, 700);
+			}
+
+			function setCheckingUI(checking) {
+				isChecking = checking;
+				if (!actionsWrap) return;
+				actionsWrap.classList.toggle("loading", checking);
+			}
+
+			function tryAgain() {
+				if (isChecking) return;
+				hasChecked = false;
+				activeItemId = null;
+				render();
+				updateButtons();
+				updateFeedback(true);
+			}
+
+			function updateButtons() {
+				if (!checkBtn || !tryAgainBtn) return;
+				checkBtn.classList.toggle("is-hidden", hasChecked);
+				tryAgainBtn.classList.toggle("is-hidden", !hasChecked);
+			}
+
+			function updateFeedback(clear = false) {
+				const rows = document.querySelectorAll(".category-content");
+				rows.forEach((row) => {
+					row.classList.remove("correct", "incorrect");
+				});
+				if (clear || !hasChecked) return;
+
+				items.forEach((it) => {
+					const target = document.querySelector(
+						`[data-dropzone="${selected[it.id]}"]`,
+					);
+					if (!target) return;
+					target.classList.toggle("correct", isCorrect(it.id));
+					target.classList.toggle("incorrect", !isCorrect(it.id));
+				});
+			}
+
+			initItemsMenu();
+			updateButtons();
+			render();
+			updateFeedback(true);
+
+			if (checkBtn) checkBtn.addEventListener("click", checkAnswers);
+			if (tryAgainBtn) tryAgainBtn.addEventListener("click", tryAgain);
+		</script>
+	</body>
+</html>

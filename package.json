@@ -7,8 +7,10 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "vite",
 		"clean": "node -e \"['package-en.zip','package-fr.zip','imsmanifest.xml.bak'].forEach(f=>{try{require('fs').unlinkSync(f)}catch(e){}})\"",
-		"package-en": "bestzip package-en.zip assets imsmanifest.xml index.html",
-		"package-fr": "node -e \"const fs=require('fs'); fs.copyFileSync('imsmanifest.xml','imsmanifest.xml.bak'); fs.copyFileSync('imsmanifest_fr.xml','imsmanifest.xml');\" && bestzip package-fr.zip assets imsmanifest.xml index_fr.html && node -e \"const fs=require('fs'); fs.copyFileSync('imsmanifest.xml.bak','imsmanifest.xml'); fs.unlinkSync('imsmanifest.xml.bak');\"",
+		"package-en": "bestzip package-en.zip assets brightspace-core-bundle.js imsmanifest.xml index.html",
+		"package-fr": "node -e \"const fs=require('fs'); fs.copyFileSync('imsmanifest.xml','imsmanifest.xml.bak'); fs.copyFileSync('imsmanifest_fr.xml','imsmanifest.xml');\" && bestzip package-fr.zip assets brightspace-core-bundle.js imsmanifest.xml index_fr.html && node -e \"const fs=require('fs'); fs.copyFileSync('imsmanifest.xml.bak','imsmanifest.xml'); fs.unlinkSync('imsmanifest.xml.bak');\"",
+		"package-bs": "bestzip bs-critical.zip assets brightspace-core-bundle.js index.html launch.html",
+		"verify-bs-zip": "node -e \"const fs=require('fs'); const path=require('path'); const files=['launch.html','index.html','brightspace-core-bundle.js','assets']; const missing=files.filter(f=>!fs.existsSync(path.join(process.cwd(),f))); if(missing.length){console.error('Missing:',missing.join(',')); process.exit(1);} console.log('OK: launch.html + index.html + bundle + assets present.');\"",
 		"package-all": "npm run package-en && npm run package-fr"
 	},
 	"repository": {

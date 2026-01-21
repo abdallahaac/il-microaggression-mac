@@ -59,60 +59,7 @@
 }
 /* --- End Slideshow Styles --- */
 
-/* Header and Nav */
-.hero-image-navigation {
-	display: flex;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 1000;
-	color: white;
-	width: 100%;
-	justify-content: space-between;
-	transition: all 0.3s ease;
-	height: 80px;
-	align-items: center;
-	padding: 0 2rem;
-	background-color: transparent;
-}
-
-.hero-image-navigation.scrolled {
-	background-color: var(--card-background);
-	color: var(--text-color);
-	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.hero-image-navigation.scrolled a {
-	color: var(--text-color);
-}
-
-.left-hero {
-	display: flex;
-	align-items: center;
-	font-family: "Playfair Display", serif;
-}
-
-.left-hero a {
-	text-decoration: none;
-	color: white;
-	font-size: 1.2rem;
-}
-
-header#header-nav {
-	height: fit-content;
-}
-
-img.header-logo {
-	width: 80px;
-	margin: 10px;
-	margin-right: 20px;
-}
-
-.left-hero > a {
-	text-align: center;
-	display: flex;
-	align-items: center;
-}
+/* Header and Nav removed */
 
 /* Main Content Styles */
 .course-main {
@@ -121,25 +68,26 @@ img.header-logo {
 }
 
 .course-header {
-	padding: 10rem 2rem 4rem 2rem;
+	padding: 4.5rem 2rem 2.5rem;
 	text-align: center;
-	background-color: rgba(45, 55, 72, 0.7);
-	color: white;
-	height: 400px;
+	background-color: #ffffff;
+	color: var(--text-color);
+	height: auto;
 }
 
 .course-header h1 {
 	font-family: "Playfair Display", serif;
-	font-size: clamp(2rem, 5vw, 3.5rem);
+	font-size: clamp(2rem, 5vw, 3.25rem);
 	margin-bottom: 0.5rem;
-	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+	text-shadow: none;
+	color: var(--brand-blue);
 }
 
 .course-header #welcome-message {
-	font-size: clamp(1.2rem, 3vw, 1.5rem);
+	font-size: clamp(1.1rem, 3vw, 1.4rem);
 	font-weight: 400;
-	opacity: 0.9;
-	color: white;
+	opacity: 0.85;
+	color: var(--text-color);
 }
 
 .content-wrapper {
@@ -156,12 +104,12 @@ img.header-logo {
 		0 10px 25px rgba(0, 0, 0, 0.1),
 		0 5px 10px rgba(0, 0, 0, 0.05);
 	overflow: hidden;
+	border: 0.4px solid #0070bb23;
 }
 
 .tab-nav {
 	display: flex;
 	flex-wrap: wrap;
-	background-color: #f0f8ff;
 	border-bottom: 1px solid #e2e8f0;
 }
 

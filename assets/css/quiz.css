@@ -84,19 +84,17 @@
 	display: none;
 	font-weight: 700;
 	border-left-width: 5px;
-	border-left-style: solid;
 }
 
 .feedback.correct {
 	background-color: var(--success-bg);
+	background-color: var(--success-bg);
 	color: var(--success-color);
-	border-left-color: var(--success-color);
 }
 
 .feedback.incorrect {
 	background-color: var(--error-bg);
 	color: var(--error-color);
-	border-left-color: var(--error-color);
 }
 
 .quiz-controls {

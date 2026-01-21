@@ -24,6 +24,9 @@
 		<link rel="stylesheet" href="./assets/css/components.css" />
 		<link rel="stylesheet" href="./assets/css/quiz.css" />
 		<link rel="stylesheet" href="./assets/css/back-to-top.css" />
+		<link rel="stylesheet" href="./assets/activities/sequencing-activity.css" />
+		<link rel="stylesheet" href="./assets/activities/critical-carousel.css" />
+		<link rel="stylesheet" href="./assets/activities/sorting-activity.css" />
 		<script
 			defer
 			src="https://templates.lcs.brightspace.com/lib/assets/js/scripts.min.js"
@@ -35,27 +38,6 @@
 		></script>
 	</head>
 	<body>
-		<!-- New slideshow element -->
-		<ul class="slideshow">
-			<li></li>
-			<li></li>
-			<li></li>
-		</ul>
-
-		<header class="hero-image-navigation" id="header-nav">
-			<a href="#main-content-area" class="skip-link">Skip to main content</a>
-			<div class="left-hero">
-				<a href="#">
-					<img
-						src="./assets/2023 IL visual (cercle) 1.svg"
-						alt="Indigenous Learning Logo"
-						class="header-logo"
-					/>
-					<span>Indigenous Learning</span>
-				</a>
-			</div>
-		</header>
-
 		<main class="course-main">
 			<div class="course-header">
 				<h1>Develop Your Critical <br />Thinking Skills</h1>
@@ -116,226 +98,528 @@
 							role="tabpanel"
 							aria-labelledby="tab-1"
 						>
-							<h2 style="justify-content: center; text-align: center">
-								<img src="./assets/image.png" alt="" />
-							</h2>
-							<p>
-								There is a pond covered with lily pads. The pond began with 1
-								lily pad, but the patch doubles in size every day. On day 48 the
-								entire pond is covered. How long would it take the lily ponds to
-								cover exactly half the lake?
-							</p>
-							<p>
-								Your first thought was probably 24. Most people see the word
-								"half" and automatically divide 48 in half. Our brains take
-								these mental shortcuts to arrive at answers more quickly. If you
-								did not rush to judgment and took some time to deliberately
-								analyze the situation, you would eventually arrive at the
-								correct answer, 47.
-							</p>
-							<p>
-								As this riddle demonstrates, critical thinking takes time and
-								effort and is more than just "being smart." It is a deliberate,
-								mental process of checking the quality of your own thoughts and
-								information you receive before you accept it as true.
-							</p>
+							<d2l-card class="pond-card">
+								<img
+									slot="header"
+									src="./assets/image.jpg"
+									alt="Lily pads floating on a pond"
+								/>
+								<div slot="content">
+									<d2l-card-content-title
+										>Warm-up Riddle</d2l-card-content-title
+									>
+									<p>
+										There is a pond covered with lily pads. The pond began with
+										1 lily pad, but the patch doubles in size every day. On day
+										48 the entire pond is covered. How long would it take the
+										lily ponds to cover exactly half the lake?
+									</p>
+									<p>
+										Your first thought was probably 24. Most people see the word
+										"half" and automatically divide 48 in half. Our brains take
+										these mental shortcuts to arrive at answers more quickly. If
+										you did not rush to judgment and took some time to
+										deliberately analyze the situation, you would eventually
+										arrive at the correct answer, 47.
+									</p>
+									<p>
+										As this riddle demonstrates, critical thinking takes time
+										and effort and is more than just "being smart." It is a
+										deliberate, mental process of checking the quality of your
+										own thoughts and information you receive before you accept
+										it as true.
+									</p>
+									<p>
+										Of course, critical thinking is just one of the many
+										cognitive functions we use at work each day. Before we
+										continue, do you know how critical thinking differs from
+										strategic thinking, creative thinking and even problem
+										solving?
+									</p>
+								</div>
+							</d2l-card>
 
 							<blockquote class="d2l-blockquote">
+								<span class="quote-icon" aria-hidden="true">
+									<svg
+										viewBox="0 0 64 64"
+										role="presentation"
+										focusable="false"
+									>
+										<path
+											d="M26 16c-8.3 0-15 6.7-15 15v17h17V31H19c0-3.9 3.1-7 7-7V16zm27 0c-8.3 0-15 6.7-15 15v17h17V31H46c0-3.9 3.1-7 7-7V16z"
+										/>
+									</svg>
+								</span>
 								"Learn to use your brain power. Critical thinking is the key to
-								creative problem-solving in business." <br />
-								<br />
-								- Richard Branson
+								creative problem-solving in business."
+								<cite>Richard Branson</cite>
 							</blockquote>
-
-							<p>
-								Of course, critical thinking is just one of the many cognitive
-								functions we use at work each day. Before we continue, do you
-								know how critical thinking differs from strategic thinking,
-								creative thinking and even problem solving?
-							</p>
-							<!-- ✅ TEST: Brightspace Practice Embed (Sequencing / any practice) -->
-							<div
-								class="d2l-practice mceNonEditable"
-								data-d2l-activity-href="https://ac48db9a-609b-477e-be1b-a64dce42f5be.api.brightspace.com/activity/12358586?ou=12333"
-							>
-								<div class="placeholder">
-									<p>Practice Activity Test</p>
-								</div>
-
-								<iframe
-									id="practice-test-1"
-									src="https://practices.lcs.brightspace.com/latest/practice.html?id=practice-test-1&t=1"
-									data-file="practice/config-1768331237930.practice.json"
-									width="100%"
-									style="border: 0; min-height: 520px"
-								></iframe>
-							</div>
-
+							<d2l-demo-list-drag-and-drop-position
+								grid
+								selectable
+								hrefs
+							></d2l-demo-list-drag-and-drop-position>
 							<section aria-label="Critical Thinking definition">
-								<d2l-collapsible-panel-group>
+								<div class="wrapper">
+									<h3>Test Your Existing Knowledge</h3>
+									<d2l-collapsible-panel-group class="seq-instructions">
+										<d2l-collapsible-panel
+											panel-title="Sequencing Instructions"
+											heading-level="3"
+											heading-style="3"
+											padding-type="default"
+											type="default"
+											style="border: none; outline: none"
+										>
+											<ul>
+												<li>
+													Dragging Instructions: Drag any sequence item to drop
+													it in the correct step.
+												</li>
+												<li>
+													Touch/Click Instructions: Select a sequence step, then
+													choose a sequence item to drop in the step.
+												</li>
+												<li>
+													Keyboard Instructions: Use Tab to focus a definition,
+													then press Enter or Space to open the dropdown and
+													choose an item.
+												</li>
+											</ul>
+
+											<d2l-tooltip for="tooltip-preview">
+												<ul>
+													<li>Use Tab to move to a definition row.</li>
+													<li>
+														Press Enter or Space to open the dropdown list.
+													</li>
+													<li>
+														Use the Up/Down arrow keys to move through the list,
+														then press Enter to select an item.
+													</li>
+													<li>
+														When all items are sequenced, Tab to Check Answers
+														and press Enter.
+													</li>
+													<li>
+														After checking, read feedback on each row. Select
+														Try Again to reset.
+													</li>
+												</ul>
+											</d2l-tooltip>
+										</d2l-collapsible-panel>
+									</d2l-collapsible-panel-group>
+									<div class="seq-container" id="seqContainer" role="list">
+										<div class="seq-alert-wrap" id="seqAlertWrap">
+											<div id="alertHost"></div>
+										</div>
+									</div>
+									<div class="actions">
+										<div class="check-area" id="checkArea">
+											<d2l-button id="checkBtn" primary
+												>Check Answers</d2l-button
+											>
+											<d2l-button id="tryAgainBtn" class="is-hidden" primary
+												>Try Again</d2l-button
+											>
+											<d2l-loading-spinner
+												id="checkSpinner"
+											></d2l-loading-spinner>
+											<div
+												id="srStatus"
+												class="sr-only"
+												aria-live="polite"
+											></div>
+										</div>
+									</div>
+								</div>
+								<hr class="section-divider" />
+
+								<d2l-card class="concept-card">
+									<div slot="content">
+										<d2l-card-content-title
+											>Critical Thinking</d2l-card-content-title
+										>
+										<p class="concept-lead">
+											Critical thinking is the process of analyzing available
+											facts, evidence, and arguments to reach a reasoned
+											judgment about what is true or right.
+										</p>
+										<p>
+											We use critical thinking skills for more than solving
+											riddles! As public servants, we work in an environment of
+											ambiguity, rapid change, and high public scrutiny. From
+											climate change and affordable housing to digital
+											transformation and reconciliation with Indigenous peoples,
+											our challenges demand rigorous, insightful and impartial
+											judgment. Finding solutions to these problems requires
+											critical thinking.
+										</p>
+									</div>
+								</d2l-card>
+							</section>
+							<section class="carousel" aria-label="Critical Thinking carousel">
+								<div class="section-width">
+									<d2l-collapsible-panel-group>
+										<d2l-collapsible-panel
+											panel-title="Carousel Instructions"
+											heading-level="3"
+											heading-style="3"
+											padding-type="default"
+											type="default"
+											style="border: none; outline: none"
+										>
+											<ul>
+												<li>
+													Keyboard: Use the left and right arrow keys to move
+													between slides.
+												</li>
+												<li>Use the arrows to move through the slides.</li>
+												<li>
+													Buttons: Use the chevrons to navigate. The slide
+													counter updates as you move.
+												</li>
+											</ul>
+										</d2l-collapsible-panel>
+									</d2l-collapsible-panel-group>
+								</div>
+								<div class="carousel__frame" id="critical-carousel-frame">
+									<div class="carousel__titleWrap">
+										<h2 class="carousel__title" id="critical-carousel-title">
+											Title
+										</h2>
+									</div>
+									<div
+										class="carousel__stage"
+										id="critical-carousel-stage"
+									></div>
+									<div class="carousel__nav" aria-label="Slide navigation">
+										<d2l-button-icon
+											class="carousel__navBtn"
+											id="critical-carousel-prev"
+											icon="tier1:chevron-left"
+											text="Previous slide"
+											aria-label="Previous slide"
+										></d2l-button-icon>
+										<div
+											class="carousel__countWrap"
+											role="text"
+											id="critical-carousel-countWrap"
+											aria-label="Slide number"
+										>
+											<span aria-hidden="true" id="critical-carousel-countLabel"
+												>1 / 6</span
+											>
+										</div>
+										<d2l-button-icon
+											class="carousel__navBtn"
+											id="critical-carousel-next"
+											icon="tier1:chevron-right"
+											text="Next slide"
+											aria-label="Next slide"
+										></d2l-button-icon>
+									</div>
+									<div
+										class="live-region"
+										aria-live="polite"
+										aria-atomic="true"
+										id="critical-carousel-live"
+									>
+										Slide 1
+									</div>
+								</div>
+							</section>
+
+							<d2l-card class="prompt-card solo-card">
+								<div slot="content">
+									<p>
+										Even if you are not involved in solving complex policy
+										problems like climate change, you probably judge ideas and
+										information at work more often than you even realize.
+									</p>
+								</div>
+							</d2l-card>
+
+							<div class="prompt-grid">
+								<d2l-card class="prompt-card prompt-grid-card">
+									<div slot="content" class="prompt-placeholder">
+										<svg
+											viewBox="0 0 120 90"
+											role="img"
+											aria-label="Placeholder image"
+										>
+											<rect x="6" y="6" width="108" height="78" rx="6" />
+											<circle cx="40" cy="36" r="10" />
+											<path d="M18 70 L46 50 L66 62 L90 44 L106 70" />
+										</svg>
+									</div>
+								</d2l-card>
+								<d2l-card class="prompt-card prompt-grid-card">
+									<div slot="content" class="prompt-placeholder">
+										<svg
+											viewBox="0 0 120 90"
+											role="img"
+											aria-label="Placeholder image"
+										>
+											<rect x="6" y="6" width="108" height="78" rx="6" />
+											<circle cx="40" cy="36" r="10" />
+											<path d="M18 70 L46 50 L66 62 L90 44 L106 70" />
+										</svg>
+									</div>
+								</d2l-card>
+								<d2l-card class="prompt-card prompt-grid-card">
+									<div slot="content" class="prompt-placeholder">
+										<svg
+											viewBox="0 0 120 90"
+											role="img"
+											aria-label="Placeholder image"
+										>
+											<rect x="6" y="6" width="108" height="78" rx="6" />
+											<circle cx="40" cy="36" r="10" />
+											<path d="M18 70 L46 50 L66 62 L90 44 L106 70" />
+										</svg>
+									</div>
+								</d2l-card>
+							</div>
+							<div class="section-width">
+								<d2l-collapsible-panel-group class="prompt-questions">
 									<d2l-collapsible-panel
-										panel-title="Sequencing Instructions"
+										class="question-panel"
+										panel-title="Have you been asked..."
 										heading-level="3"
 										heading-style="3"
 										padding-type="default"
 										type="default"
-										style="border: none; outline: none"
 									>
 										<ul>
 											<li>
-												Dragging Instructions: Drag any sequence item to drop it
-												in the correct step.
+												Dragging Instructions: From the menu, drag a sortable
+												item to the matching category.
 											</li>
 											<li>
-												Tap Instructions: Select a sequence step. Select a
-												sequence item to drop in the step.
+												Tap Instructions: Select a sortable item. Select a
+												category to drop the sortable item.
+											</li>
+											<li>
+												Dropdown Instructions: Select the category dropdown.
+												Select the matching sortable items. Select Submit to
+												drop the sortable items.
 											</li>
 										</ul>
-
-										<d2l-button id="tooltip-preview">Instructions</d2l-button>
-										<d2l-tooltip for="tooltip-preview">
-											<ul>
-												<li>To use the keyboard, select Tab.</li>
-												<li>Use Tab to access the first step.</li>
-												<li>
-													Select the step to invoke a dropdown of sequenceable
-													items.
-												</li>
-												<li>
-													Use the up and down arrow keys to move through the
-													list and select an item to add to the step.
-												</li>
-												<li>
-													When all items are sequenced, tab to the bottom of the
-													page and select Check Answers.
-												</li>
-												<li>
-													Use Tab to navigate through steps for additional
-													feedback.
-												</li>
-											</ul>
-										</d2l-tooltip>
 									</d2l-collapsible-panel>
 								</d2l-collapsible-panel-group>
-								<h3>Critical Thinking</h3>
-								<p>
-									Critical thinking is the process of analyzing available facts,
-									evidence, and arguments to reach a reasoned judgment about
-									what is true or right.
-								</p>
-							</section>
-
-							<p>
-								We use critical thinking skills for more than solving riddles!
-								As public servants, we work in an environment of ambiguity,
-								rapid change, and high public scrutiny. From climate change and
-								affordable housing to digital transformation and reconciliation
-								with Indigenous peoples, our challenges demand rigorous,
-								insightful and impartial judgment. Finding solutions to these
-								problems requires critical thinking.
-							</p>
-							<p>
-								Consider if any of these examples relate to the work you do in
-								your current role:
-							</p>
-							<ul>
-								<li>
-									<strong>Evaluate Evidence:</strong> Critical thinkers assess
-									the source, reliability, and bias of data and research.
-								</li>
-								<li>
-									<strong>Manage Ambiguity:</strong> Critical thinkers make
-									reasoned decisions even when data is incomplete or
-									contradictory.
-								</li>
-								<li>
-									<strong>Combat Misinformation:</strong> Critical thinkers can
-									distinguish objective facts from opinion or persuasive
-									framing.
-								</li>
-								<li>
-									<strong>Challenge Assumptions:</strong> Critical thinkers
-									identify and question the unstated beliefs that underpin a
-									proposed course of action.
-								</li>
-								<li>
-									<strong>Assess Risk:</strong> Critical thinkers can
-									objectively weigh the pros and cons and potential unintended
-									consequences of various options.
-								</li>
-								<li>
-									<strong>Ensure Objectivity:</strong> Critical thinkers
-									minimize the impact of personal or organizational biases on
-									official advice.
-								</li>
-							</ul>
-
-							<p>
-								Even if you are not involved in solving complex policy problems
-								like climate change, you probably judge ideas and information at
-								work more often than you even realize.
-							</p>
-							<section
-								class="d2l-cplus-layout d2l-cplus-layout-thirds"
-								aria-label="Workplace images"
-							>
-								<section class="d2l-cplus-layout-column" aria-label="Image 1">
+							</div>
+							<d2l-card class="prompt-card">
+								<div slot="content">
 									<p>
-										<img
-											src="/content/enforced/12333-SB-Darla_McFarlane/image1.jpg"
-											alt=""
-											style="max-width: 100%"
-										/>
+										All of these tasks involve some degree of critical thinking.
 									</p>
-								</section>
-								<section class="d2l-cplus-layout-column" aria-label="Image 2">
 									<p>
-										<img
-											src="/content/enforced/12333-SB-Darla_McFarlane/image2.jpg"
-											alt=""
-											style="max-width: 100%"
-										/>
+										In other words, not all of us are solving global problems at
+										work, but most of us are analyzing and judging information
+										related to our projects and internal processes every day.
 									</p>
-								</section>
-								<section class="d2l-cplus-layout-column" aria-label="Image 3">
+								</div>
+							</d2l-card>
+							<hr class="section-divider" />
+
+							<h2 class="section-width">Reflection Activity</h2>
+							<d2l-card class="prompt-card">
+								<div slot="content">
 									<p>
-										<img
-											src="/content/enforced/12333-SB-Darla_McFarlane/image3.jpg"
-											alt=""
-											style="max-width: 100%"
-										/>
+										Let's look at an ordinary workplace example where a manager
+										solicits feedback from two team leaders, Aaron and Soraiya:
 									</p>
+									<d2l-html-block class="email-block" no-deferred-rendering>
+										<div class="email-block__row">
+											<span class="email-block__label">To:</span>
+											<span class="email-block__value">Aaron and Soraiya</span>
+										</div>
+										<div class="email-block__row">
+											<span class="email-block__label">Subject:</span>
+											<span class="email-block__value"
+												>Please provide feedback</span
+											>
+										</div>
+										<div class="email-block__body">
+											<p>
+												I want each of you to find time this month to retrain
+												your teams on our new database software. I am noticing
+												more data entry errors than usual and suspect many
+												employees could use a refresher especially since we
+												recently added new features to the interface. The
+												software provider has offered us in-person training for
+												the entire group or an online training module for
+												employees to complete at their own pace, but we must
+												choose one strategy for all.
+											</p>
+											<p>Please let me know your preference.</p>
+										</div>
+									</d2l-html-block>
+								</div>
+							</d2l-card>
+							<div class="section-width">
+								<div slot="content">
+									<d2l-alert class="prompt-alert" type="default">
+										Take a moment and reflect on the responses given by Aaron
+										and Soraiya. Who do you think demonstrated critical thinking
+										skills to their manager in this situation?
+									</d2l-alert>
+									<d2l-collapsible-panel-group>
+										<d2l-collapsible-panel
+											panel-title="Carousel Instructions"
+											heading-level="3"
+											heading-style="3"
+											padding-type="default"
+											type="default"
+											style="border: none; outline: none"
+										>
+											<ul>
+												<li>
+													Select a card to flip it and reveal the content on the
+													back.
+												</li>
+											</ul>
+										</d2l-collapsible-panel>
+									</d2l-collapsible-panel-group>
+									<d2l-cplus-flipcards
+										class="flipcards-block"
+										data-id="reflection-1"
+										data-instructions=""
+										data-rows='[
+											[
+												{
+													"frontTitle": "Aaron",
+													"frontText": "<br><br>",
+													"frontImage": { "url": "", "alt": "" },
+													"backTitle": "Did Aaron demonstrate critical thinking?",
+													"backText": "No.<br><br>",
+													"backImage": { "url": "", "alt": "" }
+												},
+												{
+													"frontTitle": "Soraiya",
+													"frontText": "<br><br>",
+													"frontImage": { "url": "", "alt": "" },
+													"backTitle": "Did Soraiya demonstrate critical thinking?",
+													"backText": "Yes. <br><br>",
+													"backImage": { "url": "", "alt": "" }
+												}
+											]
+										]'
+									></d2l-cplus-flipcards>
+								</div>
+							</div>
+							<hr class="section-divider" />
+
+							<h2 class="section-width">Sorting Activity</h2>
+							<d2l-card class="prompt-card">
+								<div slot="content">
+									<p>
+										Before we move on, examine the list of behaviours and decide
+										which ones were demonstrated by Soraiya or Aaron. This
+										sorting activity will provide you with a more tangible
+										understanding of critical thinking as a set of observable
+										behaviours in the workplace:
+									</p>
+								</div>
+							</d2l-card>
+							<div class="section-width">
+								<d2l-collapsible-panel-group class="prompt-questions">
+									<d2l-collapsible-panel
+										class="question-panel"
+										panel-title="Sorting Instructions"
+										heading-level="3"
+										heading-style="3"
+										padding-type="default"
+										type="default"
+									>
+										<ul>
+											<li>
+												Dragging Instructions: From the menu, drag a sortable
+												item to the matching category.
+											</li>
+											<li>
+												Tap Instructions: Select a sortable item. Select a
+												category to drop the sortable item.
+											</li>
+											<li>
+												Dropdown Instructions: Select the category dropdown.
+												Select the matching sortable items. Select Submit to
+												drop the sortable items.
+											</li>
+										</ul>
+									</d2l-collapsible-panel>
+								</d2l-collapsible-panel-group>
+								<br />
+							</div>
+							<div class="section-width sorting-activity">
+								<section class="categories" aria-label="Sorting Categories">
+									<div class="items-header">
+										<h3 class="section-title">Categories</h3>
+									</div>
+									<div class="category-grid" id="sortCategoryGrid"></div>
 								</section>
-							</section>
-							<p>
-								Have you been asked to contribute your thoughts and ideas to a
-								business process? Have you been asked to choose a suitable venue
-								for a team event? Have you participated in a selection process
-								for a new employee? Have you been asked to proofread a
-								colleague's email or report before it gets read by a senior
-								manager? Have you been asked to brainstorm ideas for how to
-								improve a program or your team's service to clients? All of
-								these tasks involve some degree of critical thinking.
-							</p>
-							<p>
-								In other words, not all of us are solving global problems at
-								work, but most of us are analyzing and judging information
-								related to our projects and internal processes every day.
-							</p>
 
-							<h2>Reflection Activity</h2>
-							<p>
-								Let's look at an ordinary workplace example where a manager
-								solicits feedback from two team leaders, Aaron and Soraiya:
-							</p>
-							<p>
-								<img
-									src="/content/enforced/12333-SB-Darla_McFarlane/image_20260113223437464.png"
-									alt=""
-									style="max-width: 100%"
-								/>
-							</p>
+								<section class="items" aria-label="Sortable Items">
+									<div class="items-header">
+										<h3 class="section-title">Sortable Items</h3>
+										<span class="items-header-chevron" aria-hidden="true">
+										</span>
+										<div class="items-menu" id="sortItemsMenuWrap">
+											<d2l-dropdown-context-menu
+												text="Sortable Items"
+												id="sortItemsDropdown"
+											>
+												<d2l-dropdown-menu
+													trap-focus
+													max-height="500"
+													no-auto-close
+												>
+													<d2l-menu
+														label="Sortable Items"
+														id="sortItemsDropdownMenu"
+													></d2l-menu>
+													<d2l-button-subtle
+														primary
+														slot="footer"
+														class="sort-items-dropdown-submit"
+														text="Submit"
+													></d2l-button-subtle>
+												</d2l-dropdown-menu>
+											</d2l-dropdown-context-menu>
+										</div>
+									</div>
 
+									<div
+										class="items-dropzone"
+										id="sortItemsDropzone"
+										role="button"
+										tabindex="0"
+										aria-label="Drop items back into Sortable Items"
+									>
+										<ul class="items-list" id="sortItemsList"></ul>
+
+										<div class="items-dropzone-plus" aria-hidden="true">
+											<d2l-icon icon="tier1:plus-large-thick"></d2l-icon>
+										</div>
+									</div>
+
+									<div class="sr-only" aria-live="polite" id="sortLive"></div>
+								</section>
+
+								<div class="actions" id="sortActions">
+									<d2l-button id="sortCheckBtn" primary
+										>Check Answers</d2l-button
+									>
+									<d2l-button id="sortTryAgainBtn" class="is-hidden" primary
+										>Try Again</d2l-button
+									>
+									<d2l-loading-spinner
+										id="sortCheckSpinner"
+									></d2l-loading-spinner>
+								</div>
+							</div>
 							<p>
 								Like Soraiya and Aaron, we often have different views than our
 								colleagues on a range of topics and issues. Critical thinking
@@ -813,20 +1097,6 @@
 			</div>
 		</main>
 
-		<footer class="course-footer">
-			<a
-				href="https://airtable.com/appiWB5orohCHzA35/shrfyFm9N7HuQBhe8"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="feedback-link"
-			>
-				<div class="feedback-icon">
-					<i class="fa-regular fa-message fa-2xl"></i>
-				</div>
-				<span>Feedback</span>
-			</a>
-		</footer>
-
 		<!-- Back to Top Button HTML -->
 		<button id="back-to-top-btn" aria-label="Back to top">
 			<svg class="progress-ring" viewBox="0 0 56 56">
@@ -852,5 +1122,18 @@
 		<!-- Embedded JavaScript -->
 
 		<script type="module" src="./assets/js/app.js"></script>
+		<script
+			type="module"
+			src="./assets/activities/sequencing-activity.js"
+		></script>
+		<script
+			type="module"
+			src="./assets/activities/critical-carousel.js"
+		></script>
+		<script type="module" src="./assets/activities/flipcards.js"></script>
+		<script
+			type="module"
+			src="./assets/activities/sorting-activity.js"
+		></script>
 	</body>
 </html>
